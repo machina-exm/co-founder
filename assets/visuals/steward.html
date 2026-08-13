@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>steward · the vault as nested containment</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --paper:#F4F4F5; --paper2:#EFEFF2; --card:#FFFFFF;
+    --ink:#111111; --muted:#6B6B6B; --soft:#A0A0A8;
+    --rule:#D9D9DE; --rule2:#C4C4CA; --accent:#F93332;
+    --sans:'Inter',system-ui,sans-serif; --grot:'Space Grotesk',system-ui,sans-serif;
+    --mono:'Geist Mono',ui-monospace,monospace;
+  }
+  html,body{width:1600px;height:900px;overflow:hidden;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+       padding:24px 40px 20px;display:flex;flex-direction:column;gap:12px;}
+  mark{background:linear-gradient(102deg,rgba(249,51,50,0.16) 0%,rgba(249,51,50,0.16) 100%);
+       color:inherit;padding:0 2px;border-radius:2px;display:inline-block;transform:rotate(-1deg);}
+
+  /* header */
+  .head{height:112px;display:flex;flex-direction:column;gap:6px;}
+  .eyerow{display:flex;justify-content:space-between;align-items:baseline;}
+  .eyebrow{font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:0.16em;
+           text-transform:uppercase;color:var(--muted);}
+  h1{font-family:var(--grot);font-size:38px;font-weight:500;letter-spacing:-0.02em;line-height:1.1;}
+  .sub{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--muted);max-width:132ch;}
+
+  /* hero */
+  .hero{height:516px;}
+  svg.board{display:block;width:1520px;height:516px;}
+
+  /* ribbon */
+  .ribbon{height:204px;display:grid;grid-template-columns:1.18fr 0.98fr 0.96fr 0.94fr;gap:12px;}
+  .panel{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;
+         display:flex;flex-direction:column;gap:6px;overflow:hidden;}
+  .phead{display:flex;align-items:center;gap:7px;padding-bottom:7px;border-bottom:1px solid var(--rule);}
+  .phead h3{font-family:var(--grot);font-size:14px;font-weight:600;line-height:1.2;}
+  .panel p{font-size:11.5px;line-height:1.46;color:var(--muted);}
+  .panel p strong{color:var(--ink);font-weight:600;}
+  .chips{display:flex;flex-wrap:nowrap;gap:5px;margin-top:auto;}
+  .chip{font-family:var(--mono);font-size:9px;font-weight:500;color:var(--ink);
+        background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:3px 6px;}
+  .chip .t{color:var(--accent);}
+  .chip.bad{border-color:rgba(249,51,50,0.5);background:rgba(249,51,50,0.10);color:var(--accent);}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div class="eyerow">
+    <p class="eyebrow">Nested containment · /co-founder:steward</p>
+    <p class="eyebrow">Mode A capture · Mode B health-check</p>
+  </div>
+  <h1>Every container carries a law, and the sweep runs <mark>to a fixed point</mark>.</h1>
+  <p class="sub">steward folds a new source into the pages that already exist, then sweeps the linked graph for contradictions, stale claims, orphans, and graveyard notes. <mark>Nothing mutates before the founder approves the diff</mark>, and the verdict is CLEAN or NOT CLEAN with the contradictions named by path.</p>
+</div>
+
+<div class="hero">
+<svg class="board" viewBox="0 0 1520 516" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="stewardv2-title stewardv2-desc">
+  <title id="stewardv2-title">steward: the vault as nested containment</title>
+  <desc id="stewardv2-desc">Nested diagram of a founder business folder: an outer folder ring holds the durable vault, which holds the rewritten wiki pages and the seven fixed hubs, alongside the immutable inbox, the untrusted scratch root, and the charter and catalog files, with steward's lint targets and the graph-audit filing gate annotated on the containers they police.</desc>
+
+  <defs>
+    <marker id="ar-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#F93332"/>
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" fill="#F4F4F5"/>
+
+  <!-- ===== connectors first (z-order) ===== -->
+  <line x1="1104" y1="290" x2="1030" y2="290" stroke="#F93332" stroke-width="1.5" marker-end="url(#ar-accent)"/>
+  <rect x="1058" y="268" width="44" height="12" rx="2" fill="#EFEFF0"/>
+  <text x="1080" y="277" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">FOLD</text>
+
+  <!-- ===== ring 1: the business folder ===== -->
+  <rect x="24" y="28" width="1472" height="456" rx="8" fill="rgba(17,17,17,0.02)" stroke="rgba(17,17,17,0.30)" stroke-width="1"/>
+  <rect x="48" y="20" width="356" height="16" fill="#F4F4F5"/>
+  <text x="56" y="32" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">&lt;BUSINESS FOLDER&gt; · READY / FRESH / PARTIAL / WRONG-FOLDER</text>
+  <rect x="1168" y="20" width="312" height="16" fill="#F4F4F5"/>
+  <text x="1472" y="32" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end" letter-spacing="0.10em">NOT READY: STOP, MOVE NO INBOX FILE, EDIT NO PAGE.</text>
+
+  <!-- ===== ring 2: durable vault ===== -->
+  <rect x="56" y="68" width="1000" height="352" rx="8" fill="rgba(17,17,17,0.035)" stroke="rgba(17,17,17,0.45)" stroke-width="1"/>
+  <rect x="80" y="60" width="88" height="16" fill="#EFEFF0"/>
+  <text x="88" y="72" fill="#111111" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">DURABLE VAULT</text>
+  <rect x="766" y="60" width="276" height="16" fill="#EFEFF0"/>
+  <text x="1032" y="72" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end" letter-spacing="0.10em">GRAPH-AUDIT SCANS THIS WHOLE SET IN HEALTH MODE</text>
+
+  <!-- ===== ring 3: wiki/ ===== -->
+  <rect x="88" y="104" width="936" height="212" rx="8" fill="#FFFFFF" stroke="#6B6B6B" stroke-width="1"/>
+  <rect x="112" y="96" width="212" height="16" fill="#E7E7E8"/>
+  <text x="120" y="108" fill="#111111" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">WIKI/ · REWRITTEN, NEVER APPENDED</text>
+  <rect x="718" y="96" width="292" height="16" fill="#E7E7E8"/>
+  <text x="1000" y="108" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end" letter-spacing="0.10em">LINT: CONTRADICTIONS · STALE · ORPHANS · GRAVEYARD</text>
+
+  <!-- wiki section chips -->
+  <g font-family="'Geist Mono',monospace" font-size="9" font-weight="500" text-anchor="middle">
+    <rect x="112" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="172" y="154" fill="#111111">business/</text>
+    <rect x="240" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="300" y="154" fill="#111111">initiatives/</text>
+    <rect x="368" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="428" y="154" fill="#111111">learnings/</text>
+    <rect x="496" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="556" y="154" fill="#111111">sops/</text>
+    <rect x="624" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="684" y="154" fill="#111111">research/</text>
+    <rect x="752" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="812" y="154" fill="#111111">decisions/</text>
+    <rect x="880" y="136" width="120" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="940" y="154" fill="#111111">people/</text>
+  </g>
+  <text x="112" y="184" fill="#6B6B6B" font-size="11" font-family="'Inter',sans-serif">Canonical files sit inside those sections: <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">vision.md</tspan>, <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">voice.md</tspan>, <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">offer.md</tspan>, <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">metrics.md</tspan>, <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">content/</tspan> and <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">reviews/</tspan> under business/.</text>
+
+  <!-- focal: the page -->
+  <rect x="120" y="200" width="872" height="92" rx="8" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+  <g transform="translate(136,212)" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 1v4a1 1 0 0 0 1 1h4"/>
+    <path d="M13 16H4a1.6 1.6 0 0 1-1.6-1.6V2.6A1.6 1.6 0 0 1 4 1h6l4.6 4.6v8.8A1.6 1.6 0 0 1 13 16z"/>
+    <path d="M6 9h6M6 12h6"/>
+  </g>
+  <text x="164" y="220" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">THE INNERMOST LAW</text>
+  <rect x="160" y="226" width="136" height="20" rx="3" fill="rgba(249,51,50,0.16)" transform="rotate(-1 228 236)"/>
+  <text x="164" y="240" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">One truth per topic.</text>
+  <text x="164" y="260" fill="#6B6B6B" font-size="11.5" font-family="'Inter',sans-serif">New information gets integrated into the sentence where it belongs; a page with &quot;Update (July):&quot; stapled to its bottom has already started rotting.</text>
+  <g font-family="'Geist Mono',monospace" font-size="9" font-weight="500">
+    <rect x="164" y="268" width="132" height="16" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="172" y="279" fill="#111111">base-five frontmatter</text>
+    <rect x="304" y="268" width="88" height="16" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="312" y="279" fill="#111111">review_after</text>
+    <rect x="400" y="268" width="176" height="16" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="408" y="279" fill="#111111">confidence: stated / high / low</text>
+    <rect x="584" y="268" width="76" height="16" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="592" y="279" fill="#111111">money-link</text>
+    <rect x="668" y="268" width="152" height="16" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="676" y="279" fill="#111111">superseded claim kept</text>
+  </g>
+
+  <!-- ===== hub/ ===== -->
+  <rect x="88" y="336" width="936" height="64" rx="8" fill="rgba(17,17,17,0.05)" stroke="rgba(17,17,17,0.55)" stroke-width="1"/>
+  <rect x="112" y="328" width="176" height="16" fill="#E7E7E8"/>
+  <text x="120" y="340" fill="#111111" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">HUB/ · THE SEVEN FIXED HUBS</text>
+  <rect x="712" y="328" width="296" height="16" fill="#E7E7E8"/>
+  <text x="1000" y="340" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end" letter-spacing="0.10em">ORPHAN: ABSENT FROM ITS HUB, UNLINKED BY EVERY PAGE</text>
+  <g font-family="'Geist Mono',monospace" font-size="9" font-weight="500" text-anchor="middle">
+    <rect x="112" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="172" y="374" fill="#111111">business.md</text>
+    <rect x="240" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="300" y="374" fill="#111111">initiatives.md</text>
+    <rect x="368" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="428" y="374" fill="#111111">learnings.md</text>
+    <rect x="496" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="556" y="374" fill="#111111">sops.md</text>
+    <rect x="624" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="684" y="374" fill="#111111">research.md</text>
+    <rect x="752" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="812" y="374" fill="#111111">decisions.md</text>
+    <rect x="880" y="356" width="120" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="0.8"/>
+    <text x="940" y="374" fill="#111111">people.md</text>
+  </g>
+
+  <!-- ===== right column: charter + catalog ===== -->
+  <rect x="1104" y="68" width="368" height="152" rx="8" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+  <g transform="translate(1120,80)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1 3.5A2.5 2.5 0 0 1 3.5 1H8v14H3.5A2.5 2.5 0 0 0 1 17.5z"/>
+    <path d="M15 3.5A2.5 2.5 0 0 0 12.5 1H8v14h4.5a2.5 2.5 0 0 1 2.5 2.5z"/>
+  </g>
+  <text x="1148" y="88" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">CHARTER AND CATALOG</text>
+  <text x="1148" y="104" fill="#111111" font-size="12" font-weight="600" font-family="'Inter',sans-serif">The files preflight reads first.</text>
+  <g font-size="10.5" font-family="'Inter',sans-serif" fill="#6B6B6B">
+    <text x="1120" y="128"><tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">AGENTS.md</tspan> carries the path map.</text>
+    <text x="1120" y="148"><tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">index.md</tspan> gets every touched page, one line each.</text>
+    <text x="1120" y="168"><tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">log.md</tspan> gets one row: ingest or lint.</text>
+    <text x="1120" y="188"><tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">queue.md</tspan> IDs are the idempotency key.</text>
+    <text x="1120" y="208"><tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">baton.md</tspan> and <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">.co-founder-version</tspan> read 1.0.0.</text>
+  </g>
+
+  <!-- ===== right column: raw/inbox/ ===== -->
+  <rect x="1104" y="240" width="368" height="100" rx="8" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+  <g transform="translate(1120,252)" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round">
+    <path d="M3 6a6 6 0 0 1 12 0v3"/>
+    <path d="M6 7a3 3 0 0 1 6 0v6"/>
+    <path d="M9 8v7"/>
+    <path d="M15 12v2"/>
+  </g>
+  <text x="1148" y="260" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">RAW/INBOX/ · IMMUTABLE</text>
+  <rect x="1144" y="264" width="128" height="17" rx="3" fill="rgba(249,51,50,0.16)" transform="rotate(-1 1208 272)"/>
+  <text x="1148" y="276" fill="#111111" font-size="12" font-weight="600" font-family="'Inter',sans-serif">The evidence locker.</text>
+  <text x="1120" y="298" fill="#6B6B6B" font-size="10.5" font-family="'Inter',sans-serif">A pasted source lands here and stays untouched.</text>
+  <text x="1120" y="314" fill="#6B6B6B" font-size="10.5" font-family="'Inter',sans-serif">Its SHA-256 is searched in <tspan font-family="'Geist Mono',monospace" font-size="10" fill="#111111">inbox-ledger.md</tspan>;</text>
+  <text x="1120" y="330" fill="#6B6B6B" font-size="10.5" font-family="'Inter',sans-serif">the same fingerprint reports already processed and stops.</text>
+
+  <!-- ===== right column: scratch/ ===== -->
+  <rect x="1104" y="360" width="368" height="60" rx="8" fill="rgba(17,17,17,0.02)" stroke="rgba(17,17,17,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+  <g transform="translate(1120,372)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2 5.5 8 2l6 3.5v7L8 16l-6-3.5z" stroke-dasharray="3,2"/>
+    <path d="M8 9v7M2 5.5 8 9l6-3.5"/>
+  </g>
+  <text x="1148" y="380" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">SCRATCH/ · UNTRUSTED</text>
+  <text x="1148" y="396" fill="#111111" font-size="12" font-weight="600" font-family="'Inter',sans-serif">Present, required, never truth.</text>
+  <text x="1120" y="412" fill="#6B6B6B" font-size="10.5" font-family="'Inter',sans-serif">One of the four roots the Ready check demands.</text>
+
+  <!-- ===== filing gate strip ===== -->
+  <rect x="56" y="440" width="1416" height="32" rx="6" fill="rgba(249,51,50,0.05)" stroke="rgba(249,51,50,0.50)" stroke-width="1" stroke-dasharray="4,4"/>
+  <g transform="translate(72,448)" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 1 15 3.5v5c0 4-3 6.5-7 7.5-4-1-7-3.5-7-7.5v-5z"/>
+    <path d="M5 8.5 7.2 11 11.5 6"/>
+  </g>
+  <text x="100" y="460" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">MANDATORY FILING GATE</text>
+  <text x="240" y="461" fill="#111111" font-size="11.5" font-family="'Inter',sans-serif"><tspan font-family="'Geist Mono',monospace" font-size="10.5">scripts/graph-audit</tspan> runs with every touched durable file in capture, and with no file list in health mode so it scans the complete durable vault. <tspan fill="#F93332">A remaining violation blocks queue completion and the clean declaration.</tspan></text>
+
+  <!-- ===== footer notes ===== -->
+  <text x="24" y="504" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif">Retrieval stays the environment's file search plus <tspan font-family="'Geist Mono',monospace" font-size="11" fill="#111111">index.md</tspan>.</text>
+  <text x="1496" y="504" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif" text-anchor="end">No databases, no embeddings: at vault scale, search is not the problem, truth is.</text>
+</svg>
+</div>
+
+<div class="ribbon">
+  <div class="panel">
+    <p class="eyebrow">Mode B · the seed set</p>
+    <div class="phead">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="2"/><circle cx="2.5" cy="3" r="1.6"/><circle cx="13.5" cy="3" r="1.6"/><circle cx="2.5" cy="13" r="1.6"/><circle cx="13.5" cy="13" r="1.6"/><path d="M3.6 4.2 6.6 6.6M12.4 4.2 9.4 6.6M3.6 11.8 6.6 9.4M12.4 11.8 9.4 9.4"/></svg>
+      <h3>A linked graph, not a folder checklist</h3>
+    </div>
+    <p>Seed the sweep with every canonical file changed since the latest <strong>lint</strong> row, every active initiative, the current offer, published or approved content, due claims, and pending queue items. Follow explicit links and the shared linked-state projections <mark>until no new node appears</mark>.</p>
+    <div class="chips"><span class="chip">seed</span><span class="chip">linked surfaces</span><span class="chip">contradiction</span><span class="chip">proposed resolution</span></div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">Lifecycle projections</p>
+    <div class="phead">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="13" height="13" rx="2.5"/><path d="M4.5 8 7 10.5 11.5 5"/></svg>
+      <h3>The box and the evidence disagree</h3>
+    </div>
+    <p>A checked box whose evidence is absent is a contradiction; evidence that satisfies an unchecked completion condition is <mark>a stale projection</mark>. Initiative state runs against its hub bucket, the index summary, the roadmap count, and the baton.</p>
+    <div class="chips"><span class="chip">initiative <span class="t">state</span></span><span class="chip">content <span class="t">publication</span></span></div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">The verdict</p>
+    <div class="phead">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5 14.5 5v6L8 14.5 1.5 11V5z"/><path d="M8 5v4M8 11.2v.1"/></svg>
+      <h3>It cannot be rounded up to clean</h3>
+    </div>
+    <p>Rerun the graph from every changed node to a fixed point. Any surviving direct contradiction ends with <strong>NOT CLEAN</strong> and its paths. <mark>An honestly clean vault gets two lines</mark> — checked, nothing to fix — and no theater.</p>
+    <div class="chips"><span class="chip">CLEAN</span><span class="chip bad">NOT CLEAN: &lt;n&gt; unresolved</span></div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">Approval scope</p>
+    <div class="phead">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5V3.2A1.2 1.2 0 0 1 3.7 2h6.1l3.7 3.6v7.9a1.2 1.2 0 0 1-1.2 1.2H3.7a1.2 1.2 0 0 1-1.2-1.2z"/><path d="M9.6 2v3.6h3.7"/><path d="M5.4 9.4h5M5.4 11.8h3"/></svg>
+      <h3>One short proposed diff</h3>
+    </div>
+    <p>The whole sweep ships as one diff — what changes, what gets deleted, what gets flagged, each line with its reason. <mark>Approval is scoped to those exact lines</mark>; a later discovery waits for a new yes. Something must delete, or the vault becomes a junk drawer recall cannot trust.</p>
+    <div class="chips"><span class="chip">lint | &lt;summary&gt;</span><span class="chip">ingest | &lt;source&gt;</span></div>
+  </div>
+</div>
+
+</body>
+</html>

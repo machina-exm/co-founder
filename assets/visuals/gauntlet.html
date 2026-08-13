@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>gauntlet · the advisor board radar</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F4F4F5; --paper2:#EFEFF2; --card:#FFFFFF;
+  --ink:#111111; --muted:#6B6B6B; --soft:#A0A0A8;
+  --rule:#D9D9DE; --rule2:#C4C4CA; --accent:#F93332;
+  --sans:'Inter',system-ui,sans-serif; --grot:'Space Grotesk',system-ui,sans-serif; --mono:'Geist Mono',ui-monospace,monospace;
+}
+html,body{width:1600px;height:900px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+  padding:24px 32px 22px;display:flex;flex-direction:column;gap:13px}
+mark{background:linear-gradient(104deg,rgba(249,51,50,0) 0.5%,rgba(249,51,50,0.18) 2.2%,rgba(249,51,50,0.20) 96%,rgba(249,51,50,0) 99.5%);
+  color:inherit;padding:0 3px;display:inline-block;transform:rotate(-0.7deg);border-radius:1px}
+.eyebrow{font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted)}
+
+/* header */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px}
+h1{font-family:var(--grot);font-size:40px;font-weight:500;letter-spacing:-0.02em;line-height:1.06;margin:9px 0 8px}
+.sub{font-size:13.5px;line-height:1.5;color:#2A2A2E;max-width:88ch}
+.note{width:406px;flex:none;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:11px 13px}
+.note p{font-size:11px;line-height:1.5;color:var(--muted);margin-top:5px}
+.note b{color:var(--ink);font-weight:600}
+
+/* middle */
+.mid{display:flex;gap:20px;height:462px}
+.hero{width:700px;flex:none;background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:16px 18px 0}
+.hero .eyebrow{margin-bottom:6px}
+.hero .cap{font-size:11.4px;line-height:1.4;color:var(--muted);margin-top:4px}
+.rail{flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:13px 15px;display:flex;flex-direction:column;overflow:hidden}
+.panel h3{font-family:var(--grot);font-size:15px;font-weight:600;letter-spacing:-0.01em;margin:4px 0 6px;
+  padding-bottom:6px;border-bottom:1px solid var(--rule)}
+.panel p{font-size:11.4px;line-height:1.52;color:#2A2A2E;margin-bottom:7px}
+.panel p.m{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:7px}
+.chip{font-family:var(--mono);font-size:9px;background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:3px 6px;color:var(--ink)}
+.chip .t{color:var(--accent)}
+ol{list-style:none;counter-reset:r}
+ol li{counter-increment:r;position:relative;padding-left:20px;font-size:10.8px;line-height:1.44;color:#2A2A2E;margin-bottom:6px}
+ol li::before{content:counter(r,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:var(--mono);font-size:9px;color:var(--accent)}
+
+/* lens strip */
+.lenses{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;flex:1}
+.lens{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 13px;display:flex;flex-direction:column}
+.lens.focal{border-color:var(--accent);background:rgba(249,51,50,0.045)}
+.lhead{display:flex;align-items:center;gap:7px;padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid var(--rule)}
+.lhead .num{font-family:var(--mono);font-size:9px;color:var(--accent)}
+.lhead h4{font-family:var(--grot);font-size:15px;font-weight:600;letter-spacing:-0.01em}
+.lhead svg{margin-left:auto}
+.lens .lab{font-family:var(--mono);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.lens p{font-size:11.1px;line-height:1.45;color:#2A2A2E}
+.lens .no{margin-top:auto;padding-top:8px;border-top:1px solid var(--rule)}
+.lens .no p{color:var(--muted);font-size:10.6px;min-height:31px}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div>
+    <p class="eyebrow">/co-founder · gauntlet · advisor board · radar</p>
+    <h1>The board flags <mark>nothing outside its territory</mark>.</h1>
+    <p class="sub">Five specialists, each reading the founder's own files before opining. Generic personas give generic advice; these lenses are loaded with this business, and overlap is how panels degenerate into <mark>five copies of the same opinion</mark>.</p>
+  </div>
+  <div class="note">
+    <p class="eyebrow">how to read this radar</p>
+    <p><b>The axes are territories, not scores.</b> Each spoke is one lens and the boundary of what it is allowed to flag. The rings are the reporting cap — three findings maximum per lens — and the points where two axes meet are where corroboration upgrades a finding. Nothing here is plotted from data.</p>
+  </div>
+</div>
+
+<div class="mid">
+  <div class="hero">
+    <p class="eyebrow">step 3 · the deep tier · big bets only</p>
+    <svg width="660" height="404" viewBox="0 0 660 404" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gauntlet-v2-title gauntlet-v2-desc">
+      <title id="gauntlet-v2-title">The advisor board as a five-axis territory radar</title>
+      <desc id="gauntlet-v2-desc">A pentagon whose five spokes are the advisor board lenses — customer, cash, brand, ops and risk — with concentric rings marking the cap of three findings per lens and markers between adjacent axes where an issue flagged by two lenses is upgraded to serious.</desc>
+
+      <rect width="660" height="404" fill="#FFFFFF"/>
+
+      <text x="24" y="30" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.16em">SCALE = FINDINGS ADMITTED, UP TO THE CAP</text>
+      <text x="636" y="30" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.16em" text-anchor="end">NO SCORES PLOTTED</text>
+
+      <!-- grid rings: 1 / 2 / 3 findings -->
+      <polygon points="330,142 372,172 356,222 304,222 288,172" fill="none" stroke="#D9D9DE" stroke-width="0.8"/>
+      <polygon points="330,98 414,159 382,257 278,257 246,159" fill="none" stroke="#D9D9DE" stroke-width="0.8"/>
+      <!-- cap ring -->
+      <polygon points="330,54 456,145 408,293 252,293 204,145" fill="none" stroke="#F93332" stroke-width="1.5" stroke-dasharray="9,5"/>
+      <circle cx="330" cy="54" r="4" fill="#F93332"/>
+      <circle cx="456" cy="145" r="4" fill="#F93332"/>
+      <circle cx="408" cy="293" r="4" fill="#F93332"/>
+      <circle cx="252" cy="293" r="4" fill="#F93332"/>
+      <circle cx="204" cy="145" r="4" fill="#F93332"/>
+
+      <!-- spokes -->
+      <line x1="330" y1="186" x2="330" y2="54" stroke="#C4C4CA" stroke-width="1"/>
+      <line x1="330" y1="186" x2="456" y2="145" stroke="#C4C4CA" stroke-width="1"/>
+      <line x1="330" y1="186" x2="408" y2="293" stroke="#C4C4CA" stroke-width="1"/>
+      <line x1="330" y1="186" x2="252" y2="293" stroke="#C4C4CA" stroke-width="1"/>
+      <line x1="330" y1="186" x2="204" y2="145" stroke="#C4C4CA" stroke-width="1"/>
+
+      <!-- ticks on the top axis only -->
+      <rect x="308" y="48" width="18" height="12" fill="#FFFFFF"/>
+      <text x="324" y="58" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end">3</text>
+      <text x="324" y="102" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end">2</text>
+      <text x="324" y="146" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end">1</text>
+
+      <!-- axis labels -->
+      <text x="330" y="26" fill="#111111" font-size="13" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">Customer</text>
+      <text x="330" y="40" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">wiki/people/ · icp terms</text>
+
+      <text x="472" y="139" fill="#111111" font-size="13" font-weight="600" font-family="'Inter',sans-serif" text-anchor="start">Cash</text>
+      <text x="472" y="153" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">charter stage · margins</text>
+
+      <text x="420" y="302" fill="#111111" font-size="13" font-weight="600" font-family="'Inter',sans-serif" text-anchor="start">Brand</text>
+      <text x="420" y="316" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">wiki/business/voice.md</text>
+
+      <text x="240" y="302" fill="#111111" font-size="13" font-weight="600" font-family="'Inter',sans-serif" text-anchor="end">Ops</text>
+      <text x="240" y="316" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">wiki/sops/ · rituals</text>
+
+      <text x="188" y="139" fill="#111111" font-size="13" font-weight="600" font-family="'Inter',sans-serif" text-anchor="end">Risk</text>
+      <text x="188" y="153" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">wiki/decisions/</text>
+
+      <!-- merge markers where adjacent axes meet -->
+      <g font-family="'Geist Mono',monospace" font-size="8" fill="#F93332" text-anchor="middle">
+        <circle cx="412" cy="73" r="9" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+        <text x="412" y="76">2x</text>
+        <circle cx="463" cy="229" r="9" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+        <text x="463" y="232">2x</text>
+        <circle cx="330" cy="326" r="9" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+        <text x="330" y="329">2x</text>
+        <circle cx="197" cy="229" r="9" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+        <text x="197" y="232">2x</text>
+        <circle cx="248" cy="73" r="9" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+        <text x="248" y="76">2x</text>
+      </g>
+
+      <!-- merge callout, horizontal leader only -->
+      <line x1="474" y1="229" x2="492" y2="229" stroke="#F93332" stroke-width="1"/>
+      <text x="498" y="226" fill="#111111" font-size="10" font-weight="600" font-family="'Inter',sans-serif">One issue, two lenses.</text>
+      <text x="498" y="240" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace">SERIOUS · SAID FIRST</text>
+
+      <!-- centre: the survivors -->
+      <circle cx="330" cy="186" r="11" fill="#FFFFFF" stroke="#F93332" stroke-width="1.2"/>
+      <circle cx="330" cy="186" r="3.4" fill="#F93332"/>
+
+      <!-- legend -->
+      <line x1="24" y1="356" x2="636" y2="356" stroke="#D9D9DE" stroke-width="0.8"/>
+      <text x="24" y="370" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.16em">LEGEND</text>
+
+      <rect x="120" y="364" width="16" height="8" fill="none" stroke="#F93332" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="144" y="371" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif">Cap ring — three findings maximum per lens.</text>
+
+      <circle cx="380" cy="368" r="6" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+      <text x="394" y="371" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif">Merge point — two lenses, one issue.</text>
+
+      <line x1="120" y1="388" x2="136" y2="388" stroke="#C4C4CA" stroke-width="1"/>
+      <text x="144" y="391" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif">Spoke — one bounded territory, nothing outside it.</text>
+
+      <circle cx="380" cy="388" r="5" fill="#FFFFFF" stroke="#F93332" stroke-width="1.2"/>
+      <circle cx="380" cy="388" r="2" fill="#F93332"/>
+      <text x="394" y="391" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif">Centre — the interrogation's survivors.</text>
+    </svg>
+    <p class="cap">The lenses run in parallel where the harness allows it, otherwise as sequential passes with a fresh eye per lens.</p>
+  </div>
+
+  <div class="rail">
+    <div class="panel">
+      <p class="eyebrow">before any lens opines</p>
+      <h3>What every lens reads first.</h3>
+      <p>From the charter: the opening business description, the laws, the glossary. From the vault: the vision file, plus the lens's own files.</p>
+      <p class="m">A missing or empty file is recorded as <mark>no vault receipt found for this lens</mark>, and the lens proceeds from the available facts. It never invents a finding to fill the gap.</p>
+      <div class="chips">
+        <span class="chip">charter</span>
+        <span class="chip">wiki/<span class="t">people</span>/</span>
+        <span class="chip">wiki/<span class="t">business</span>/</span>
+        <span class="chip">wiki/<span class="t">learnings</span>/</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">report format · per lens</p>
+      <h3>Three findings maximum, one line each.</h3>
+      <p>The line carries the issue, the receipt it rests on, and severity. <mark>A lens with nothing real to flag reports clear</mark>: padding a report to look thorough is a failure.</p>
+      <p class="m">Run the durable claim admission gate on each finding first: reopen and quote the cited passage, or show the calculation. An interpretation without that support is a question, not a finding.</p>
+      <div class="chips">
+        <span class="chip">LOW</span>
+        <span class="chip"><span class="t">SERIOUS</span></span>
+        <span class="chip">clear</span>
+        <span class="chip">Founder-stated: <span class="t">unverified</span></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">merge rules · where the axes meet</p>
+      <h3>Corroboration upgrades.</h3>
+      <ol>
+        <li>Deduplicate by issue, never by wording.</li>
+        <li>The same issue flagged independently by two lenses <mark>becomes SERIOUS</mark> regardless of individual ratings, and gets said first.</li>
+        <li>Order the merged list: corroborated issues, then SERIOUS, then LOW.</li>
+        <li>A finding whose receipt cannot be named is demoted to a question.</li>
+        <li>The merged findings feed back as the gauntlet's final round.</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">step 4 · the verdict</p>
+      <h3>It survives or it dies.</h3>
+      <p>Every SURVIVES or DIES verdict is a consequential go/no-go recommendation, whatever the bet's size. Both receipt legs must exist: <mark>an internal receipt and a checked external source</mark>.</p>
+      <p class="m">A missing leg replaces it with the canonical parked shape, plus the recall or research action. Enthusiasm cannot make it a go.</p>
+      <div class="chips">
+        <span class="chip">SURVIVES → state: <span class="t">survived</span></span>
+        <span class="chip">DIES</span>
+        <span class="chip">PARKED: <span class="t">receipt missing</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="lenses">
+  <div class="lens">
+    <div class="lhead"><span class="num">01</span><h4>Customer</h4>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6B6B6B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="3.2"/><path d="M3.6 15.4a5.4 5.4 0 0 1 10.8 0"/></svg>
+    </div>
+    <p class="lab">owns</p>
+    <p>Willingness-to-pay evidence and buyer-language fit: would the actual named customer want this, from this founder, judged by what they have already paid for and how they speak.</p>
+    <div class="no"><p class="lab" style="margin-bottom:3px">does not flag</p><p>Price math, floors, margins, brand tone, operational load.</p></div>
+  </div>
+
+  <div class="lens focal">
+    <div class="lhead"><span class="num">02</span><h4>Cash</h4>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#F93332" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6.2"/><path d="M9 4.6v8.8"/><path d="M11.2 6.6H8.2a1.7 1.7 0 0 0 0 3.4h1.8a1.7 1.7 0 0 1 0 3.4H6.8"/></svg>
+    </div>
+    <p class="lab">owns</p>
+    <p>All money math: unit economics, cash timing, runway impact, margins, and price-floor law violations. Whether the math works <mark>at the founder's real volume</mark>.</p>
+    <div class="no"><p class="lab" style="margin-bottom:3px">does not flag</p><p>Demand or desirability, or legal exposure of money promises.</p></div>
+  </div>
+
+  <div class="lens">
+    <div class="lhead"><span class="num">03</span><h4>Brand</h4>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6B6B6B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h6.4L15 8.6 9.6 14 3 7.4V3z"/><circle cx="6.1" cy="6.1" r="1.2"/></svg>
+    </div>
+    <p class="lab">owns</p>
+    <p>Positioning, naming, promise clarity; contradictions with brand-specific laws and past positioning decisions; whether the idea cheapens or confuses the promise.</p>
+    <div class="no"><p class="lab" style="margin-bottom:3px">does not flag</p><p>Whether it sells, price-floor laws, or the always-ask law.</p></div>
+  </div>
+
+  <div class="lens">
+    <div class="lhead"><span class="num">04</span><h4>Ops</h4>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6B6B6B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 5.6h12.8M2.6 12.4h12.8"/><circle cx="6.6" cy="5.6" r="1.9"/><circle cx="11.4" cy="12.4" r="1.9"/></svg>
+    </div>
+    <p class="lab">owns</p>
+    <p>Can one person actually run this alongside what is already executing; what breaks at 2x volume; which existing commitment this silently cannibalizes.</p>
+    <div class="no"><p class="lab" style="margin-bottom:3px">does not flag</p><p>Whether it is worth running. That verdict belongs upstream.</p></div>
+  </div>
+
+  <div class="lens">
+    <div class="lhead"><span class="num">05</span><h4>Risk</h4>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6B6B6B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2.4l5.6 2v4.9c0 3.2-2.4 5.7-5.6 6.5-3.2-.8-5.6-3.3-5.6-6.5V4.4l5.6-2z"/><path d="M9 6.6v3.4"/><path d="M9 12.2v.4"/></svg>
+    </div>
+    <p class="lab">owns</p>
+    <p>The irreversible parts, the worst plausible outcome and its cost, and legal or trust-damaging exposure: public claims, guarantees, refunds, contracts, scarcity that is not real.</p>
+    <div class="no"><p class="lab" style="margin-bottom:3px">does not flag</p><p>Ordinary execution difficulty, or routine money math.</p></div>
+  </div>
+</div>
+
+</body>
+</html>

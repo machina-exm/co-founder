@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>sprint — one session, left to right</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #F4F4F5; --paper-2: #EFEFF2; --card: #FFFFFF;
+    --ink: #111111; --muted: #6B6B6B; --soft: #A0A0A8;
+    --rule: #D9D9DE; --rule-solid: #C4C4CA;
+    --accent: #F93332; --accent-tint: rgba(249,51,50,0.10);
+    --sans: 'Inter', system-ui, sans-serif;
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+  }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans);
+         -webkit-font-smoothing: antialiased; }
+
+  mark { background: linear-gradient(104deg,
+           rgba(249,51,50,0) 0.4%, rgba(249,51,50,0.18) 2.2%,
+           rgba(249,51,50,0.18) 96%, rgba(249,51,50,0) 99.6%);
+         color: inherit; padding: 0 3px; border-radius: 1px;
+         -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  mark.tilt { display: inline-block; transform: rotate(-1deg); }
+
+  .page { width: 1600px; height: 900px; padding: 24px 36px 22px;
+          display: grid; grid-template-rows: 104px 438px 278px; row-gap: 14px; }
+
+  /* ---------- header ---------- */
+  .head { display: grid; grid-template-columns: 1fr 392px; column-gap: 32px; align-items: start; }
+  .eyebrow { color: var(--muted); font: 500 8px var(--mono);
+             letter-spacing: 0.16em; text-transform: uppercase; }
+  h1 { margin: 8px 0 6px; font: 500 40px/1.05 var(--display); letter-spacing: -0.022em; }
+  .sub { max-width: 104ch; color: var(--muted); font-size: 13px; line-height: 1.46; }
+  .numbers { padding: 10px 12px 11px; background: var(--card);
+             border: 1px solid var(--rule); border-radius: 8px; }
+  .numbers .eyebrow { display: flex; align-items: center; gap: 6px; margin-bottom: 9px; }
+  .ngrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .ncell { text-align: center; }
+  .ncell .v { font: 500 17px var(--display); color: var(--ink); letter-spacing: -0.01em; }
+  .ncell .v.red { color: var(--accent); }
+  .ncell .k { margin-top: 2px; color: var(--muted); font: 400 8px var(--mono);
+              letter-spacing: 0.10em; text-transform: uppercase; }
+
+  /* ---------- hero ---------- */
+  .hero { background: var(--card); border: 1px solid var(--rule); border-radius: 8px;
+          padding: 9px 13px 6px; display: flex; flex-direction: column; }
+  .hero .cap { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .hero .cap p { white-space: nowrap; line-height: 1; display: flex; align-items: center; gap: 7px; }
+  .hero > svg { flex: 1 1 auto; width: 100%; min-height: 0; display: block; }
+
+  /* ---------- cards ---------- */
+  .cards { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; column-gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--rule); border-radius: 8px;
+          padding: 11px 14px 12px; display: flex; flex-direction: column;
+          min-height: 0; overflow: hidden; }
+  .card h2 { margin: 0; font: 600 13.5px var(--display); letter-spacing: -0.01em; }
+  .card .hrow { display: flex; align-items: center; gap: 7px; margin: 7px 0 8px;
+                padding-bottom: 7px; border-bottom: 1px solid var(--rule); }
+  .card p { color: var(--muted); font-size: 10.5px; line-height: 1.42; margin-bottom: 6px; }
+  .card p b { color: var(--ink); font-weight: 600; }
+  code { padding: 1px 4px; background: var(--paper-2); border: 1px solid var(--rule);
+         border-radius: 4px; color: var(--ink); font: 500 9.5px var(--mono); }
+  code .t { color: var(--accent); }
+  ul { list-style: none; }
+  li { position: relative; padding-left: 12px; margin-bottom: 5px;
+       color: var(--muted); font-size: 10.5px; line-height: 1.4; }
+  li::before { position: absolute; left: 0; top: 0; color: var(--soft); content: '\2014'; }
+  ol { list-style: none; counter-reset: s; }
+  ol li { padding-left: 20px; margin-bottom: 4px; font-size: 10px; line-height: 1.38; }
+  ol li::before { counter-increment: s; content: counter(s); position: absolute; left: 0; top: 1px;
+       color: var(--muted); font: 500 8.5px var(--mono);
+       border: 1px solid var(--rule); background: var(--paper-2);
+       width: 14px; height: 13px; line-height: 12px; text-align: center; border-radius: 3px; }
+  .routes { display: grid; grid-template-columns: auto 1fr; gap: 5px 9px;
+            align-items: center; margin: 0 0 8px; }
+  .routes .from { font: 500 9px var(--mono); color: var(--ink);
+                  background: var(--paper-2); border: 1px solid var(--rule);
+                  border-radius: 4px; padding: 3px 6px; white-space: nowrap; text-align: center; }
+  .routes .from.ok { background: var(--accent-tint); border-color: var(--accent); color: var(--accent); }
+  .routes .to { color: var(--muted); font-size: 10px; line-height: 1.3; }
+  .kicker { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--rule);
+            color: var(--ink); font-size: 10.5px; line-height: 1.4; }
+  svg.ic { flex: 0 0 auto; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ======================= HEADER ======================= -->
+  <header class="head">
+    <div>
+      <p class="eyebrow">/co-founder &middot; skill 06 &middot; sprint &middot; one session, left to right</p>
+      <h1>Tomorrow starts oriented because today <mark class="tilt">wrote it down</mark>.</h1>
+      <p class="sub">Founders don't fail from missing strategy; they fail from open loops. Sprint closes them: the session opens by reading the vault, works exactly one roadmap step to done, and closes by rewriting the state on disk. Orientation is the skill's job, never the founder's memory.</p>
+    </div>
+    <div class="numbers">
+      <p class="eyebrow">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+        One session, in numbers
+      </p>
+      <div class="ngrid">
+        <div class="ncell"><p class="v">5</p><p class="k">lines max</p></div>
+        <div class="ncell"><p class="v red">1</p><p class="k">focus</p></div>
+        <div class="ncell"><p class="v red">1</p><p class="k">step, to done</p></div>
+        <div class="ncell"><p class="v">0</p><p class="k">audit exit</p></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================= HERO TIMELINE ======================= -->
+  <section class="hero">
+    <div class="cap">
+      <p class="eyebrow">
+        <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h16"/><path d="M15 8l4 4-4 4"/><path d="M7 9v6"/></svg>
+        Nine moments of one session &middot; state read from files, never from chat memory
+      </p>
+      <p class="eyebrow">Above the line = read &middot; below the line = checked or written</p>
+    </div>
+
+    <svg viewBox="0 0 1500 404" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sprintv2-title sprintv2-desc">
+      <title id="sprintv2-title">One sprint session as a timeline</title>
+      <desc id="sprintv2-desc">Timeline of a single sprint session in nine moments, from a cold session opening through the standup reads, the five-line report, the state gate, the one executed step, the recheck, the rewritten baton and a graph-audit that exits zero, ending with a session that leaves tomorrow oriented.</desc>
+
+      <defs>
+        <marker id="tl-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#6B6B6B"/>
+        </marker>
+      </defs>
+
+      <!-- phase band labels -->
+      <text x="36" y="36" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">PHASE 1 &#183; STANDUP</text>
+      <text x="464" y="36" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">PHASE 2 &#183; GATE</text>
+      <text x="632" y="36" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">PHASE 3 &#183; EXECUTE</text>
+      <text x="840" y="36" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">PHASE 4 &#183; CLOSE</text>
+
+      <!-- phase bands -->
+      <rect x="32" y="48" width="428" height="308" rx="6" fill="rgba(17,17,17,0.025)"/>
+      <rect x="464" y="48" width="164" height="308" rx="6" fill="rgba(17,17,17,0.045)"/>
+      <rect x="632" y="48" width="200" height="308" rx="6" fill="rgba(249,51,50,0.05)"/>
+      <rect x="836" y="48" width="632" height="308" rx="6" fill="rgba(17,17,17,0.025)"/>
+
+      <!-- baseline + caps -->
+      <line x1="32" y1="208" x2="1476" y2="208" stroke="#C4C4CA" stroke-width="1" marker-end="url(#tl-arrow)"/>
+      <line x1="32" y1="200" x2="32" y2="216" stroke="#A0A0A8" stroke-width="1"/>
+      <line x1="460" y1="196" x2="460" y2="220" stroke="#D9D9DE" stroke-width="1"/>
+      <line x1="628" y1="196" x2="628" y2="220" stroke="#D9D9DE" stroke-width="1"/>
+      <line x1="836" y1="196" x2="836" y2="220" stroke="#D9D9DE" stroke-width="1"/>
+
+      <!-- segment labels (mask 10px above the stroke) -->
+      <rect x="284" y="186" width="52" height="12" rx="2" fill="#F9F9F9"/>
+      <text x="310" y="195" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">READ ONLY</text>
+
+      <rect x="656" y="186" width="60" height="12" rx="2" fill="#FFF5F5"/>
+      <text x="686" y="195" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">GATE PASSES</text>
+
+      <rect x="964" y="186" width="56" height="12" rx="2" fill="#F9F9F9"/>
+      <text x="992" y="195" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">WRITE-BACK</text>
+
+      <rect x="1312" y="186" width="52" height="12" rx="2" fill="#F9F9F9"/>
+      <text x="1338" y="195" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">EXIT 0</text>
+
+      <!-- ===== MOMENT 01 — above, left aligned ===== -->
+      <line x1="88" y1="160" x2="88" y2="208" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="88" cy="208" r="4" fill="#111111"/>
+      <text x="40" y="76" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">MOMENT 01</text>
+      <text x="40" y="96" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif">Session opens cold</text>
+      <text x="40" y="114" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif">Nothing carries over from yesterday's</text>
+      <text x="40" y="128" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif">chat; the shared contract is read first.</text>
+      <rect x="40" y="138" width="92" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="86" y="149" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">CONVENTIONS.md</text>
+
+      <!-- ===== MOMENT 02 — below ===== -->
+      <line x1="232" y1="208" x2="232" y2="252" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="232" cy="208" r="4" fill="#111111"/>
+      <text x="232" y="266" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 02</text>
+      <text x="232" y="286" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">Standup reads the vault</text>
+      <text x="232" y="304" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Universal preflight first. Fresh or</text>
+      <text x="232" y="318" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Partial routes to setup, and stops.</text>
+      <rect x="144" y="328" width="60" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="174" y="339" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">baton.md</text>
+      <rect x="212" y="328" width="108" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="266" y="339" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">wiki/initiatives/</text>
+
+      <!-- ===== MOMENT 03 — above ===== -->
+      <line x1="384" y1="160" x2="384" y2="208" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="384" cy="208" r="4" fill="#111111"/>
+      <text x="384" y="76" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 03</text>
+      <text x="384" y="96" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">Five lines, one focus</text>
+      <text x="384" y="114" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Where things stand, what happened last</text>
+      <text x="384" y="128" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">session, and ONE suggested focus.</text>
+      <rect x="338" y="138" width="92" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="384" y="149" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">lines &#8804; 5</text>
+
+      <!-- ===== MOMENT 04 — below ===== -->
+      <line x1="544" y1="208" x2="544" y2="252" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="544" cy="208" r="4" fill="#111111"/>
+      <text x="544" y="266" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 04</text>
+      <text x="544" y="286" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">The gate checks state</text>
+      <text x="544" y="304" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">It must read planned or executing.</text>
+      <text x="544" y="318" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Every other state refuses execution.</text>
+      <rect x="468" y="328" width="72" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="504" y="339" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">planned</text>
+      <rect x="548" y="328" width="72" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="584" y="339" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">executing</text>
+
+      <!-- ===== MOMENT 05 — above, FOCAL ===== -->
+      <line x1="732" y1="160" x2="732" y2="208" stroke="#F93332" stroke-width="1"/>
+      <circle cx="732" cy="208" r="6" fill="#F93332"/>
+      <text x="732" y="76" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 05</text>
+      <text x="732" y="96" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">The ONE step, to done</text>
+      <text x="732" y="114" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Session-sized, worked to done, verified.</text>
+      <text x="732" y="128" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">The state is set before the work starts.</text>
+      <rect x="672" y="138" width="120" height="16" rx="4" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+      <text x="732" y="149" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">state: executing</text>
+
+      <!-- ===== MOMENT 06 — below ===== -->
+      <line x1="920" y1="208" x2="920" y2="252" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="920" cy="208" r="4" fill="#111111"/>
+      <text x="920" y="266" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 06</text>
+      <text x="920" y="286" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">Recheck, then check the box</text>
+      <text x="920" y="304" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">The literal completion text and its</text>
+      <text x="920" y="318" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">evidence, both true, then a Log line.</text>
+      <rect x="856" y="328" width="128" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="920" y="339" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">wiki/initiatives/*.md</text>
+
+      <!-- ===== MOMENT 07 — above, FOCAL ===== -->
+      <line x1="1088" y1="160" x2="1088" y2="208" stroke="#F93332" stroke-width="1"/>
+      <circle cx="1088" cy="208" r="6" fill="#F93332"/>
+      <text x="1088" y="76" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 07</text>
+      <text x="1088" y="96" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">Baton rewritten</text>
+      <text x="1088" y="114" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">What happened, where the initiative</text>
+      <text x="1088" y="128" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">stands, the ONE next move, open threads.</text>
+      <rect x="1030" y="138" width="60" height="16" rx="4" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+      <text x="1060" y="149" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">baton.md</text>
+      <rect x="1098" y="138" width="48" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="1122" y="149" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">log.md</text>
+
+      <!-- ===== MOMENT 08 — below ===== -->
+      <line x1="1256" y1="208" x2="1256" y2="252" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="1256" cy="208" r="4" fill="#111111"/>
+      <text x="1256" y="266" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.16em">MOMENT 08</text>
+      <text x="1256" y="286" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">Graph-audit exits zero</text>
+      <text x="1256" y="304" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Run on every touched durable file.</text>
+      <text x="1256" y="318" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="middle">Fix, rerun, then declare the step done.</text>
+      <rect x="1196" y="328" width="120" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="1256" y="339" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">scripts/graph-audit</text>
+
+      <!-- ===== MOMENT 09 — above, right aligned ===== -->
+      <line x1="1420" y1="160" x2="1420" y2="208" stroke="rgba(17,17,17,0.28)" stroke-width="1"/>
+      <circle cx="1420" cy="208" r="4" fill="#111111"/>
+      <text x="1460" y="76" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.16em">MOMENT 09</text>
+      <text x="1460" y="96" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="end">Session ends warm</text>
+      <text x="1460" y="114" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="end">Tomorrow's standup could run from</text>
+      <text x="1460" y="128" fill="#6B6B6B" font-size="10" font-family="'Inter', sans-serif" text-anchor="end">the baton alone and lose nothing.</text>
+      <rect x="1368" y="138" width="92" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="1414" y="149" fill="#111111" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">1 next move</text>
+
+      <!-- legend -->
+      <line x1="32" y1="376" x2="1468" y2="376" stroke="#D9D9DE" stroke-width="0.8"/>
+      <circle cx="40" cy="392" r="4" fill="#111111"/>
+      <text x="52" y="396" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Moment on the session line</text>
+      <circle cx="248" cy="392" r="6" fill="#F93332"/>
+      <text x="262" y="396" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Focal moment</text>
+      <rect x="392" y="384" width="40" height="14" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="440" y="396" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Mono chip names the file read or written at that moment</text>
+      <text x="856" y="396" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">The axis is session order, not clock time; a session is one step long.</text>
+    </svg>
+  </section>
+
+  <!-- ======================= CARDS ======================= -->
+  <div class="cards">
+
+    <section class="card">
+      <p class="eyebrow">Step 0 &middot; standup</p>
+      <div class="hrow">
+        <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l4 4v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>
+        <h2>The files answer, not the memory</h2>
+      </div>
+      <p>Read in order: the charter, <code>baton.md</code>, the active initiatives in <code>wiki/initiatives/</code>, and any waiting "Needs your call" sections.</p>
+      <p>Report in <mark>at most five lines</mark> and propose <mark>exactly ONE focus</mark>. A menu is a decision pushed back onto the founder.</p>
+      <p>Every line cites a file or a log row; a fact you cannot source is reported as <mark>"not on record"</mark>, never improvised.</p>
+      <p>No active initiative is a legitimate first-use state: say so with the file search that proved it, then route to vision or plan.</p>
+      <p class="kicker">Two active: take the one <code>baton.md</code> names, else <code>executing</code> over <code>planned</code>, then the most recent Log entry.</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Step 1 &middot; the gate</p>
+      <div class="hrow">
+        <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2"/></svg>
+        <h2>The state decides, not the mood</h2>
+      </div>
+      <div class="routes">
+        <span class="from ok">planned &middot; executing</span><span class="to">Execute one roadmap step.</span>
+        <span class="from">idea &middot; survived</span><span class="to">Route to plan; BIG ideas face the gauntlet first.</span>
+        <span class="from">reviewed &middot; banked</span><span class="to">Closed arcs. Renewed work needs a new <code>idea</code> with <code>reopens:</code>.</span>
+        <span class="from">unknown</span><span class="to">Stop for repair, never guess around it.</span>
+      </div>
+      <p>An ask that is not on the roadmap gets one line first: it answers a "Not yet decided" item, or it is new scope and routes through plan.</p>
+      <p class="kicker">The founder's enthusiasm today does not outrank the gate; <mark>the gate is what their enthusiasm hired</mark>.</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Step 2 &middot; execute</p>
+      <div class="hrow">
+        <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+        <h2>Done is the checkbox's own text</h2>
+      </div>
+      <ul>
+        <li><mark>One step per session.</mark> The urge to start a second one goes into the roadmap, never into the session.</li>
+        <li>The first step on a <code>planned</code> initiative sets <code>state: <span class="t">executing</span></code> before the work, with <code>updated:</code> bumped.</li>
+        <li>Bigger than one session, so <mark>split honestly</mark>: finish the session-sized core now, write the remainder as new steps, say so out loud.</li>
+        <li>Founder-only calls go to "Needs your call" and the work continues around them.</li>
+      </ul>
+      <p class="kicker">Approve and publish steps need <code>content_state</code> plus a checked receipt citing the founder's exact words in <code>raw/inbox/</code>.</p>
+    </section>
+
+    <section class="card">
+      <p class="eyebrow">Step 3 &middot; close</p>
+      <div class="hrow">
+        <svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a2 2 0 0 1 2-2h5l2 2h5a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 13h6"/></svg>
+        <h2>The close is one transaction</h2>
+      </div>
+      <ol>
+        <li>Recheck the completion condition and its evidence, then check the box and log the dated line.</li>
+        <li>Confirm <code>state: <span class="t">executing</span></code> and move the link to the executing hub bucket.</li>
+        <li>Graduate the newly answerable "Not yet decided" entries into next steps.</li>
+        <li>Append the dated line to <code>log.md</code>, then rewrite <code>baton.md</code>.</li>
+        <li>Run <code>scripts/<span class="t">graph-audit</span></code>, fix every violation, rerun until it <mark>exits zero</mark>.</li>
+      </ol>
+      <p class="kicker">Done when a fresh session tomorrow runs its standup <mark>from the baton alone</mark>.</p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>

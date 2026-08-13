@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>recall · the read hierarchy</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --paper:#F4F4F5; --paper2:#EFEFF2; --card:#FFFFFF;
+    --ink:#111111; --muted:#6B6B6B; --soft:#A0A0A8;
+    --rule:#D9D9DE; --rule2:#C4C4CA;
+    --accent:#F93332; --tint:rgba(249,51,50,0.10);
+    --sans:'Inter',system-ui,sans-serif;
+    --grot:'Space Grotesk','Inter',sans-serif;
+    --mono:'Geist Mono',ui-monospace,monospace;
+  }
+  html,body{width:1600px;height:900px;overflow:hidden}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+       padding:26px 32px;display:flex;flex-direction:column;gap:14px}
+
+  mark{background-color:transparent;color:inherit;
+       background-image:linear-gradient(104deg,rgba(249,51,50,0) 0.4%,rgba(249,51,50,0.16) 2.4%,rgba(249,51,50,0.22) 96%,rgba(249,51,50,0) 99%);
+       padding:0 2px;border-radius:2px}
+  .hl-title{display:inline-block;transform:rotate(-1deg)}
+
+  .eyebrow{font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:0.16em;
+           text-transform:uppercase;color:var(--muted)}
+  .k{font-family:var(--mono);font-size:9.5px;background:var(--paper2);border:1px solid var(--rule);
+     border-radius:4px;padding:1px 5px;color:var(--ink);white-space:nowrap}
+  .k .t{color:var(--accent)}
+
+  /* ── head ─────────────────────────────────────────────── */
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px}
+  h1{font-family:var(--grot);font-size:40px;font-weight:500;letter-spacing:-0.022em;
+     line-height:1.06;margin:8px 0 7px}
+  .sub{font-size:12.5px;line-height:1.5;color:var(--muted);max-width:82ch}
+  .hubstrip{width:452px;background:var(--card);border:1px solid var(--rule);border-radius:8px;
+            padding:10px 12px 11px}
+  .hubstrip .row{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 6px}
+  .hubstrip p{font-size:10.5px;line-height:1.45;color:var(--muted)}
+
+  /* ── main ─────────────────────────────────────────────── */
+  .main{display:grid;grid-template-columns:272px 952px 284px;gap:14px;height:478px}
+  .col{display:flex;flex-direction:column;gap:14px;min-height:0}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px}
+  .card-h{display:flex;align-items:center;gap:7px;padding-bottom:8px;margin-bottom:9px;
+          border-bottom:1px solid var(--rule)}
+  .card-h h3{font-family:var(--grot);font-size:14px;font-weight:600;letter-spacing:-0.01em}
+  .card-h .tag{margin-left:auto;font-family:var(--mono);font-size:7.5px;letter-spacing:0.14em;
+               color:var(--soft);text-transform:uppercase}
+  svg.icn{flex:none}
+
+  /* read-order spine */
+  .step{display:grid;grid-template-columns:22px 1fr;gap:8px;margin-bottom:9px}
+  .step .n{font-family:var(--mono);font-size:9px;font-weight:600;color:var(--accent);
+           border:1px solid var(--rule);border-radius:4px;text-align:center;padding:2px 0;height:16px;
+           background:var(--paper2)}
+  .step .b{font-size:10.5px;line-height:1.46;color:var(--muted)}
+  .step .b b{color:var(--ink);font-weight:600}
+  .done{margin-top:2px;padding-top:8px;border-top:1px solid var(--rule);
+        font-size:10.5px;line-height:1.45;color:var(--muted)}
+  .done .lbl{font-family:var(--mono);font-size:7.5px;letter-spacing:0.14em;color:var(--soft);
+             text-transform:uppercase;display:block;margin-bottom:3px}
+
+  .gate{display:flex;flex-direction:column;gap:5px}
+  .gate .g{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted)}
+  .gate .g .st{font-family:var(--mono);font-size:9px;color:var(--ink);width:76px;flex:none;
+               border-left:2px solid var(--rule2);padding-left:6px}
+  .gate .g.ok .st{border-left-color:var(--accent);color:var(--accent)}
+
+  /* hero */
+  .hero{display:flex;flex-direction:column;min-height:0}
+  .hero svg.tree{width:100%;display:block;margin-top:2px}
+
+  /* leaf-field list */
+  .fl{list-style:none}
+  .fl li{font-size:10.5px;line-height:1.45;color:var(--muted);padding:0 0 7px 11px;position:relative;
+         margin-bottom:7px;border-bottom:1px solid rgba(217,217,222,0.7)}
+  .fl li:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+  .fl li::before{content:'';position:absolute;left:0;top:5px;width:4px;height:4px;border-radius:50%;
+                 background:var(--rule2)}
+  .fl li.a::before{background:var(--accent)}
+  .fl li b{color:var(--ink);font-weight:600}
+
+  /* ── bottom ───────────────────────────────────────────── */
+  .bottom{display:grid;grid-template-columns:1.16fr 1fr 0.94fr;gap:14px;flex:1;min-height:0}
+  .bl{list-style:none}
+  .bl li{font-size:10.5px;line-height:1.46;color:var(--muted);padding-left:11px;position:relative;
+         margin-bottom:5px}
+  .bl li::before{content:'—';position:absolute;left:0;color:var(--rule2);font-size:9px;top:0}
+  .bl li b{color:var(--ink);font-weight:600}
+  .fields{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;padding-top:8px;border-top:1px solid var(--rule)}
+  .num{font-family:var(--mono);font-size:8px;color:var(--soft);margin-right:3px}
+</style>
+</head>
+<body>
+
+  <!-- ══ HEAD ══ -->
+  <div class="head">
+    <div>
+      <p class="eyebrow">/co-founder · recall · the read hierarchy</p>
+      <h1>Drill down <span class="hl-title"><mark>before you decide</mark></span>.</h1>
+      <p class="sub">Recall walks one path down the vault — the catalog, then the fixed hub, then the page — and every fact it hands back
+        carries the exact file it came from. A look beats a guess, and <mark>memory beats re-research</mark> on every call worth making.</p>
+    </div>
+    <div class="hubstrip">
+      <p class="eyebrow">The seven fixed hubs · tier 1 of the descent</p>
+      <div class="row">
+        <span class="k">hub/business.md</span><span class="k">hub/initiatives.md</span><span class="k">hub/learnings.md</span>
+        <span class="k">hub/sops.md</span><span class="k">hub/research.md</span><span class="k">hub/decisions.md</span>
+        <span class="k">hub/people.md</span>
+      </div>
+      <p>The hub set is fixed by setup and read from the charter's path map, so <mark>the drill-down never has to be invented</mark> twice.</p>
+    </div>
+  </div>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <!-- left: read order + preflight -->
+    <div class="col">
+      <div class="card" style="flex:1">
+        <div class="card-h">
+          <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h6"/><path d="M4 6v12h6"/><path d="M14 6h6"/><path d="M14 12h6"/><path d="M14 18h6"/></svg>
+          <h3>The read order</h3><span class="tag">Step 1</span>
+        </div>
+        <div class="step"><span class="n">01</span><span class="b"><b>Read <span style="font-family:var(--mono)">index.md</span> first.</b> It is the catalog, and it says where to drill.</span></div>
+        <div class="step"><span class="n">02</span><span class="b"><b>Then the pages that plausibly bear on the question</b>, plus the matching fixed <span style="font-family:var(--mono)">hub/&lt;section&gt;.md</span>.</span></div>
+        <div class="step"><span class="n">03</span><span class="b"><mark>Search wide before answering narrow.</mark> The useful lesson is often filed under the channel, the person, or the initiative rather than the topic word.</span></div>
+        <div class="done"><span class="lbl">Done when</span>Every plausibly relevant page has been looked at, not guessed at.</div>
+      </div>
+      <div class="card">
+        <div class="card-h">
+          <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4-3 7.5-7 9c-4-1.5-7-5-7-9V7z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg>
+          <h3>Step 0 preflight</h3><span class="tag">Gate</span>
+        </div>
+        <div class="gate">
+          <div class="g ok"><span class="st">Ready</span><span>Read the charter's path map, then descend.</span></div>
+          <div class="g"><span class="st">Fresh</span><span>Route to setup and stop.</span></div>
+          <div class="g"><span class="st">Partial</span><span>Route to setup for a re-sync.</span></div>
+          <div class="g"><span class="st">Wrong folder</span><span>Route to setup and stop.</span></div>
+        </div>
+        <div class="done" style="margin-top:8px">An absent vault cannot be searched honestly, so recall refuses to answer from it.</div>
+      </div>
+    </div>
+
+    <!-- hero: the tree -->
+    <div class="card hero">
+      <div class="card-h">
+        <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="17" width="6" height="4" rx="1"/><rect x="15" y="17" width="6" height="4" rx="1"/><path d="M12 7v5"/><path d="M6 17v-3h12v3"/></svg>
+        <h3>One question, one descent: index.md to the page that answers it</h3>
+        <span class="tag">Tree · depth 3</span>
+      </div>
+
+      <svg class="tree" viewBox="0 0 920 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="recall-v2-title recall-v2-desc">
+        <title id="recall-v2-title">The vault read hierarchy used by recall</title>
+        <desc id="recall-v2-desc">Tree showing index.md as the catalog root branching into fixed hub files for business, learnings and decisions, each dropping into the wiki page that carries the canonical lifecycle fields, with a dashed fallback branch to the list-and-grep absence guard and its five-field verified-absence record.</desc>
+
+        <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+        <!-- tier gutter tags -->
+        <text x="0" y="64" fill="#A0A0A8" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">01 ROOT</text>
+        <text x="0" y="172" fill="#A0A0A8" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">02 HUB</text>
+        <text x="0" y="264" fill="#A0A0A8" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">03 PAGE</text>
+
+        <!-- ── connectors first ── -->
+        <!-- root stub straight into middle child -->
+        <path d="M 384 88 L 384 140" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+        <!-- bus left -->
+        <path d="M 384 112 L 176 112 Q 168 112 168 120 L 168 140" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+        <!-- bus right -->
+        <path d="M 384 112 L 592 112 Q 600 112 600 120 L 600 140" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+        <!-- fallback branch off the root's right edge (dashed) -->
+        <path d="M 504 60 L 808 60 Q 816 60 816 68 L 816 140" fill="none" stroke="#6B6B6B" stroke-width="1" stroke-dasharray="4,3"/>
+        <!-- hub → page drops -->
+        <path d="M 168 204 L 168 232" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+        <path d="M 384 204 L 384 232" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+        <path d="M 600 204 L 600 232" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+        <path d="M 816 204 L 816 232" fill="none" stroke="#6B6B6B" stroke-width="1" stroke-dasharray="4,3"/>
+
+        <!-- connector labels (masked, 6-10px clear of the stroke) -->
+        <rect x="596" y="38" width="152" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="672" y="47" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">NO HIT ON THE PAGES</text>
+
+        <rect x="196" y="90" width="120" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="256" y="99" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">DRILL BY SECTION</text>
+
+        <rect x="404" y="212" width="104" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="456" y="221" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">OPEN AND QUOTE</text>
+
+        <!-- ── ROOT (focal) ── -->
+        <rect x="264" y="32" width="240" height="56" rx="6" fill="#F4F4F5"/>
+        <rect x="264" y="32" width="240" height="56" rx="6" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+        <rect x="272" y="40" width="60" height="12" rx="2" fill="none" stroke="rgba(249,51,50,0.5)" stroke-width="0.8"/>
+        <text x="302" y="49" fill="#F93332" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.10em">CATALOG</text>
+        <g transform="translate(468,38)"><g fill="none" stroke="#F93332" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v4h4"/><path d="M13 15H4a1.5 1.5 0 0 1-1.5-1.5v-11A1.5 1.5 0 0 1 4 1h7l3.5 3.5v9A1.5 1.5 0 0 1 13 15z"/><path d="M5.5 8.5h6"/><path d="M5.5 11.5h4"/></g></g>
+        <text x="384" y="68" fill="#111111" font-size="12" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">index.md</text>
+        <text x="384" y="81" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">Read first. It says where to drill.</text>
+
+        <!-- ── TIER 1: hub/business.md ── -->
+        <rect x="72" y="140" width="192" height="64" rx="6" fill="#F4F4F5"/>
+        <rect x="72" y="140" width="192" height="64" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+        <rect x="80" y="148" width="30" height="12" rx="2" fill="none" stroke="rgba(17,17,17,0.4)" stroke-width="0.8"/>
+        <text x="95" y="157" fill="#111111" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">HUB</text>
+        <text x="168" y="174" fill="#111111" font-size="11" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">hub/business.md</text>
+        <text x="168" y="187" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">The current offer and the current</text>
+        <text x="168" y="198" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">numbers live under this one.</text>
+
+        <!-- ── TIER 1: hub/learnings.md ── -->
+        <rect x="288" y="140" width="192" height="64" rx="6" fill="#F4F4F5"/>
+        <rect x="288" y="140" width="192" height="64" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+        <rect x="296" y="148" width="30" height="12" rx="2" fill="none" stroke="rgba(17,17,17,0.4)" stroke-width="0.8"/>
+        <text x="311" y="157" fill="#111111" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">HUB</text>
+        <text x="384" y="174" fill="#111111" font-size="11" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">hub/learnings.md</text>
+        <text x="384" y="187" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">What was tried, what it cost, and</text>
+        <text x="384" y="198" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">what actually came back.</text>
+
+        <!-- ── TIER 1: hub/decisions.md ── -->
+        <rect x="504" y="140" width="192" height="64" rx="6" fill="#F4F4F5"/>
+        <rect x="504" y="140" width="192" height="64" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+        <rect x="512" y="148" width="30" height="12" rx="2" fill="none" stroke="rgba(17,17,17,0.4)" stroke-width="0.8"/>
+        <text x="527" y="157" fill="#111111" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">HUB</text>
+        <text x="600" y="174" fill="#111111" font-size="11" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">hub/decisions.md</text>
+        <text x="600" y="187" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">The calls already made, with the</text>
+        <text x="600" y="198" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">tradeoff that was accepted.</text>
+
+        <!-- ── TIER 1: fallback guard (optional/dashed) ── -->
+        <rect x="720" y="140" width="192" height="64" rx="6" fill="#F4F4F5"/>
+        <rect x="720" y="140" width="192" height="64" rx="6" fill="rgba(17,17,17,0.02)" stroke="rgba(17,17,17,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+        <rect x="728" y="148" width="38" height="12" rx="2" fill="none" stroke="rgba(249,51,50,0.45)" stroke-width="0.8"/>
+        <text x="747" y="157" fill="#F93332" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">GUARD</text>
+        <text x="816" y="174" fill="#111111" font-size="11" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">list + grep</text>
+        <text x="816" y="187" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">List the wiki folders, search the</text>
+        <text x="816" y="198" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">key words and their synonyms.</text>
+
+        <!-- ── TIER 2 leaves ── -->
+        <!-- offer -->
+        <rect x="72" y="232" width="192" height="76" rx="6" fill="#F4F4F5"/>
+        <rect x="72" y="232" width="192" height="76" rx="6" fill="rgba(17,17,17,0.05)" stroke="#6B6B6B" stroke-width="0.8"/>
+        <text x="168" y="252" fill="#111111" font-size="10.5" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">wiki/business/offer.md</text>
+        <text x="168" y="266" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">An offer counts as approved only</text>
+        <text x="168" y="277" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">at these two values, never in prose.</text>
+        <rect x="84" y="284" width="168" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="168" y="295" fill="#111111" font-size="8.5" font-family="'Geist Mono',monospace" text-anchor="middle">offer_state: approved · active</text>
+
+        <!-- learnings -->
+        <rect x="288" y="232" width="192" height="76" rx="6" fill="#F4F4F5"/>
+        <rect x="288" y="232" width="192" height="76" rx="6" fill="rgba(17,17,17,0.05)" stroke="#6B6B6B" stroke-width="0.8"/>
+        <text x="384" y="252" fill="#111111" font-size="10.5" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">wiki/learnings/&lt;note&gt;.md</text>
+        <text x="384" y="266" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">A note read past its date is handed</text>
+        <text x="384" y="277" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">back flagged as possibly stale.</text>
+        <rect x="300" y="284" width="168" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="384" y="295" fill="#111111" font-size="8.5" font-family="'Geist Mono',monospace" text-anchor="middle">review_after · cost · result</text>
+
+        <!-- decisions -->
+        <rect x="504" y="232" width="192" height="76" rx="6" fill="#F4F4F5"/>
+        <rect x="504" y="232" width="192" height="76" rx="6" fill="rgba(17,17,17,0.05)" stroke="#6B6B6B" stroke-width="0.8"/>
+        <text x="600" y="252" fill="#111111" font-size="10.5" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">wiki/decisions/&lt;page&gt;.md</text>
+        <text x="600" y="266" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">A stated claim comes back as a quote</text>
+        <text x="600" y="277" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">with its source, never as a truth.</text>
+        <rect x="516" y="284" width="168" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="600" y="295" fill="#111111" font-size="8.5" font-family="'Geist Mono',monospace" text-anchor="middle">status: stated · high · low</text>
+
+        <!-- verified-absence record -->
+        <rect x="720" y="232" width="192" height="76" rx="6" fill="#F4F4F5"/>
+        <rect x="720" y="232" width="192" height="76" rx="6" fill="rgba(17,17,17,0.02)" stroke="rgba(17,17,17,0.20)" stroke-width="0.8" stroke-dasharray="4,3"/>
+        <text x="816" y="252" fill="#111111" font-size="10.5" font-weight="600" font-family="'Inter',sans-serif" text-anchor="middle">Verified-absence record</text>
+        <text x="816" y="266" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">Five fields, so the same look can be</text>
+        <text x="816" y="277" fill="#6B6B6B" font-size="9.5" font-family="'Inter',sans-serif" text-anchor="middle">re-run by anyone who doubts it.</text>
+        <rect x="732" y="284" width="168" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="816" y="295" fill="#111111" font-size="8.5" font-family="'Geist Mono',monospace" text-anchor="middle">paths · terms · date · tool · count</text>
+
+        <!-- legend strip -->
+        <line x1="0" y1="344" x2="920" y2="344" stroke="rgba(17,17,17,0.10)" stroke-width="0.8"/>
+        <text x="0" y="362" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.16em">LEGEND</text>
+        <rect x="72" y="354" width="14" height="10" rx="2" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+        <text x="92" y="362" fill="#6B6B6B" font-size="9" font-family="'Inter',sans-serif">Catalog root</text>
+        <rect x="188" y="354" width="14" height="10" rx="2" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+        <text x="208" y="362" fill="#6B6B6B" font-size="9" font-family="'Inter',sans-serif">Fixed hub</text>
+        <rect x="292" y="354" width="14" height="10" rx="2" fill="rgba(17,17,17,0.05)" stroke="#6B6B6B" stroke-width="0.8"/>
+        <text x="312" y="362" fill="#6B6B6B" font-size="9" font-family="'Inter',sans-serif">Wiki page · leaf</text>
+        <rect x="424" y="354" width="14" height="10" rx="2" fill="rgba(17,17,17,0.02)" stroke="rgba(17,17,17,0.20)" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="444" y="362" fill="#6B6B6B" font-size="9" font-family="'Inter',sans-serif">Fallback · absence guard</text>
+        <text x="920" y="362" fill="#A0A0A8" font-size="9" font-family="'Inter',sans-serif" text-anchor="end">Recall reads all of these. It writes to exactly one file, and that file is queue.md.</text>
+        <text x="0" y="382" fill="#A0A0A8" font-size="9" font-family="'Inter',sans-serif">Every hub is read alongside its pages, never instead of them — index or hub prose that contradicts a page's own field is reported as drift, not repeated as truth.</text>
+      </svg>
+    </div>
+
+    <!-- right: lifecycle fields -->
+    <div class="col">
+      <div class="card" style="flex:1">
+        <div class="card-h">
+          <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V4h4l12 12-4 4L3 8z"/><path d="M7 7h.01"/></svg>
+          <h3>Read the field, not the prose</h3><span class="tag">Step 3</span>
+        </div>
+        <ul class="fl">
+          <li class="a">An offer is approved only at <b>offer_state: approved</b> or <b>active</b>.</li>
+          <li class="a">Publication exists only at <b>content_state: published</b> with a <b>published_at</b> value.</li>
+          <li>Contradictory index or hub prose is reported as <mark>drift, not repeated as truth</mark>.</li>
+          <li>Every <b>type: content</b> page is excluded from business-fact receipts. Drafts are proposals, published pieces are publication history.</li>
+          <li>The current offer comes from <b>wiki/business/offer.md</b>; current numbers come from <b>wiki/business/metrics.md</b>.</li>
+          <li>Notes past their <b>review_after</b> date get flagged as possibly stale.</li>
+          <li>Trace derived claims back to their original inputs. Cross-file analogies and patterns pass the shared parameter gate before they count.</li>
+          <li>Feeding gauntlet, plan, or offer: deliver the <b>5-10 lines</b> that bear on THIS decision, never a vault dump.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BOTTOM ══ -->
+  <div class="bottom">
+    <div class="card">
+      <div class="card-h">
+        <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>
+        <h3>The absence guard</h3><span class="tag">Step 2</span>
+      </div>
+      <ul class="bl">
+        <li><mark>Absence gets verified, never remembered.</mark> Answering from memory instead of searching is the single most common way systems like this fail.</li>
+        <li>Before anything shaped like "we have no note on that": list the relevant <b>wiki/</b> folders and search the question's key words and their obvious synonyms with whatever the environment has.</li>
+        <li>Genuinely empty: say exactly that, in one line, and offer the research skill to fill it.</li>
+        <li>The scoped result is all that gets phrased. It can prove what is not recorded in the vault, never what the business or the world has never done.</li>
+      </ul>
+      <div class="fields">
+        <span class="num">01</span><span class="k">paths or corpus</span>
+        <span class="num">02</span><span class="k">terms + synonyms</span>
+        <span class="num">03</span><span class="k">date</span>
+        <span class="num">04</span><span class="k">tool</span>
+        <span class="num">05</span><span class="k">result count</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-h">
+        <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4h4"/><path d="M18 21H6a1.8 1.8 0 0 1-1.8-1.8V4.8A1.8 1.8 0 0 1 6 3h8l5.8 5.8v10.4A1.8 1.8 0 0 1 18 21z"/><path d="M8.5 12h7"/><path d="M8.5 16h5"/></svg>
+        <h3>Answer with receipts</h3><span class="tag">Step 3</span>
+      </div>
+      <ul class="bl">
+        <li>Cite the exact file for every claim — <b>wiki/learnings/warm-intro-beats-cold.md</b>, <mark>not "our notes"</mark>.</li>
+        <li>Reopen the file, verify its current lifecycle and confidence, and <mark>quote the exact supporting passage</mark>. A page that mentions the topic without the claimed evidence does not pass.</li>
+        <li>When no admitted receipt states it, label it <b>Unverified synthesis:</b> and offer the one founder question that could confirm it.</li>
+        <li>Never present a quantity, duration, sample size, date, or motive before asking for it or citing a receipt for it.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-h">
+        <svg class="icn" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v4.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V14"/><path d="M8 10l4 4 4-4"/><path d="M12 3v11"/></svg>
+        <h3>Bank the synthesis</h3><span class="tag">Step 4</span>
+      </div>
+      <ul class="bl">
+        <li>A comparison, a pattern across notes, a connection nobody had written down — that is itself a finding.</li>
+        <li>Append one pending entry to <b>queue.md</b> from recall to steward, with <b>source_paths</b> naming every note it came from. Recall reads; it never creates the wiki page.</li>
+        <li>Run <b>scripts/graph-audit queue.md</b>, fix every violation, rerun. No queue ID is narrated <mark>until it exits zero</mark>.</li>
+        <li>Routine lookups are not banked. The test is whether the answer contains something no single existing page says.</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

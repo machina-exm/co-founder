@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>content-engine · quality tiers</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper: #F4F4F5; --paper-2: #EFEFF2; --card: #FFFFFF;
+    --ink: #111111; --muted: #6B6B6B; --soft: #A0A0A8;
+    --rule: #D9D9DE; --rule-solid: #C4C4CA;
+    --accent: #F93332; --accent-tint: rgba(249,51,50,0.10);
+    --sans: 'Inter', system-ui, sans-serif;
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --mono: 'Geist Mono', ui-monospace, monospace;
+  }
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); padding: 22px 32px 18px; }
+
+  mark { background-color: transparent; background-image: linear-gradient(104deg, rgba(249,51,50,0) 0.4%, rgba(249,51,50,0.18) 2.2%,
+         rgba(249,51,50,0.22) 96%, rgba(249,51,50,0) 99.2%);
+         background-size: 100% 68%; background-position: 0 94%; background-repeat: no-repeat;
+         color: inherit; padding: 0 3px; margin: 0 -3px;
+         -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  mark.tilt { display: inline-block; transform: rotate(-1deg); background-size: 100% 52%; }
+
+  .eyebrow { font: 500 8px var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px;
+           padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+  header h1 { font: 500 40px/1.08 var(--display); letter-spacing: -0.02em; margin: 6px 0 8px; }
+  header .sub { font: 400 13px/1.5 var(--sans); color: var(--muted); max-width: 920px; }
+  .headmeta { display: flex; gap: 8px; flex-shrink: 0; padding-bottom: 4px; }
+  .chip { font: 500 9px var(--mono); color: var(--ink); background: var(--paper-2);
+          border: 1px solid var(--rule); border-radius: 4px; padding: 5px 8px; white-space: nowrap; }
+  .chip b { color: var(--accent); font-weight: 500; }
+
+  .grid { display: grid; grid-template-columns: 1044px 1fr; gap: 24px; margin-top: 14px; }
+
+  .hero { display: flex; flex-direction: column; justify-content: center;
+          border: 1px solid var(--rule); border-radius: 8px; background: var(--card); padding: 8px; }
+  .hero svg { display: block; width: 100%; height: auto; }
+
+  .side { display: grid; grid-template-rows: 1fr 1.28fr 1fr; gap: 12px; }
+  .panel { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 14px; }
+  .panel .ph { display: flex; align-items: center; gap: 8px; padding-bottom: 8px; margin-bottom: 8px;
+               border-bottom: 1px solid var(--rule); }
+  .panel h2 { font: 600 14px var(--display); letter-spacing: -0.01em; }
+  .panel .ph .eyebrow { margin-left: auto; }
+  .panel p { font: 400 11.5px/1.45 var(--sans); color: var(--muted); }
+  .panel ul { list-style: none; }
+  .panel li { position: relative; padding-left: 13px; margin-bottom: 4px;
+              font: 400 11.5px/1.38 var(--sans); color: var(--muted); }
+  .panel li::before { position: absolute; left: 0; top: 0; color: var(--rule-solid); content: '—'; }
+  .panel li b { color: var(--ink); font-weight: 600; }
+  .panel code, .strip code { font: 500 10px var(--mono); background: var(--paper-2);
+        border: 1px solid var(--rule); border-radius: 3px; padding: 0 4px; color: var(--ink); }
+  .panel code em { font-style: normal; color: var(--accent); }
+
+  .strip { display: grid; grid-template-columns: 620px 1fr; gap: 24px; align-items: center;
+           margin-top: 12px; padding: 12px 14px; background: var(--card);
+           border: 1px solid var(--rule); border-radius: 8px; }
+  .strip .law { display: flex; gap: 10px; align-items: flex-start; }
+  .strip .law p { font: 400 12px/1.45 var(--sans); color: var(--muted); }
+  .strip .law p b { color: var(--ink); font-weight: 600; }
+  .files { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+
+  footer { display: flex; justify-content: space-between; margin-top: 10px;
+           font: 400 9px var(--mono); letter-spacing: 0.06em; color: var(--soft); }
+
+  /* hero svg type roles */
+  .tier-title { fill: var(--ink); font: 600 15px var(--display); text-anchor: middle; }
+  .bucket { fill: var(--muted); font: 400 10px var(--mono); text-anchor: middle; }
+  .field-label { fill: var(--ink); font: 600 11px var(--sans); }
+  .field-value { color: var(--muted); font: 400 10px var(--mono); }
+  .field-value em { font-style: normal; color: var(--ink); }
+  .gate-text { font: 500 10px var(--mono); }
+  .example-label { fill: var(--soft); font: 500 8px var(--mono); letter-spacing: 0.16em; }
+  .example-value { fill: var(--muted); font: 400 10px var(--mono); }
+  .arc-label { font: 400 10px var(--mono); letter-spacing: 0.08em; text-anchor: middle; }
+  .path-tag { font: 500 8px var(--mono); letter-spacing: 0.08em; text-anchor: middle; fill: var(--ink); }
+  .path-title { fill: var(--ink); font: 600 11px var(--sans); }
+  .path-sub { fill: var(--muted); font: 400 10px var(--mono); }
+  .focal-text { fill: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <p class="eyebrow">/co-founder · content-engine · quality tiers</p>
+    <h1>Content refines upward, <mark class="tilt">one gate at a time</mark>.</h1>
+    <p class="sub">This engine runs on three inputs before any writing happens: <mark>the voice file, the vault</mark>, and distilled craft mechanics. Nothing climbs a tier on plausibility — each promotion is a named gate with a receipt behind it.</p>
+  </div>
+  <div class="headmeta">
+    <span class="chip">type: <b>content</b></span>
+    <span class="chip">channel: writing · X · newsletter</span>
+    <span class="chip">state: draft &rarr; approved &rarr; <b>published</b></span>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- ============ HERO: medallion ============ -->
+  <div class="hero">
+  <svg viewBox="0 0 1000 548" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ce2-title ce2-desc">
+    <title id="ce2-title">Content quality tiers from raw to published</title>
+    <desc id="ce2-desc">Three content tiers — raw founder facts, refined drafts that passed the admission gate and drift check, and published pieces carrying a founder publication receipt — with the gate that admits content into each tier.</desc>
+    <defs>
+      <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6B6B6B"/></marker>
+      <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#F93332"/></marker>
+      <clipPath id="clip-raw"><rect x="20" y="80" width="300" height="380" rx="6"/></clipPath>
+      <clipPath id="clip-ref"><rect x="340" y="80" width="300" height="380" rx="6"/></clipPath>
+      <clipPath id="clip-pub"><rect x="660" y="80" width="300" height="380" rx="6"/></clipPath>
+    </defs>
+    <rect width="1000" height="548" fill="#F4F4F5"/>
+
+    <!-- promotion arcs drawn before cards -->
+    <path d="M170 80 C170 0 490 0 490 80" fill="none" stroke="#6B6B6B" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <path d="M490 80 C490 0 810 0 810 80" fill="none" stroke="#F93332" stroke-width="1.6" marker-end="url(#arrow-accent)"/>
+    <text x="330" y="48" class="arc-label" fill="#6B6B6B">ADMISSION GATE</text>
+    <text x="330" y="64" class="arc-label" fill="#A0A0A8">+ DRIFT CHECK</text>
+    <text x="650" y="48" class="arc-label" fill="#F93332">FOUNDER YES</text>
+    <text x="650" y="64" class="arc-label" fill="#F93332">+ GRAPH-AUDIT</text>
+
+    <!-- ===== Tier 1: Raw (outer) ===== -->
+    <rect x="20" y="80" width="300" height="380" rx="6" fill="#FFFFFF"/>
+    <rect x="20" y="80" width="300" height="50" fill="rgba(107,107,107,0.10)" clip-path="url(#clip-raw)"/>
+    <rect x="20" y="80" width="300" height="380" rx="6" fill="none" stroke="#6B6B6B"/>
+    <g stroke="#6B6B6B" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M40 96 h11 l5 5 v15 h-16 z"/><path d="M44 106 h8 M44 112 h8"/>
+    </g>
+    <text x="170" y="108" class="tier-title">Raw</text>
+    <text x="170" y="148" class="bucket">voice.md · vault · raw/inbox/</text>
+
+    <text x="40" y="176" class="field-label">What it holds</text>
+    <foreignObject x="40" y="184" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">Register, moves, the never-list, the approved samples.</div></foreignObject>
+    <text x="40" y="224" class="field-label">Standing of a claim</text>
+    <foreignObject x="40" y="232" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3"><em>Founder-stated: unverified</em> until checked.</div></foreignObject>
+    <text x="40" y="272" class="field-label">Who writes it</text>
+    <foreignObject x="40" y="280" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">The founder, in their own words, verbatim.</div></foreignObject>
+
+    <rect x="40" y="320" width="260" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE"/>
+    <text x="52" y="338" class="gate-text" fill="#6B6B6B">admits: capture only, no gate</text>
+
+    <text x="40" y="372" class="example-label">WHAT LIVES HERE</text>
+    <text x="40" y="390" class="example-value">the positioning and the glossary</text>
+    <text x="40" y="406" class="example-value">learnings, dossiers, the vision</text>
+    <text x="40" y="422" class="example-value">a founder recollection, unchecked</text>
+
+    <!-- ===== Tier 2: Refined (default) ===== -->
+    <rect x="340" y="80" width="300" height="380" rx="6" fill="#FFFFFF"/>
+    <rect x="340" y="80" width="300" height="50" fill="rgba(17,17,17,0.06)" clip-path="url(#clip-ref)"/>
+    <rect x="340" y="80" width="300" height="380" rx="6" fill="none" stroke="#111111"/>
+    <g stroke="#6B6B6B" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M360 97 h16 l-6 9 v10 l-4 -3 v-7 z"/>
+    </g>
+    <text x="490" y="108" class="tier-title">Refined</text>
+    <text x="490" y="148" class="bucket">wiki/business/content/&lt;date&gt;-&lt;slug&gt;.md</text>
+
+    <text x="360" y="176" class="field-label">What it holds</text>
+    <foreignObject x="360" y="184" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">A draft that passes voice, receipts, and glossary.</div></foreignObject>
+    <text x="360" y="224" class="field-label">Standing of a claim</text>
+    <foreignObject x="360" y="232" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">Each receipt named, or <em>PARKED</em> with its action.</div></foreignObject>
+    <text x="360" y="272" class="field-label">Who writes it</text>
+    <foreignObject x="360" y="280" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">This environment drafts; the founder approves.</div></foreignObject>
+
+    <rect x="360" y="320" width="260" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE"/>
+    <text x="372" y="338" class="gate-text" fill="#111111">admits: quoted line, subject + unit</text>
+
+    <text x="360" y="372" class="example-label">WHAT LIVES HERE</text>
+    <text x="360" y="390" class="example-value">the sample the voice sits beside</text>
+    <text x="360" y="406" class="example-value">content_state: draft | approved</text>
+    <text x="360" y="422" class="example-value">PARKED: internal receipt missing</text>
+
+    <!-- ===== Tier 3: Published (focal) ===== -->
+    <rect x="660" y="80" width="300" height="380" rx="6" fill="rgba(249,51,50,0.07)"/>
+    <rect x="660" y="80" width="300" height="50" fill="rgba(249,51,50,0.14)" clip-path="url(#clip-pub)"/>
+    <rect x="660" y="80" width="300" height="380" rx="6" fill="none" stroke="#F93332" stroke-width="1.6"/>
+    <g stroke="#F93332" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="688" cy="106" r="8"/><path d="M684 106 l3 3 l6 -7"/>
+    </g>
+    <text x="810" y="108" class="tier-title">Published</text>
+    <text x="810" y="148" class="bucket focal-text">content_state: published</text>
+
+    <text x="680" y="176" class="field-label">What it holds</text>
+    <foreignObject x="680" y="184" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">A piece the founder confirmed as shipped.</div></foreignObject>
+    <text x="680" y="224" class="field-label">Standing of a claim</text>
+    <foreignObject x="680" y="232" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">No <em>[unverified]</em> text survives this tier.</div></foreignObject>
+    <text x="680" y="272" class="field-label">Who writes it</text>
+    <foreignObject x="680" y="280" width="260" height="28"><div xmlns="http://www.w3.org/1999/xhtml" class="field-value" style="line-height:1.3">Only the founder's confirmation moves it here.</div></foreignObject>
+
+    <rect x="680" y="320" width="260" height="28" rx="4" fill="#EFEFF2" stroke="#D9D9DE"/>
+    <text x="692" y="338" class="gate-text" fill="#F93332">admits: publication_receipt</text>
+
+    <text x="680" y="372" class="example-label">WHAT LIVES HERE</text>
+    <text x="680" y="390" class="example-value focal-text">published_at set, no longer null</text>
+    <text x="680" y="406" class="example-value focal-text">approval + publication receipts</text>
+    <text x="680" y="422" class="example-value focal-text">the named repurposing candidates</text>
+
+    <!-- ===== promotion method cards ===== -->
+    <rect x="20" y="476" width="472" height="56" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.20)"/>
+    <rect x="28" y="482" width="88" height="12" rx="2" fill="none" stroke="rgba(17,17,17,0.30)" stroke-width="0.8"/>
+    <text x="72" y="491" class="path-tag">PARAMETER GATE</text>
+    <text x="128" y="506" class="path-title">Ask the founder, or leave the claim out.</text>
+    <text x="128" y="522" class="path-sub">every number, date, sample size, story detail, causal motive</text>
+
+    <rect x="508" y="476" width="472" height="56" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.20)"/>
+    <rect x="516" y="482" width="72" height="12" rx="2" fill="none" stroke="rgba(17,17,17,0.30)" stroke-width="0.8"/>
+    <text x="552" y="491" class="path-tag">CONSENT RAIL</text>
+    <text x="600" y="506" class="path-title">The founder's exact words, captured immutably.</text>
+    <text x="600" y="522" class="path-sub">raw/inbox/session-receipt-&lt;date&gt;-&lt;slug&gt;.md</text>
+  </svg>
+  </div>
+
+  <!-- ============ side panels ============ -->
+  <div class="side">
+
+    <section class="panel">
+      <div class="ph">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linejoin="round"><path d="M9 2 L16 5.5 L9 9 L2 5.5 Z"/><path d="M2 9.5 L9 13 L16 9.5"/></svg>
+        <h2>Loaded before a word is written</h2>
+        <span class="eyebrow">step 0</span>
+      </div>
+      <ul>
+        <li><b>Voice.</b> Register, words and moves, the never-list, the approved samples. Missing: stop and route to setup.</li>
+        <li><b>Facts.</b> Content is generated from these canonical vault facts, <mark>never from generic knowledge</mark> about the founder's industry.</li>
+        <li><b>Scope.</b> The v1 craft block covers writing, X, and newsletter; another channel routes to setup re-sync and stops.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <div class="ph">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linejoin="round"><path d="M9 2 L15 4.5 V9 c0 3.6 -2.6 6 -6 7 -3.4 -1 -6 -3.4 -6 -7 V4.5 Z"/><path d="M6.5 9 L8.4 11 L11.8 6.8"/></svg>
+        <h2>What a promotion refuses</h2>
+        <span class="eyebrow">admission</span>
+      </div>
+      <ul>
+        <li>Reopen the source, quote the exact supporting line, and verify subject plus unit: <mark>a client count cannot become a personal-post count</mark> or proof of a client outcome.</li>
+        <li>Never assert a duration, a count, a history, or a habit about the founder unless those exact words appear verbatim in a <code>raw/</code> file or the live transcript.</li>
+        <li>No receipt: <mark>the claim comes out or gets researched</mark>. Inventing a statistic ships under the founder's name.</li>
+        <li>A public call-to-action missing a receipt leg is recorded under <code>Parked recommendations</code>, never dropped silently.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <div class="ph">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 L5 6.5 L8 3"/><path d="M3 12 L5 14 L8 10.5"/><path d="M10.5 5 h4.5 M10.5 12.5 h4.5"/></svg>
+        <h2>The filing gate</h2>
+        <span class="eyebrow">step 4</span>
+      </div>
+      <ul>
+        <li>Run <code>scripts/graph-audit</code> on the complete content artifact and every other touched durable file, then fix every violation and rerun <mark>until it exits zero</mark>.</li>
+        <li>A founder-confirmed publication <mark>cannot remain <code>draft</code></mark>; a draft cannot be counted as shipped.</li>
+      </ul>
+    </section>
+
+  </div>
+</div>
+
+<!-- ============ bottom strip ============ -->
+<div class="strip">
+  <div class="law">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M9 2.5 v13"/><path d="M3 6 h12"/><path d="M3 6 L1.5 11 h3 z"/><path d="M15 6 L13.5 11 h3 z"/></svg>
+    <p><b>Publishing and scheduling stay with the founder:</b> this environment writes drafts, <mark>the founder ships them</mark>. <mark>A draft is never a canonical business fact.</mark></p>
+  </div>
+  <div class="files">
+    <span class="chip">wiki/business/<b>voice.md</b></span>
+    <span class="chip">wiki/business/content/&lt;date&gt;-&lt;slug&gt;.md</span>
+    <span class="chip">raw/inbox/session-receipt-&lt;date&gt;-&lt;slug&gt;.md</span>
+    <span class="chip">index.md</span>
+    <span class="chip">hub/business.md</span>
+    <span class="chip">## [date] content | &lt;piece&gt;</span>
+    <span class="chip">scripts/<b>graph-audit</b></span>
+  </div>
+</div>
+
+<footer>
+  <span>co-founder · content-engine · their voice, their facts, real craft</span>
+  <span>medallion · quality tiers · v2</span>
+</footer>
+
+</body>
+</html>

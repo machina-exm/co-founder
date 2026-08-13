@@ -96,6 +96,50 @@ Release history, compatibility, and migration notes live in [CHANGELOG.md](CHANG
 | `offer` | Design, price, and close your offer, with operator-grade heuristics |
 | `content-engine` | Writing/X/newsletter content, in your voice, from your facts |
 
+### The boards
+
+One board per skill — how each one actually works. Also in `assets/visuals/`, with the editable
+HTML original beside every image.
+
+#### co-founder-setup
+<img src="assets/visuals/co-founder-setup.png" alt="co-founder-setup: the interview as a dialogue — nothing is written before the founder's yes" width="100%">
+
+#### vision
+<img src="assets/visuals/vision.png" alt="vision: five interrogation layers narrowing to one founder-owned quarter target" width="100%">
+
+#### plan
+<img src="assets/visuals/plan.png" alt="plan: the initiative lifecycle state machine — plan owns exactly one arrow" width="100%">
+
+#### gauntlet
+<img src="assets/visuals/gauntlet.png" alt="gauntlet: five advisor lenses, each flagging nothing outside its territory" width="100%">
+
+#### research
+<img src="assets/visuals/research.png" alt="research: the claim refinery — only graded receipts flow out" width="100%">
+
+#### sprint
+<img src="assets/visuals/sprint.png" alt="sprint: one session in time, from cold open to warm handoff" width="100%">
+
+#### review
+<img src="assets/visuals/review.png" alt="review: evidence and stakes on a 2x2 — one system change per week" width="100%">
+
+#### bank
+<img src="assets/visuals/bank.png" alt="bank: a banked lesson as a linked record — cost, return, and the receipt that proves it" width="100%">
+
+#### steward
+<img src="assets/visuals/steward.png" alt="steward: the vault as nested containment — every container has a law" width="100%">
+
+#### recall
+<img src="assets/visuals/recall.png" alt="recall: the drill-down tree from index.md — memory beats re-research" width="100%">
+
+#### offer
+<img src="assets/visuals/offer.png" alt="offer: the layer stack from grounded facts to close copy, sealed by the consent receipt" width="100%">
+
+#### content-engine
+<img src="assets/visuals/content-engine.png" alt="content-engine: raw to refined to published — promotion only through the gates" width="100%">
+
+#### help
+<img src="assets/visuals/help.png" alt="help: the loaded collisions between skills, resolved by intent" width="100%">
+
 Installed and namespaced as a Claude Code plugin. The charter, vault, and business artifacts it
 creates are plain markdown files that remain readable and portable outside Claude Code.
 

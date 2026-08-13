@@ -1,0 +1,228 @@
+<meta charset="utf-8">
+<title>The overlap map: where two skills both look right</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+ --paper:#F4F4F5;--paper2:#EFEFF2;--card:#FFFFFF;--ink:#111111;--muted:#6B6B6B;--soft:#A0A0A8;
+ --rule:#D9D9DE;--rule2:#C4C4CA;--accent:#F93332;
+ --sans:'Inter',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace;--display:'Space Grotesk',system-ui,sans-serif;
+}
+html,body{width:1600px;height:900px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+ padding:22px 32px 18px;display:flex;flex-direction:column}
+mark{background:linear-gradient(101deg,rgba(249,51,50,0) 0.6%,rgba(249,51,50,.20) 2.4%,rgba(249,51,50,.20) 96%,rgba(249,51,50,0) 99.4%);
+ color:inherit;padding:0 3px;margin:0 -3px;border-radius:2px;-webkit-box-decoration-break:clone}
+.eyebrow{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+header{height:132px;display:grid;grid-template-columns:1fr 430px;gap:24px;align-items:start}
+h1{font-family:var(--display);font-size:30px;font-weight:500;line-height:1.1;letter-spacing:-.02em;margin:7px 0 7px}
+h1 mark{display:inline-block;transform:rotate(-.7deg)}
+.sub{font-size:12.5px;line-height:1.5;color:var(--muted);max-width:1000px}
+.law{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:10px 12px;margin-top:2px}
+.law .hd{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.law h2{font-family:var(--display);font-size:13px;font-weight:600}
+.law p{font-size:11px;line-height:1.45;color:var(--muted)}
+.main{flex:1;display:grid;grid-template-columns:1004px 1fr;gap:14px;margin-top:14px;min-height:0}
+svg.hero{display:block;width:1004px;height:674px}
+.col{display:flex;flex-direction:column;gap:14px;min-height:0}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column}
+.card .hd{display:flex;align-items:center;gap:8px;padding-bottom:7px;border-bottom:1px solid var(--rule);margin-bottom:9px}
+.card h2{font-family:var(--display);font-size:13.5px;font-weight:600;line-height:1.25}
+.card p{font-size:11px;line-height:1.5;color:var(--muted)}
+.card p + p{margin-top:6px}
+svg.mini{display:block;width:100%;height:auto;margin:2px 0 8px}
+.chain{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.chip{font-family:var(--mono);font-size:9px;background:var(--paper2);border:1px solid var(--rule);
+ border-radius:4px;padding:2px 6px;color:var(--ink);white-space:nowrap}
+.chip .t{color:var(--accent)}
+.arw{color:var(--accent);font-family:var(--mono);font-size:10px}
+.lines{display:flex;gap:8px;margin-bottom:8px}
+.line{flex:1;background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:6px 8px}
+.line .k{font-family:var(--mono);font-size:8px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.line .v{font-size:10.5px;color:var(--ink);line-height:1.3;margin-top:3px}
+ul{list-style:none}
+li{font-size:11px;line-height:1.48;color:var(--muted);padding-left:13px;position:relative;margin-bottom:6px}
+li:last-child{margin-bottom:0}
+li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:1.5px;background:var(--accent)}
+.foot{height:26px;display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);
+ font-size:9px;color:var(--soft)}
+.ico{flex:none}
+</style>
+
+<header>
+ <div>
+  <p class="eyebrow">/co-founder &#183; skill 13 of 13 &#183; help</p>
+  <h1>Two skills can both look right. Help resolves the overlap <mark>by intent</mark>, in one answer.</h1>
+  <p class="sub">Every question already has one home. Help reads the "when you say X, I run Y" table in the founder's charter, names the ONE skill that fits, and says why in a sentence. Where two territories touch it states the distinction in one sentence, so an unapproved price or offer question routes to <mark>the gauntlet, not to offer</mark>.</p>
+ </div>
+ <section class="law">
+  <div class="hd"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg><h2>An overlap is a wording problem, never a routing problem.</h2></div>
+  <p>Help completes <mark>the whole routing hop</mark> before it names a skill. For any offer, price, spend, or other money move it inspects <span class="chip">wiki/business/<span class="t">offer.md</span></span> and the matching initiatives first, then answers the current prompt and stops.</p>
+ </section>
+</header>
+
+<div class="main">
+<svg class="hero" viewBox="0 0 1004 674" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hv2t hv2d">
+ <title id="hv2t">The overlap map: gauntlet, plan, and offer as territories</title>
+ <desc id="hv2d">Venn diagram in which the gauntlet overlaps plan on whether-versus-how questions and overlaps offer on price questions, with help's disambiguation rule written inside each overlap and the clean territories labeled around them.</desc>
+ <defs>
+  <clipPath id="clipG"><circle cx="502" cy="252" r="216"/></clipPath>
+  <clipPath id="clipO"><circle cx="712" cy="396" r="200"/></clipPath>
+ </defs>
+ <rect width="1004" height="674" fill="#F4F4F5"/>
+
+ <!-- set fills -->
+ <circle cx="502" cy="252" r="216" fill="rgba(17,17,17,0.04)"/>
+ <circle cx="292" cy="396" r="200" fill="rgba(107,107,107,0.05)"/>
+ <circle cx="712" cy="396" r="200" fill="rgba(160,160,168,0.05)"/>
+ <!-- focal overlap tint: gauntlet x offer -->
+ <g clip-path="url(#clipG)"><g clip-path="url(#clipO)"><rect width="1004" height="674" fill="rgba(249,51,50,0.10)"/></g></g>
+ <!-- set strokes -->
+ <circle cx="502" cy="252" r="216" fill="none" stroke="#111111" stroke-width="1"/>
+ <circle cx="292" cy="396" r="200" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+ <circle cx="712" cy="396" r="200" fill="none" stroke="#A0A0A8" stroke-width="1"/>
+
+ <!-- set labels, outside the strokes -->
+ <text x="502" y="16" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="14" font-weight="600" text-anchor="middle">gauntlet</text>
+ <text x="502" y="30" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="9" text-anchor="middle" letter-spacing=".14em">THE WHETHER GATE</text>
+
+ <text x="8" y="520" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="14" font-weight="600">plan</text>
+ <text x="8" y="536" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="9" letter-spacing=".14em">THE HOW</text>
+
+ <text x="996" y="520" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="14" font-weight="600" text-anchor="end">offer</text>
+ <text x="996" y="536" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="9" text-anchor="end" letter-spacing=".14em">THE APPROVED MOVE</text>
+
+ <!-- gauntlet clean territory -->
+ <text x="502" y="104" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="12" font-weight="600" text-anchor="middle">Routes directly to the gauntlet:</text>
+ <rect x="352" y="118" width="141" height="20" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="422" y="132" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">an unresolved whether-call</text>
+ <rect x="501" y="118" width="150" height="20" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="576" y="132" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">an unapproved price or offer</text>
+ <rect x="388" y="144" width="227" height="20" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="501" y="158" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">a BIG move without a current SURVIVES verdict</text>
+ <text x="502" y="186" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="11" text-anchor="middle">Offer is the destination only when the exact move is already approved.</text>
+
+ <!-- collision 01: gauntlet x plan -->
+ <text x="356" y="248" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" text-anchor="middle" letter-spacing=".16em">COLLISION 01</text>
+ <text x="368" y="270" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="12" font-weight="600" text-anchor="middle">Whether vs how.</text>
+ <rect x="304" y="284" width="152" height="40" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="380" y="300" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">whether should we do this?</text>
+ <text x="380" y="316" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="11" font-weight="600" text-anchor="middle">&#8594; gauntlet</text>
+ <rect x="328" y="336" width="152" height="40" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="404" y="352" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">how do we execute it?</text>
+ <text x="404" y="368" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="11" font-weight="600" text-anchor="middle">&#8594; plan</text>
+
+ <!-- collision 02: gauntlet x offer (focal) -->
+ <text x="648" y="248" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" text-anchor="middle" letter-spacing=".16em">COLLISION 02</text>
+ <text x="636" y="270" fill="#F93332" font-family="'Inter',system-ui,sans-serif" font-size="12" font-weight="600" text-anchor="middle">The price question.</text>
+ <rect x="548" y="284" width="152" height="40" rx="4" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+ <text x="624" y="300" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">should we change the price?</text>
+ <text x="624" y="316" fill="#F93332" font-family="'Geist Mono',ui-monospace,monospace" font-size="11" font-weight="600" text-anchor="middle">&#8594; gauntlet</text>
+ <rect x="524" y="336" width="152" height="40" rx="4" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="600" y="352" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">structure an approved price?</text>
+ <text x="600" y="368" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="11" font-weight="600" text-anchor="middle">&#8594; offer</text>
+
+ <!-- plan clean territory -->
+ <g transform="translate(220,468)" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/><circle cx="19" cy="18" r="2"/></g>
+ <text x="232" y="512" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="12" font-weight="600" text-anchor="middle">The decision is already made.</text>
+ <text x="232" y="530" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="11" text-anchor="middle">How we execute what is decided.</text>
+
+ <!-- offer clean territory -->
+ <g transform="translate(760,468)" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h9l7 7l-8 8l-7 -7z"/><circle cx="9" cy="10" r="1.5"/></g>
+ <text x="772" y="512" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="12" font-weight="600" text-anchor="middle">The exact move is approved.</text>
+ <text x="772" y="530" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="11" text-anchor="middle">How we structure that price.</text>
+
+ <!-- corner region: outside every set -->
+ <rect x="8" y="40" width="248" height="72" rx="6" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <g transform="translate(20,52) scale(0.66)" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M5 6v13h14v-13"/><path d="M9 11h6"/></g><text x="40" y="64" fill="#A0A0A8" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" letter-spacing=".16em">OUTSIDE EVERY SET</text>
+ <text x="20" y="84" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="11">Any Fresh, Partial, or Wrong-folder result</text>
+ <text x="20" y="100" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="11">points to co-founder-setup and stops there.</text>
+
+ <!-- corner region: two skills genuinely fit -->
+ <rect x="748" y="40" width="248" height="72" rx="6" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <g transform="translate(760,52) scale(0.66)" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h9"/><path d="M10 5l3 3l-3 3"/><path d="M20 16h-9"/><path d="M14 13l-3 3l3 3"/></g><text x="780" y="64" fill="#A0A0A8" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" letter-spacing=".16em">WHEN TWO GENUINELY FIT</text>
+ <text x="760" y="84" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="11">Two skills genuinely fit: help names the</text>
+ <text x="760" y="100" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="11">order to run them in, inside one answer.</text>
+
+ <!-- no third overlap: plan and offer stay disjoint -->
+ <rect x="420" y="564" width="164" height="52" rx="6" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+ <text x="502" y="582" fill="#A0A0A8" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" text-anchor="middle" letter-spacing=".16em">NO THIRD OVERLAP</text>
+ <text x="502" y="598" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="11" font-weight="600" text-anchor="middle">Plan and offer</text>
+ <text x="502" y="611" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="11" text-anchor="middle">never touch.</text>
+
+ <!-- legend strip -->
+ <line x1="8" y1="628" x2="996" y2="628" stroke="#D9D9DE" stroke-width="0.8"/>
+ <text x="8" y="650" fill="#A0A0A8" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" letter-spacing=".16em">LEGEND</text>
+ <circle cx="80" cy="646" r="6" fill="rgba(17,17,17,0.04)" stroke="#111111" stroke-width="1"/>
+ <text x="94" y="650" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="9">one skill's clean territory</text>
+ <rect x="256" y="640" width="16" height="12" rx="3" fill="rgba(107,107,107,0.10)" stroke="#6B6B6B" stroke-width="0.8"/>
+ <text x="280" y="650" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="9">loaded overlap, resolved by intent</text>
+ <rect x="516" y="640" width="16" height="12" rx="3" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="0.8"/>
+ <text x="540" y="650" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="9">the money overlap: the gate help can see now</text>
+</svg>
+
+<div class="col">
+ <section class="card">
+  <div class="hd"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2"/><path d="M9 13h6"/><path d="M9 17h4"/></svg><h2>The third overlap: two receipt legs, one parked initiative</h2></div>
+  <svg class="mini" viewBox="0 0 480 196" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mv2t mv2d">
+   <title id="mv2t">Recall and research as the two receipt legs</title>
+   <desc id="mv2d">Two overlapping sets, recall for the internal receipt and research for the external receipt, meeting where an initiative is parked because a receipt is missing.</desc>
+   <defs>
+    <clipPath id="clipRc"><circle cx="192" cy="100" r="92"/></clipPath>
+    <clipPath id="clipRs"><circle cx="288" cy="100" r="92"/></clipPath>
+   </defs>
+   <rect width="480" height="196" fill="#FFFFFF"/>
+   <circle cx="192" cy="100" r="92" fill="rgba(107,107,107,0.05)"/>
+   <circle cx="288" cy="100" r="92" fill="rgba(160,160,168,0.05)"/>
+   <g clip-path="url(#clipRc)"><g clip-path="url(#clipRs)"><rect width="480" height="196" fill="rgba(249,51,50,0.10)"/></g></g>
+   <circle cx="192" cy="100" r="92" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+   <circle cx="288" cy="100" r="92" fill="none" stroke="#A0A0A8" stroke-width="1"/>
+
+   <text x="4" y="96" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="12" font-weight="600">recall</text>
+   <text x="4" y="110" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" letter-spacing=".14em">INTERNAL</text>
+   <text x="476" y="96" fill="#111111" font-family="'Geist Mono',ui-monospace,monospace" font-size="12" font-weight="600" text-anchor="end">research</text>
+   <text x="476" y="110" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="end" letter-spacing=".14em">EXTERNAL</text>
+
+   <text x="146" y="88" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="10" font-weight="600" text-anchor="middle">The internal</text>
+   <text x="146" y="102" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="10" text-anchor="middle">receipt already</text>
+   <text x="146" y="116" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="10" text-anchor="middle">in the vault.</text>
+
+   <text x="334" y="88" fill="#111111" font-family="'Inter',system-ui,sans-serif" font-size="10" font-weight="600" text-anchor="middle">The external</text>
+   <text x="334" y="102" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="10" text-anchor="middle">receipt, when the</text>
+   <text x="334" y="116" fill="#6B6B6B" font-family="'Inter',system-ui,sans-serif" font-size="10" text-anchor="middle">vault has none.</text>
+
+   <text x="240" y="86" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" font-weight="500" text-anchor="middle" letter-spacing=".14em">PARKED</text>
+   <text x="240" y="102" fill="#F93332" font-family="'Inter',system-ui,sans-serif" font-size="11" font-weight="600" text-anchor="middle">which leg</text>
+   <text x="240" y="118" fill="#6B6B6B" font-family="'Geist Mono',ui-monospace,monospace" font-size="8" text-anchor="middle">is missing?</text>
+  </svg>
+  <div class="chain"><span class="chip"><span class="t">PARKED:</span> internal receipt missing</span><span class="arw">&#8594;</span><span class="chip">measurement or recall</span><span class="arw">&#8594;</span><span class="chip">gauntlet</span></div>
+  <div class="chain"><span class="chip"><span class="t">PARKED:</span> external receipt missing</span><span class="arw">&#8594;</span><span class="chip">research</span><span class="arw">&#8594;</span><span class="chip">gauntlet</span></div>
+  <p>Both legs resolve the parked prerequisite before the owner skill, and both reach offer only <mark>after a SURVIVES verdict</mark>.</p>
+ </section>
+
+ <section class="card">
+  <div class="hd"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14"/><path d="M5 12h14"/><path d="M5 18h9"/></svg><h2>The complete chain comes back in three lines</h2></div>
+  <div class="lines">
+   <div class="line"><div class="k">Now</div><div class="v">The unblocking move</div></div>
+   <div class="line"><div class="k">Then</div><div class="v">The gate it feeds</div></div>
+   <div class="line"><div class="k">After the gate</div><div class="v">The owner skill</div></div>
+  </div>
+  <p>For "I want to charge 1,500. Set it up." against a price initiative parked on delivery evidence, the answer starts with that measurement, continues to the gauntlet, and <mark>reaches offer only after the gate survives</mark>.</p>
+ </section>
+
+ <section class="card">
+  <div class="hd"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M9 12h6"/></svg><h2>Where the routing stops</h2></div>
+  <ul>
+   <li><mark>Help answers the current prompt and stops.</mark> A new prompt replaces the prior routing task.</li>
+   <li>It never starts steward, review, or an unrelated audit before returning the route.</li>
+   <li>Never send the founder offer, then gauntlet, for a gate help could see now.</li>
+   <li>Ask before you assert: no quantity, duration, sample size, date, or causal motive in prose <mark>without a receipt</mark>.</li>
+  </ul>
+ </section>
+</div>
+</div>
+
+<div class="foot">
+ <span>/co-founder &#183; help &#183; the overlap map</span>
+ <span>3 loaded collisions &#183; 1 answer &#183; 0 questions left between two skills</span>
+</div>

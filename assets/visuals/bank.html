@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>bank · what a banked lesson is made of</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper:#F4F4F5; --paper-2:#EFEFF2; --card:#FFFFFF; --ink:#111111;
+    --muted:#6B6B6B; --soft:#A0A0A8; --rule:#D9D9DE; --rule-solid:#C4C4CA;
+    --accent:#F93332;
+    --sans:'Inter',system-ui,sans-serif;
+    --display:'Space Grotesk',system-ui,sans-serif;
+    --mono:'Geist Mono',ui-monospace,monospace;
+  }
+  html, body { width:1600px; height:900px; overflow:hidden; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans);
+         padding: 20px 32px; display:flex; flex-direction:column; gap:12px; }
+
+  mark { background: linear-gradient(103deg,
+            rgba(249,51,50,0) 0%, rgba(249,51,50,0.20) 3%,
+            rgba(249,51,50,0.16) 97%, rgba(249,51,50,0) 100%);
+         display:inline-block; transform: rotate(-1deg); padding:0 3px; color:inherit; }
+
+  /* ---------- header ---------- */
+  .head { display:flex; align-items:flex-start; justify-content:space-between; gap:32px; height:124px; }
+  .head-l { max-width:1010px; }
+  .eyebrow { font-family:var(--mono); font-size:10px; font-weight:500; letter-spacing:0.16em;
+             text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .eyebrow .sep { color:var(--rule-solid); }
+  h1 { font-family:var(--display); font-size:36px; font-weight:500; letter-spacing:-0.02em;
+       line-height:1.1; margin-bottom:10px; }
+  .sub { font-size:13px; line-height:1.5; color:#3A3A3E; max-width:1000px; }
+
+  .legend { width:452px; background:var(--card); border:1px solid var(--rule); border-radius:8px;
+            padding:12px 14px; }
+  .legend .lab { font-family:var(--mono); font-size:8px; letter-spacing:0.16em; text-transform:uppercase;
+                 color:var(--soft); margin-bottom:8px; }
+  .legend .grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 16px; }
+  .legend .row { display:flex; align-items:center; gap:8px; font-size:11px; color:var(--muted); }
+  .legend .key { font-family:var(--mono); font-size:10px; font-weight:600; color:var(--ink);
+                 min-width:36px; }
+  .swatch { width:16px; height:11px; border-radius:3px; flex:none; }
+
+  /* ---------- hero ---------- */
+  .hero { background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:16px; }
+  .hero svg { display:block; width:1504px; height:464px; }
+
+  /* ---------- bottom ---------- */
+  .cards { display:grid; grid-template-columns:1.16fr 1fr 1.04fr; gap:12px; height:220px; }
+  .c { background:var(--card); border:1px solid var(--rule); border-radius:8px; padding:14px 16px;
+       display:flex; flex-direction:column; }
+  .c .top { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .c .tag { font-family:var(--mono); font-size:9px; letter-spacing:0.16em; text-transform:uppercase;
+            color:var(--muted); }
+  .c h3 { font-family:var(--display); font-size:15px; font-weight:600; letter-spacing:-0.01em;
+          margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--rule); }
+  .c p { font-size:12px; line-height:1.55; color:#3A3A3E; margin-bottom:6px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; }
+  .chip { font-family:var(--mono); font-size:10px; font-weight:500; color:var(--ink);
+          background:var(--paper-2); border:1px solid var(--rule); border-radius:4px; padding:3px 7px; }
+  .chip .r { color:var(--accent); }
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <div class="head-l">
+      <div class="eyebrow">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h7l3 3v9H3z"/><path d="M6 7h4"/><path d="M6 10h2"/></svg>
+        <span>/co-founder:bank</span><span class="sep">·</span><span>er · the record behind the note</span>
+      </div>
+      <h1>A banked lesson is <mark>a linked record, not a note</mark>.</h1>
+      <p class="sub">One learning page carries what it cost and what it returned, and every field on it points somewhere:
+      to the raw session receipt that proves it, to the initiative Log that earned it, to the index row, the fixed hub, and the
+      log row that make it findable next month. <mark>An event that ends only in chat history</mark> is an event the business forgets; a banked one lands where recall will find it.</p>
+    </div>
+    <div class="legend">
+      <div class="lab">Notation</div>
+      <div class="grid">
+        <div class="row"><span class="key">#</span>Primary path of the record.</div>
+        <div class="row"><span class="key">&#8594;</span>Pointer to another record.</div>
+        <div class="row"><span class="key">1 / N</span>Cardinality at each end.</div>
+        <div class="row"><span class="key">[req]</span>Blank fails the write.</div>
+        <div class="row"><span class="swatch" style="background:rgba(249,51,50,0.10); border:1px solid #F93332;"></span>Aggregate root.</div>
+        <div class="row"><span class="swatch" style="background:#FFFFFF; border:1px solid #111111;"></span>Related record.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <svg viewBox="0 0 1504 464" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="bankv2-title bankv2-desc">
+      <title id="bankv2-title">bank · what a banked lesson is made of</title>
+      <desc id="bankv2-desc">Entity-relationship map of the bank skill: a learning page with cost, result, status, supersedes and receipt fields sits at the centre, proved by an immutable raw session receipt, triggered by a queue entry, and linked to a decision page, an index row, a fixed hub, a log row, and the initiative whose state flip it guards.</desc>
+
+      <!-- ============ RELATIONS (drawn first) ============ -->
+      <!-- L1 queue -> learning -->
+      <line x1="256" y1="92" x2="328" y2="92" stroke="#6B6B6B" stroke-width="1"/>
+      <!-- L2 receipt -> learning (accent) -->
+      <line x1="256" y1="200" x2="328" y2="200" stroke="#F93332" stroke-width="1.5"/>
+      <!-- L3 receipt -> decision -->
+      <path d="M256,268 H264 Q272,268 272,276 V324 Q272,332 280,332 H328" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+      <!-- L4 learning -> index -->
+      <line x1="672" y1="76" x2="768" y2="76" stroke="#6B6B6B" stroke-width="1"/>
+      <!-- L5 learning -> initiative -->
+      <path d="M672,212 H1072 Q1080,212 1080,220 V260 Q1080,268 1088,268 H1112" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+      <!-- L6 learning -> log -->
+      <path d="M672,240 H688 Q696,240 696,248 V316 Q696,324 704,324 H768" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+      <!-- L7 decision -> log -->
+      <path d="M672,348 H728 Q736,348 736,356 V372 Q736,380 744,380 H768" fill="none" stroke="#6B6B6B" stroke-width="1"/>
+      <!-- L8 hub -> initiative -->
+      <line x1="1300" y1="140" x2="1300" y2="184" stroke="#6B6B6B" stroke-width="1"/>
+
+      <!-- ============ RELATION LABELS (above) ============ -->
+      <rect x="268" y="72" width="48" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="292" y="81" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.1em">TRIGGERS</text>
+
+      <rect x="268" y="180" width="48" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="292" y="189" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.1em">PROVES</text>
+
+      <rect x="696" y="56" width="48" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="720" y="65" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.1em">LISTED</text>
+
+      <rect x="840" y="192" width="72" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="876" y="201" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.1em">LINKED FROM</text>
+
+      <rect x="706" y="304" width="48" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="730" y="313" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.1em">APPENDED</text>
+
+      <rect x="1312" y="150" width="48" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="1336" y="159" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.1em">BUCKET</text>
+
+      <!-- ============ CARDINALITIES (below) ============ -->
+      <rect x="260" y="100" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="267" y="110" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="298" y="100" width="26" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="311" y="110" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">0..1</text>
+
+      <rect x="260" y="208" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="267" y="218" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="306" y="208" width="16" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="314" y="218" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">N</text>
+
+      <rect x="258" y="248" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="265" y="258" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="300" y="340" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="307" y="350" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+
+      <rect x="676" y="84" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="683" y="94" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="748" y="84" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="755" y="94" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+
+      <rect x="676" y="220" width="16" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="684" y="230" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">N</text>
+      <rect x="1090" y="276" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="1097" y="286" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+
+      <rect x="676" y="248" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="683" y="258" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="722" y="332" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="729" y="342" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+
+      <rect x="676" y="356" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="683" y="366" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="744" y="388" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="751" y="398" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+
+      <rect x="1276" y="144" width="14" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="1283" y="154" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">1</text>
+      <rect x="1276" y="168" width="16" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="1284" y="178" fill="#6B6B6B" font-size="10" font-weight="600" font-family="'Geist Mono',monospace" text-anchor="middle">N</text>
+
+      <!-- ============ ENTITY: queue.md entry ============ -->
+      <rect x="16" y="8" width="240" height="132" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="16" y="8" width="240" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="16" y="40" width="240" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="16" y1="48" x2="256" y2="48" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="32" y="26" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · CROSS-SKILL</text>
+      <text x="32" y="41" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">queue.md entry</text>
+      <g transform="translate(224,14)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5 L8 2 L14 5 L8 8 Z"/><path d="M2 9 L8 12 L14 9"/></g>
+      <text x="32" y="68" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+      <text x="240" y="68" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">stable</text>
+      <text x="32" y="88" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">status</text>
+      <text x="240" y="88" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">pending -&gt; done</text>
+      <text x="32" y="108" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">to</text>
+      <text x="240" y="108" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">bank</text>
+      <text x="32" y="128" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">output_paths</text>
+      <text x="240" y="128" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">on done only</text>
+
+      <!-- ============ ENTITY: raw session receipt ============ -->
+      <rect x="16" y="156" width="240" height="152" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="16" y="156" width="240" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="16" y="188" width="240" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="16" y1="196" x2="256" y2="196" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="32" y="174" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · IMMUTABLE</text>
+      <text x="32" y="189" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">Raw session receipt</text>
+      <g transform="translate(224,162)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h7l3 3v9H3z"/><path d="M6 8h5"/><path d="M6 11h3"/></g>
+      <text x="32" y="216" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="240" y="216" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">raw/inbox/&lt;file&gt;</text>
+      <text x="32" y="236" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">anchor</text>
+      <text x="240" y="236" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">#&lt;exact words&gt;</text>
+      <text x="32" y="256" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">match</text>
+      <text x="240" y="256" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">verbatim substring</text>
+      <text x="32" y="276" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">cited in</text>
+      <text x="240" y="276" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">the page it backs</text>
+      <text x="32" y="296" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">none</text>
+      <text x="240" y="296" fill="#F93332" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">no decision page</text>
+
+      <!-- ============ CALLOUT: the receipts law ============ -->
+      <rect x="16" y="328" width="240" height="108" rx="6" fill="#FFFFFF" stroke="#D9D9DE" stroke-width="1"/>
+      <rect x="17" y="336" width="3" height="92" rx="1.5" fill="#F93332"/>
+      <text x="32" y="350" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">THE RECEIPTS LAW</text>
+      <text x="32" y="374" fill="#111111" font-size="12" font-family="'Inter',sans-serif">A file path with blank totals</text>
+      <text x="32" y="392" fill="#111111" font-size="12" font-family="'Inter',sans-serif">is not a receipt.</text>
+      <text x="32" y="414" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace">Reopen the tracker row.</text>
+      <text x="32" y="428" fill="#6B6B6B" font-size="9" font-family="'Geist Mono',monospace">Quote it, or write not recorded.</text>
+
+      <!-- ============ ENTITY: learning page (FOCAL) ============ -->
+      <rect x="328" y="8" width="344" height="260" rx="6" fill="rgba(249,51,50,0.04)" stroke="#F93332" stroke-width="1"/>
+      <rect x="328" y="8" width="344" height="40" rx="6" fill="rgba(249,51,50,0.10)"/>
+      <rect x="328" y="40" width="344" height="8" fill="rgba(249,51,50,0.10)"/>
+      <line x1="328" y1="48" x2="672" y2="48" stroke="rgba(249,51,50,0.40)" stroke-width="1"/>
+      <text x="344" y="26" fill="#F93332" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · AGGREGATE ROOT</text>
+      <text x="344" y="41" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">Learning page</text>
+      <g transform="translate(640,14)" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h7l3 3v9H3z"/><circle cx="8" cy="9" r="2.6"/></g>
+      <text x="344" y="68" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="656" y="68" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">wiki/learnings/&lt;note&gt;.md</text>
+      <text x="344" y="88" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">type</text>
+      <text x="656" y="88" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">learning</text>
+      <text x="344" y="108" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">title</text>
+      <text x="656" y="108" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">says the insight plainly</text>
+      <text x="344" y="128" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">status</text>
+      <text x="656" y="128" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">[req] </tspan>high | medium | low</text>
+      <text x="344" y="148" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">created</text>
+      <text x="656" y="148" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">the day it was banked</text>
+      <text x="344" y="168" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">updated</text>
+      <text x="656" y="168" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">bumped on every fold-in</text>
+      <text x="344" y="188" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">cost</text>
+      <text x="656" y="188" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">[req] </tspan>"2 hrs" · "3 wks" · $</text>
+      <text x="344" y="208" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">result</text>
+      <text x="656" y="208" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">[req] </tspan>"4% -&gt; 9% on 50 sends"</text>
+      <text x="344" y="228" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">&#8594; supersedes</text>
+      <text x="656" y="228" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">0..1 self · old claim kept</text>
+      <text x="344" y="248" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">&#8594; receipt</text>
+      <text x="656" y="248" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">[req] </tspan>or "not recorded"</text>
+
+      <!-- ============ ENTITY: decision page ============ -->
+      <rect x="328" y="284" width="344" height="152" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="328" y="284" width="344" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="328" y="316" width="344" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="328" y1="324" x2="672" y2="324" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="344" y="302" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · T1 CONSENT SURFACE</text>
+      <text x="344" y="317" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">Decision page</text>
+      <g transform="translate(640,290)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14 V9"/><path d="M8 9 H3 V4"/><path d="M8 9 H13 V4"/></g>
+      <text x="344" y="344" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="656" y="344" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">wiki/decisions/&lt;call&gt;.md</text>
+      <text x="344" y="364" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">type</text>
+      <text x="656" y="364" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">decision</text>
+      <text x="344" y="384" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">bar</text>
+      <text x="656" y="384" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">hard to reverse · surprising · a tradeoff</text>
+      <text x="344" y="404" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">body</text>
+      <text x="656" y="404" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">1-3 sentences, dated</text>
+      <text x="344" y="424" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">&#8594; receipt</text>
+      <text x="656" y="424" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">[req] </tspan>the founder's exact words</text>
+
+      <!-- ============ ENTITY: index.md row ============ -->
+      <rect x="768" y="8" width="272" height="132" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="768" y="8" width="272" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="768" y="40" width="272" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="768" y1="48" x2="1040" y2="48" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="784" y="26" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · CATALOG</text>
+      <text x="784" y="41" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">index.md row</text>
+      <g transform="translate(1008,14)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h10"/><path d="M3 8h10"/><path d="M3 12h6"/></g>
+      <text x="784" y="68" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="1024" y="68" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">index.md</text>
+      <text x="784" y="88" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">row</text>
+      <text x="1024" y="88" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">link + one-line summary</text>
+      <text x="784" y="108" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">searched</text>
+      <text x="1024" y="108" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">first, for a duplicate</text>
+      <text x="784" y="128" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">recall</text>
+      <text x="1024" y="128" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">finds it here next month</text>
+
+      <!-- ============ ENTITY: log.md row ============ -->
+      <rect x="768" y="284" width="272" height="152" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="768" y="284" width="272" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="768" y="316" width="272" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="768" y1="324" x2="1040" y2="324" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="784" y="302" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · HISTORY</text>
+      <text x="784" y="317" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">log.md row</text>
+      <g transform="translate(1008,290)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h6l3 3v9H4z"/><path d="M6 8h5"/><path d="M6 11h3"/></g>
+      <text x="784" y="344" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="1024" y="344" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">log.md</text>
+      <text x="784" y="364" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">row</text>
+      <text x="1024" y="364" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">## [date] verb | title</text>
+      <text x="784" y="384" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">verb</text>
+      <text x="1024" y="384" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">learning · decision · debrief</text>
+      <text x="784" y="404" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">order</text>
+      <text x="1024" y="404" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">append-only, newest last</text>
+      <text x="784" y="424" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">rows</text>
+      <text x="1024" y="424" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">one per event</text>
+
+      <!-- ============ ENTITY: fixed hub ============ -->
+      <rect x="1112" y="8" width="376" height="132" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="1112" y="8" width="376" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="1112" y="40" width="376" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="1112" y1="48" x2="1488" y2="48" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="1128" y="26" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · FIXED HUB</text>
+      <text x="1128" y="41" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">hub/&lt;section&gt;.md</text>
+      <g transform="translate(1456,14)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h4v4H3z"/><path d="M9 3h4v4H9z"/><path d="M3 9h4v4H3z"/><path d="M9 9h4v4H9z"/></g>
+      <text x="1128" y="68" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="1472" y="68" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">hub/&lt;section&gt;.md · seven, fixed by setup</text>
+      <text x="1128" y="88" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">links</text>
+      <text x="1472" y="88" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">the banked note, by section</text>
+      <text x="1128" y="108" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">searched</text>
+      <text x="1472" y="108" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">at every destination the event touches</text>
+      <text x="1128" y="128" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">buckets</text>
+      <text x="1472" y="128" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">one per initiative state</text>
+
+      <!-- ============ ENTITY: initiative ============ -->
+      <rect x="1112" y="184" width="376" height="252" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+      <rect x="1112" y="184" width="376" height="40" rx="6" fill="rgba(17,17,17,0.04)"/>
+      <rect x="1112" y="216" width="376" height="8" fill="rgba(17,17,17,0.04)"/>
+      <line x1="1112" y1="224" x2="1488" y2="224" stroke="rgba(17,17,17,0.20)" stroke-width="1"/>
+      <text x="1128" y="202" fill="#6B6B6B" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">ENTITY · LIFECYCLE OWNER</text>
+      <text x="1128" y="217" fill="#111111" font-size="14" font-weight="600" font-family="'Inter',sans-serif">Initiative file</text>
+      <g transform="translate(1456,190)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V2"/><path d="M4 3h8l-2 3 2 3H4"/></g>
+      <text x="1128" y="244" fill="#111111" font-size="10" font-family="'Geist Mono',monospace"># path</text>
+      <text x="1472" y="244" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">wiki/initiatives/&lt;name&gt;.md</text>
+      <text x="1128" y="264" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">state</text>
+      <text x="1472" y="264" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">reviewed -&gt; banked</tspan> · bank owns this arrow</text>
+      <text x="1128" y="284" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">size</text>
+      <text x="1472" y="284" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">set upstream, untouched here</text>
+      <text x="1128" y="304" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">reopens</text>
+      <text x="1472" y="304" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">a closed predecessor path or null</text>
+      <text x="1128" y="324" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">Log</text>
+      <text x="1472" y="324" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">one dated line per banked event</text>
+      <text x="1128" y="344" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">&#8594; learning</text>
+      <text x="1472" y="344" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end"><tspan fill="#F93332">[req] </tspan>its exact path, linked from here</text>
+      <text x="1128" y="364" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">guard</text>
+      <text x="1472" y="364" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">1+ learning page filed or updated</text>
+      <text x="1128" y="384" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">cannot flip</text>
+      <text x="1472" y="384" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">a decision-only or debrief-only run</text>
+      <text x="1128" y="404" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">on flip</text>
+      <text x="1472" y="404" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">hub bucket + index + baton projections</text>
+      <text x="1128" y="424" fill="#111111" font-size="10" font-family="'Geist Mono',monospace">gate</text>
+      <text x="1472" y="424" fill="#6B6B6B" font-size="10" font-family="'Geist Mono',monospace" text-anchor="end">scripts/graph-audit exits zero</text>
+    </svg>
+  </div>
+
+  <div class="cards">
+    <div class="c">
+      <div class="top">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v12"/><path d="M11 5H6.5a2 2 0 0 0 0 4h3a2 2 0 0 1 0 4H5"/></svg>
+        <span class="tag">Step 1 · the money fields</span>
+      </div>
+      <h3>Every lesson carries its price tag.</h3>
+      <p><b>cost</b> takes dollars when they are real, and <mark>time always counts</mark> ("2 hrs", "3 wks"). <b>result</b> takes what happened, in numbers where numbers exist ("reply rate 4% -&gt; 9% on 50 sends"). <b>status</b> reads high only when the result would likely repeat.</p>
+      <p>What failed gets written as a failure, in plain words. <mark>A flop reported as "mixed results"</mark> poisons every future recall that touches it.</p>
+      <div class="chips">
+        <span class="chip">not recorded</span>
+        <span class="chip">founder-stated: <span class="r">unverified</span></span>
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="top">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2l5 2v4c0 3-2.2 5.2-5 6-2.8-.8-5-3-5-6V4z"/><path d="M6 8l1.6 1.6L10.5 6.8"/></svg>
+        <span class="tag">The admission gate</span>
+      </div>
+      <h3>Ask before you assert.</h3>
+      <p>Reopen and quote the actual tracker or log row, and <mark>recompute calculated values</mark> from named inputs. Never present a quantity, duration, sample size, date, or causal motive in prose before asking the founder for it or citing a receipt for it.</p>
+      <p>Unknown effort or sample size stays blank on purpose: <mark>the note shape never justifies guessing</mark>.</p>
+      <div class="chips">
+        <span class="chip">recheck original sources</span>
+        <span class="chip">no guessing unattended</span>
+      </div>
+    </div>
+
+    <div class="c">
+      <div class="top">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a5 5 0 0 1 9-3"/><path d="M13 4v4h-4"/><path d="M13 6a5 5 0 0 1-9 3"/></svg>
+        <span class="tag">Dedupe · supersession</span>
+      </div>
+      <h3>One canonical truth, with its history visible.</h3>
+      <p>Search the index, the fixed hub, and the target folder first. Found substantially the same ground: <mark>update it, never clone it</mark> — fold the new evidence in, adjust the confidence, bump <b>updated</b>.</p>
+      <p>When today's evidence reverses yesterday's note, the note becomes the current truth and the old claim is kept as superseded, with why. <mark>Near-duplicates are how a vault rots</mark> into a junk drawer.</p>
+      <div class="chips">
+        <span class="chip">supersedes: <span class="r">&lt;old claim&gt;</span></span>
+        <span class="chip">scripts/graph-audit <span class="r">-&gt; exit 0</span></span>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

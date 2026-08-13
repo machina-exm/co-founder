@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>vision · the interrogation stack</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --paper:#F4F4F5; --paper2:#EFEFF2; --card:#FFFFFF;
+    --ink:#111111; --muted:#6B6B6B; --soft:#A0A0A8;
+    --rule:#D9D9DE; --rule2:#C4C4CA;
+    --accent:#F93332; --tint:rgba(249,51,50,0.10);
+    --sans:'Inter', system-ui, sans-serif;
+    --grot:'Space Grotesk', system-ui, sans-serif;
+    --mono:'Geist Mono', ui-monospace, monospace;
+  }
+  html,body{ width:1600px; height:900px; overflow:hidden; }
+  body{ background:var(--paper); color:var(--ink); font-family:var(--sans);
+        padding:26px 36px 18px; display:flex; flex-direction:column; }
+
+  mark{ background:linear-gradient(102deg, rgba(249,51,50,0.00) 0%, rgba(249,51,50,0.18) 4%,
+        rgba(249,51,50,0.18) 96%, rgba(249,51,50,0.00) 100%);
+        color:inherit; display:inline-block; transform:rotate(-1deg); padding:0 3px; border-radius:2px; }
+
+  header{ margin-bottom:14px; }
+  .eyebrow{ font-family:var(--mono); font-size:10px; font-weight:500; letter-spacing:0.16em;
+            text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  h1{ font-family:var(--grot); font-size:34px; font-weight:500; letter-spacing:-0.015em;
+      line-height:1.06; margin-bottom:8px; white-space:nowrap; }
+  .sub{ font-size:14px; line-height:1.45; color:var(--muted); max-width:132ch; }
+
+  .middle{ flex:1; display:grid; grid-template-columns:336px 1fr 396px; gap:18px; min-height:0; }
+  .col{ display:flex; flex-direction:column; gap:12px; min-height:0; }
+  .panel{ background:var(--card); border:1px solid var(--rule); border-radius:8px;
+          padding:13px 15px; display:flex; flex-direction:column; min-height:0; }
+  .col > .panel{ flex:1; }
+  .p-eyebrow{ font-family:var(--mono); font-size:8.5px; font-weight:500; letter-spacing:0.16em;
+              text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+  .p-head{ display:flex; align-items:center; gap:7px; padding-bottom:7px; margin-bottom:7px;
+           border-bottom:1px solid var(--rule); }
+  .p-head h3{ font-family:var(--grot); font-size:14px; font-weight:600; letter-spacing:-0.005em; }
+  .panel p{ font-size:11.5px; line-height:1.45; color:#3C3C42; }
+  .panel p + p{ margin-top:6px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; padding-top:9px; }
+  .chip{ font-family:var(--mono); font-size:9.5px; background:var(--paper2); border:1px solid var(--rule);
+         border-radius:4px; padding:3px 6px; color:#2A2A2E; white-space:nowrap; }
+  .tok{ color:var(--accent); }
+  .secs{ display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
+  .sec{ font-family:var(--mono); font-size:9.5px; border:1px solid var(--rule); border-radius:4px;
+        padding:3px 6px; color:#2A2A2E; background:#FFFFFF; }
+  .sec.f{ border-color:var(--accent); background:var(--tint); color:var(--ink); }
+
+  .hero{ background:var(--card); border:1px solid var(--rule); border-radius:8px;
+         padding:8px 10px; display:flex; min-height:0; }
+  .hero svg{ width:100%; height:100%; display:block; }
+
+  .bottom{ height:150px; display:grid; grid-template-columns:1.12fr 1fr 1fr 0.94fr; gap:16px; margin-top:12px; }
+
+  footer{ height:20px; display:flex; justify-content:space-between; align-items:flex-end;
+          font-family:var(--mono); font-size:9.5px; letter-spacing:0.08em; color:var(--soft);
+          border-top:1px solid var(--rule); padding-top:5px; margin-top:8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Pyramid · /co-founder:vision · the interrogation stack</p>
+  <h1>Five interrogation layers narrow a fuzzy picture into <mark>one founder-owned target</mark>.</h1>
+  <p class="sub">Every layer is a real interview layer, and nothing is chosen for the founder: the quarter target at the apex stays theirs, labelled founder-stated until evidence verifies it.</p>
+</header>
+
+<div class="middle">
+
+  <!-- LEFT COLUMN -->
+  <div class="col">
+    <div class="panel">
+      <p class="p-eyebrow">Step 0 · preflight</p>
+      <div class="p-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 4v5c0 4-3 7.5-7 9c-4-1.5-7-5-7-9V7z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg>
+        <h3>Ready, or nothing gets written</h3>
+      </div>
+      <p>A Fresh, Partial, or Wrong-folder result routes to setup — re-sync for Partial — and <mark>stops without writing</mark>. On Ready, the charter and its path map are read before the vault, and every path comes from that charter.</p>
+      <div class="chips"><span class="chip">CONVENTIONS.md</span><span class="chip">/co-founder:co-founder-setup</span></div>
+    </div>
+
+    <div class="panel">
+      <p class="p-eyebrow">Step 1 · stub intake</p>
+      <div class="p-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"/><path d="M14 3v4h4"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+        <h3>The stub is input, never the vision</h3>
+      </div>
+      <p>A stub may carry business, audience, quarter goal, and founder laws: they map into a candidate direction, candidate sacrifices, and This quarter. <mark>Diagnosis and sacrifice are in no stub</mark> — the interview elicits them.</p>
+      <div class="chips"><span class="chip">wiki/business/vision-stub.md</span></div>
+    </div>
+
+    <div class="panel">
+      <p class="p-eyebrow">Step 3 · the checkpoint</p>
+      <div class="p-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 9h7"/><path d="M7 12.5h4"/></svg>
+        <h3>One screen, judgeable without homework</h3>
+      </div>
+      <p>The diagnosis in 2 lines, the direction in 2-3, the not-list, the quarter goal in 1 line, and anything that needs their call. Corrections integrate and the whole screen re-presents: <mark>a revision is never a confirmation</mark>.</p>
+      <div class="chips"><span class="chip">Needs your call</span><span class="chip">Working hypothesis: <span class="tok">unverified</span></span></div>
+    </div>
+  </div>
+
+  <!-- HERO PYRAMID -->
+  <div class="hero">
+    <svg viewBox="0 0 740 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"
+         role="img" aria-labelledby="vision-v2-title vision-v2-desc">
+      <title id="vision-v2-title">The vision interrogation pyramid</title>
+      <desc id="vision-v2-desc">A five-layer pyramid: the fuzzy picture and the vault at the base, narrowed by diagnosis, direction, and sacrifice, up to a single founder-stated quarter goal at the apex, with the whole stack written out as one vision file.</desc>
+
+      <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+      <!-- side note: parameter gate (upper left dead corner) -->
+      <g>
+        <g transform="translate(8,52)" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="6.5"/><path d="M8 5v4"/><path d="M8 11.5v.01"/>
+        </g>
+        <text x="32" y="64" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">PARAMETER GATE</text>
+        <text x="8" y="84" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif">When evidence invalidates the old number and no</text>
+        <text x="8" y="100" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif">replacement is supplied, ask for it in one question</text>
+        <text x="8" y="116" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif">or park it. Never silently choose the new target.</text>
+      </g>
+
+      <!-- side note: one question per turn (upper right dead corner) -->
+      <g>
+        <g transform="translate(488,52)" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.5 3H3.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H6l2.5 3l2.5-3h3.5a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/>
+        </g>
+        <text x="512" y="64" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.16em">ONE QUESTION PER TURN</text>
+        <text x="488" y="84" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif">Every question carries a working hypothesis so the</text>
+        <text x="488" y="100" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif">founder can react to something. It becomes strategy</text>
+        <text x="488" y="116" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif">advice only after it clears the receipts contract.</text>
+      </g>
+
+      <!-- axis: distillation direction (left flank, clear of the base) -->
+      <g>
+        <line x1="24" y1="292" x2="24" y2="188" stroke="#C4C4CA" stroke-width="1"/>
+        <polygon points="20,188 28,188 24,176" fill="#A0A0A8"/>
+        <text x="16" y="240" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace"
+              letter-spacing="0.16em" text-anchor="middle" transform="rotate(-90 16 240)">HARDER TO ANSWER · FEWER WORDS SURVIVE</text>
+      </g>
+
+      <!-- writes arrow (vertical, shares x with apex axis) -->
+      <line x1="360" y1="528" x2="360" y2="548" stroke="#F93332" stroke-width="1.5" marker-end="url(#av2-arrow)"/>
+      <defs>
+        <marker id="av2-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#F93332"/>
+        </marker>
+      </defs>
+      <rect x="368" y="532" width="44" height="12" rx="2" fill="#FFFFFF"/>
+      <text x="372" y="541" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">WRITES</text>
+
+      <!-- L5 base: the fuzzy picture -->
+      <polygon points="72,432 648,432 712,528 8,528" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="360" y="472" fill="#111111" font-size="13" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">The fuzzy picture, plus everything already on record</text>
+      <text x="360" y="492" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif" text-anchor="middle">The vault goes first: past learnings, the decision log, and the current numbers inform every working hypothesis offered.</text>
+      <text x="360" y="516" fill="#6B6B6B" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">day zero with an empty vault works too — the interview IS the input</text>
+
+      <!-- L4: diagnosis -->
+      <polygon points="136,336 584,336 648,432 72,432" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="360" y="376" fill="#111111" font-size="13" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">Diagnosis — what is actually going on</text>
+      <text x="360" y="396" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif" text-anchor="middle">The real constraint holding the business back, in one honest sentence, pushed past the symptom.</text>
+      <text x="360" y="412" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif" text-anchor="middle">"Nobody knows the offer exists" is a different business than "people look and don't buy".</text>
+      <text x="360" y="428" fill="#6B6B6B" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">evidence beats aspiration — probe for the receipt behind it</text>
+
+      <!-- L3: direction -->
+      <polygon points="200,240 520,240 584,336 136,336" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="360" y="280" fill="#111111" font-size="13" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">Direction — the guiding policy</text>
+      <text x="360" y="300" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif" text-anchor="middle">The kind of moves this business makes, and for whom.</text>
+      <text x="360" y="320" fill="#6B6B6B" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">gap probes: who has actually paid? what would you bet a month on?</text>
+
+      <!-- L2: sacrifice -->
+      <polygon points="264,144 456,144 520,240 200,240" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+      <text x="360" y="184" fill="#111111" font-size="13" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">Sacrifice — what this gives up</text>
+      <text x="360" y="204" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif" text-anchor="middle">At least one real thing on the record the business</text>
+      <text x="360" y="220" fill="#3C3C42" font-size="11" font-family="Inter, sans-serif" text-anchor="middle">will not chase this year, in the founder's words.</text>
+      <text x="360" y="236" fill="#6B6B6B" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="middle">a vision with no sacrifice is a wish</text>
+
+      <!-- L1 apex: the quarter goal (focal) -->
+      <polygon points="328,48 392,48 456,144 264,144" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+      <text x="360" y="104" fill="#111111" font-size="13" font-weight="600" font-family="Inter, sans-serif" text-anchor="middle">This quarter</text>
+      <text x="360" y="122" fill="#3C3C42" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">ONE goal, measurable</text>
+      <line x1="444" y1="136" x2="480" y2="136" stroke="#F93332" stroke-width="1"/>
+      <text x="488" y="140" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.12em">FOUNDER-STATED: UNVERIFIED</text>
+
+      <!-- output plate -->
+      <rect x="8" y="552" width="704" height="40" rx="6" fill="#FFFFFF" stroke="#F93332" stroke-width="1"/>
+      <g transform="translate(24,562)" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12.5 2H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V4.5z"/><path d="M12.5 2v3h3"/>
+      </g>
+      <text x="56" y="571" fill="#111111" font-size="12" font-weight="600" font-family="Inter, sans-serif">wiki/business/vision.md</text>
+      <text x="56" y="586" fill="#3C3C42" font-size="10.5" font-family="Inter, sans-serif">Under 40 lines, base-five frontmatter, revised deliberately and never re-litigated by accident.</text>
+      <text x="700" y="577" fill="#6B6B6B" font-size="9.5" font-family="'Geist Mono', monospace" text-anchor="end">type: business</text>
+
+      <!-- honesty note -->
+      <text x="8" y="546" fill="#A0A0A8" font-size="9" font-family="'Geist Mono', monospace" letter-spacing="0.06em">LAYER WIDTH IS HONEST — EACH ANSWER SURVIVES AS LESS</text>
+    </svg>
+  </div>
+
+  <!-- RIGHT COLUMN -->
+  <div class="col">
+    <div class="panel">
+      <p class="p-eyebrow">Step 4 · what lands on disk</p>
+      <div class="p-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6a1 1 0 0 1 1-1h5l2 2h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M9 13h6"/></svg>
+        <h3>Six sections, then the catalog closes</h3>
+      </div>
+      <p>Every factual or causal line carries its calculation, its exact quoted receipt, or a <mark>founder-stated label</mark>.</p>
+      <div class="secs">
+        <span class="sec">Diagnosis</span><span class="sec">Direction</span><span class="sec">What we're not doing</span><span class="sec f">This quarter</span><span class="sec">Review rhythm</span><span class="sec">Claim receipts</span>
+      </div>
+      <div class="chips"><span class="chip">## [date] vision | &lt;one-line direction&gt;</span></div>
+    </div>
+
+    <div class="panel">
+      <p class="p-eyebrow">The receipts gate</p>
+      <div class="p-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v2.5"/></svg>
+        <h3>Cleared, or parked and said so</h3>
+      </div>
+      <p>A direction is cleared only when the internal receipt points <mark>outside initiative and content output</mark>, the external receipt points to a dated research file, and graph-audit verifies both. Otherwise the state is parked and the direction is not presented as ratified strategy.</p>
+      <div class="chips"><span class="chip">strategy_state: <span class="tok">parked</span></span><span class="chip">internal_receipt</span><span class="chip">external_receipt</span></div>
+    </div>
+
+    <div class="panel">
+      <p class="p-eyebrow">Mandatory filing gate</p>
+      <div class="p-head">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v4h-4"/><path d="M9.5 12l1.8 1.8L15 10"/></svg>
+        <h3>It reruns until it exits zero</h3>
+      </div>
+      <p>graph-audit runs on every touched durable file. Every violation is fixed and it runs again: <mark>the vision write stays incomplete until it exits zero</mark>.</p>
+      <div class="chips"><span class="chip"><span class="tok">scripts/graph-audit</span></span><span class="chip">index.md</span><span class="chip">hub/business.md</span><span class="chip">log.md</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM STRIP -->
+<div class="bottom">
+  <div class="panel">
+    <p class="p-eyebrow">Revisions</p>
+    <div class="p-head">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><path d="M12 8v4.5l3 1.8"/></svg>
+      <h3>The business remembers what it used to believe</h3>
+    </div>
+    <p>A revision runs the same interview on what changed. A direction change that is hard to reverse, surprising, and a real tradeoff earns a decision row with its why, and the old text survives inside the file under <mark>Superseded &lt;date&gt;</mark>.</p>
+  </div>
+
+  <div class="panel">
+    <p class="p-eyebrow">The stub close</p>
+    <div class="p-head">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7L11.5 6"/><path d="M14 11a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 0 0 5.7 5.7L12.5 18"/></svg>
+      <h3>Four changes, one close</h3>
+    </div>
+    <p>On the first canonical write the stub link is replaced in the catalog and the business hub, the stub file is deleted, and any pending pointer naming it is reconciled — one linked-state transaction, no dangling entry.</p>
+  </div>
+
+  <div class="panel">
+    <p class="p-eyebrow">Step 5 · hand off</p>
+    <div class="p-head">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h13"/><path d="M13 7l5 5l-5 5"/><path d="M20 5v14"/></svg>
+      <h3>Two lines, one next move</h3>
+    </div>
+    <p>The direction in one sentence, then the single next move: an active initiative gets re-checked against the new vision by review, and a fresh start goes to plan — "what's the plan for the quarter goal".</p>
+  </div>
+
+  <div class="panel">
+    <p class="p-eyebrow">Who reads this file</p>
+    <div class="p-head">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6s9 6 9 6s-3.5 6-9 6s-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>
+      <h3>The bar, not a document</h3>
+    </div>
+    <p>The gauntlet attacks plans with it, review scores weeks against it, and plan refuses to scope without it. A business planned against nothing drifts.</p>
+    <div class="chips"><span class="chip"><span class="tok">gauntlet</span></span><span class="chip"><span class="tok">review</span></span><span class="chip"><span class="tok">plan</span></span></div>
+  </div>
+</div>
+
+<footer>
+  <span>/co-founder:vision · interrogation pyramid</span>
+  <span>quarterly reset · scored weekly by review</span>
+</footer>
+
+</body>
+</html>

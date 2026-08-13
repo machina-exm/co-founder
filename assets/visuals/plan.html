@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>plan · the lifecycle has one arrow plan may write</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F4F4F5;--paper2:#EFEFF2;--card:#FFFFFF;--ink:#111111;--muted:#6B6B6B;--soft:#A0A0A8;
+  --rule:#D9D9DE;--rule2:#C4C4CA;--accent:#F93332;--tint:rgba(249,51,50,.10);
+  --sans:'Inter',system-ui,sans-serif;--disp:'Space Grotesk',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace;
+}
+html,body{width:1600px;height:900px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+  padding:22px 40px 16px;display:flex;flex-direction:column;gap:10px}
+mark{background:linear-gradient(101deg,rgba(249,51,50,0) .3%,rgba(249,51,50,.17) 2.4%,rgba(249,51,50,.19) 96%,rgba(249,51,50,0) 99.5%);
+  color:inherit;padding:0 .16em;margin:0 -.14em;border-radius:.25em;display:inline-block;transform:rotate(-.8deg)}
+.eyebrow{font:500 8px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ── header ─────────────────────────────────────────── */
+.head{display:grid;grid-template-columns:1fr 540px;gap:30px;align-items:stretch;flex:0 0 auto}
+h1{font:500 33px/1.08 var(--disp);letter-spacing:-.022em;margin:5px 0 7px}
+.sub{font:400 12px/1.46 var(--sans);color:var(--muted);max-width:96ch}
+.writes{border:1px solid var(--accent);background:linear-gradient(0deg,var(--tint),var(--tint)),var(--card);
+  border-radius:8px;padding:10px 14px 11px}
+.writes h2{font:600 12.5px var(--disp);letter-spacing:-.01em;margin:4px 0 6px}
+.wrow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.wrow .from,.wrow .to{font:500 9.5px var(--mono);border-radius:4px;padding:4px 7px;border:1px solid var(--rule2);background:var(--card);color:var(--ink)}
+.wrow .to{border-color:var(--accent);background:rgba(249,51,50,.14);color:var(--accent)}
+.wrow .ar{font:400 10px var(--mono);color:var(--accent)}
+.wrow .gd{font:400 9.5px var(--mono);color:var(--muted)}
+.writes p{font:400 10.2px/1.4 var(--sans);color:var(--muted);margin-top:7px;padding-top:7px;border-top:1px solid var(--rule)}
+.hrow{display:flex;align-items:center;gap:7px}
+
+/* ── middle ─────────────────────────────────────────── */
+.mid{display:grid;grid-template-columns:1108px 1fr;gap:14px;align-items:stretch;flex:0 0 auto}
+.hero{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:10px 11px}
+.hero svg{display:block;width:100%;height:auto}
+.side{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:11px 14px 10px;display:flex;flex-direction:column}
+.side h2{font:600 13.5px var(--disp);letter-spacing:-.01em;margin:4px 0 3px}
+.side .lede{font:400 9.8px/1.36 var(--sans);color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--rule)}
+.rows{display:flex;flex-direction:column;justify-content:space-between;flex:1;padding-top:1px}
+.r{padding:3px 0;border-bottom:1px dashed var(--rule)}
+.r:last-child{border-bottom:0;padding-bottom:0}
+.r .k{font:500 7.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:2px}
+.r p{font:400 9.6px/1.32 var(--sans);color:var(--ink)}
+.r code{font-size:8.5px;padding:1px 4px}
+
+/* ── cards ──────────────────────────────────────────── */
+.cards{display:grid;grid-template-columns:1.16fr 1.02fr 1fr .96fr;gap:14px;flex:1 1 auto;min-height:0}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:10px 13px 10px;display:flex;flex-direction:column}
+.card.focal{border-color:var(--accent);background:linear-gradient(0deg,var(--tint),var(--tint)),var(--card)}
+.card h3{font:600 12.5px/1.2 var(--disp);letter-spacing:-.01em;margin:5px 0 5px}
+.card p{font:400 10px/1.4 var(--sans);color:var(--muted)}
+.card p b{color:var(--ink);font-weight:600}
+.card ul{list-style:none;margin-top:6px;padding-top:6px;border-top:1px solid var(--rule)}
+.card li{position:relative;padding-left:12px;font:400 9.8px/1.36 var(--sans);color:var(--ink);margin-bottom:3px}
+.card li:last-child{margin-bottom:0}
+.card li::before{content:'';position:absolute;left:0;top:6px;width:6px;height:1px;background:var(--rule2)}
+.card.focal li::before{background:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:8px}
+code{font:500 9px var(--mono);background:var(--paper2);border:1px solid var(--rule);border-radius:4px;
+  padding:3px 5px;color:var(--ink);white-space:nowrap}
+code em{font-style:normal;color:var(--accent)}
+.foot{display:flex;justify-content:space-between;border-top:1px solid var(--rule);padding-top:6px;
+  font:400 9px var(--mono);letter-spacing:.06em;color:var(--soft);flex:0 0 auto}
+
+/* ── svg classes ────────────────────────────────────── */
+svg text{font-family:var(--sans)}
+.cn{fill:none;stroke:var(--muted);stroke-width:1}
+.cn.dash{stroke-dasharray:5,4}
+.cn.f{stroke:var(--accent);stroke-width:1.5}
+.cn.fd{stroke:var(--accent);stroke-width:1.4;stroke-dasharray:5,4}
+.mask{fill:#FFFFFF}
+.nd{fill:var(--card);stroke:var(--ink);stroke-width:1}
+.nd.f{fill:var(--tint);stroke:var(--accent);stroke-width:1.5}
+.nd.st{fill:rgba(17,17,17,.05);stroke:var(--muted)}
+.nd.un{fill:rgba(17,17,17,.02);stroke:rgba(17,17,17,.28);stroke-dasharray:4,3}
+.rt{fill:var(--paper2);stroke:var(--rule2);stroke-width:1}
+.tag{fill:none;stroke:rgba(17,17,17,.34);stroke-width:.8}
+.tag.f{stroke:rgba(249,51,50,.55)}
+.ttx{fill:var(--muted);font:500 6.5px var(--mono);letter-spacing:.1em}
+.ttx.f{fill:var(--accent)}
+.ntl{fill:var(--ink);font:600 12px var(--sans)}
+.nsb{fill:var(--muted);font:7.5px var(--mono)}
+.nsb2{fill:var(--soft);font:7.5px var(--mono)}
+.alab{fill:var(--muted);font:500 7px var(--mono);letter-spacing:.09em}
+.alab.f{fill:var(--accent)}
+.ctl{fill:var(--ink);font:600 10px var(--sans)}
+.csb{fill:var(--muted);font:7px var(--mono)}
+.lg{fill:var(--muted);font:8px var(--sans)}
+.lgk{fill:var(--soft);font:500 7px var(--mono);letter-spacing:.14em}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="head">
+  <div>
+    <div class="hrow">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="M9 12h6"/></svg>
+      <p class="eyebrow">State machine · initiative lifecycle · /co-founder:plan</p>
+    </div>
+    <h1>Plan owns exactly <mark>one arrow</mark> in the lifecycle.<br>Every other state is a refusal with a route.</h1>
+    <p class="sub">Every initiative gets ONE file that travels its whole life, and only two writes may set <code>state: planned</code>. Work that reaches sprint without passing through here <mark>does not run</mark>. The Gauntlet verdict, advisor board, objections and receipt lines are compared byte for byte before the flip.</p>
+  </div>
+  <div class="writes">
+    <div class="hrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="M14 7l5 5l-5 5"/></svg>
+      <p class="eyebrow">The only two legal writes</p>
+    </div>
+    <h2>Set <code>state: planned</code> for these, and nothing else</h2>
+    <div class="wrow"><span class="from">idea</span><span class="ar">&#8594;</span><span class="to">planned</span><span class="gd">[sized SMALL · gauntlet waived]</span></div>
+    <div class="wrow"><span class="from">survived</span><span class="ar">&#8594;</span><span class="to">planned</span><span class="gd">[SURVIVES · no parked rec]</span></div>
+    <p>Re-read the current state immediately before writing. Replanning stays <code>planned</code>, a same-destination amendment stays <code>executing</code>, and any other state follows the gate check instead of moving backward.</p>
+  </div>
+</header>
+
+<!-- ══════════ HERO + LEDGER ══════════ -->
+<section class="mid">
+  <div class="hero">
+    <svg viewBox="0 0 1088 408" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="planv2-title planv2-desc">
+      <title id="planv2-title">Initiative lifecycle as a state machine</title>
+      <desc id="planv2-desc">State machine of the co-founder initiative lifecycle. Two accent transitions enter the planned state — idea to planned under a small-bet waiver, and survived to planned on a surviving gauntlet verdict. Every other state routes away: an unplanned big bet goes to the gauntlet, closed and re-aimed arcs get a new linked idea, and a malformed state stops for repair.</desc>
+      <defs>
+        <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#6B6B6B"/></marker>
+        <marker id="arA" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#F93332"/></marker>
+      </defs>
+
+      <!-- ── transitions (drawn before boxes) ── -->
+      <!-- start → idea -->
+      <line class="cn" x1="32" y1="116" x2="48" y2="116" marker-end="url(#ar)"/>
+      <!-- idea → survived (owned by the gauntlet) -->
+      <line class="cn dash" x1="208" y1="116" x2="296" y2="116" marker-end="url(#ar)"/>
+      <!-- survived → planned : THE focal edge -->
+      <line class="cn f" x1="456" y1="116" x2="544" y2="116" marker-end="url(#arA)"/>
+      <!-- idea → planned : SMALL waiver -->
+      <path class="cn fd" d="M 180 152 V 176 Q 180 184 188 184 H 592 Q 600 184 600 176 V 156" marker-end="url(#arA)"/>
+      <!-- planned → executing -->
+      <line class="cn" x1="728" y1="116" x2="808" y2="116" marker-end="url(#ar)"/>
+      <!-- executing → reviewed -->
+      <line class="cn" x1="836" y1="152" x2="836" y2="212" marker-end="url(#ar)"/>
+      <!-- reviewed → banked -->
+      <line class="cn" x1="760" y1="252" x2="680" y2="252" marker-end="url(#ar)"/>
+      <!-- banked → end -->
+      <line class="cn" x1="516" y1="252" x2="500" y2="252" marker-end="url(#ar)"/>
+      <!-- planned self-loop : replanning -->
+      <path class="cn" d="M 600 80 C 600 32, 680 32, 680 78" marker-end="url(#ar)"/>
+      <!-- idea (BIG) → gauntlet -->
+      <line class="cn" x1="132" y1="152" x2="132" y2="332" marker-end="url(#ar)"/>
+      <!-- unknown → repair -->
+      <line class="cn" x1="336" y1="288" x2="336" y2="332" marker-end="url(#ar)"/>
+      <!-- banked → new linked idea -->
+      <line class="cn" x1="576" y1="288" x2="576" y2="332" marker-end="url(#ar)"/>
+      <!-- reviewed → new linked idea -->
+      <path class="cn" d="M 836 288 V 304 Q 836 312 828 312 H 648 Q 640 312 640 320 V 332" marker-end="url(#ar)"/>
+      <!-- executing, changed destination → new linked idea -->
+      <path class="cn" d="M 940 152 V 316 Q 940 324 932 324 H 708 Q 700 324 700 332" marker-end="url(#ar)"/>
+
+      <!-- ── transition labels ── -->
+      <rect class="mask" x="212" y="96" width="84" height="12" rx="2"/>
+      <text class="alab" x="254" y="105" text-anchor="middle">GAUNTLET ONLY</text>
+
+      <rect class="mask" x="462" y="80" width="80" height="24" rx="2"/>
+      <text class="alab f" x="502" y="89" text-anchor="middle">SURVIVES</text>
+      <text class="alab f" x="502" y="100" text-anchor="middle">[NO PARKED]</text>
+
+      <rect class="mask" x="348" y="162" width="84" height="12" rx="2"/>
+      <text class="alab f" x="390" y="171" text-anchor="middle">SIZED SMALL</text>
+
+      <rect class="mask" x="732" y="96" width="72" height="12" rx="2"/>
+      <text class="alab" x="768" y="105" text-anchor="middle">LET'S WORK</text>
+
+      <rect class="mask" x="764" y="176" width="60" height="12" rx="2"/>
+      <text class="alab" x="794" y="185" text-anchor="middle">REVIEW</text>
+
+      <rect class="mask" x="692" y="232" width="56" height="12" rx="2"/>
+      <text class="alab" x="720" y="241" text-anchor="middle">BANK</text>
+
+      <rect class="mask" x="596" y="26" width="88" height="12" rx="2"/>
+      <text class="alab" x="640" y="35" text-anchor="middle">REPLAN · NO FLIP</text>
+
+      <rect class="mask" x="140" y="232" width="60" height="12" rx="2"/>
+      <text class="alab" x="170" y="241" text-anchor="middle">BIG BET</text>
+
+      <rect class="mask" x="344" y="300" width="76" height="12" rx="2"/>
+      <text class="alab" x="382" y="309" text-anchor="middle">STOP · NO FLIP</text>
+
+      <rect class="mask" x="584" y="300" width="56" height="12" rx="2"/>
+      <text class="alab" x="612" y="309" text-anchor="middle">NEW WORK</text>
+
+      <rect class="mask" x="844" y="292" width="72" height="12" rx="2"/>
+      <text class="alab" x="880" y="301" text-anchor="middle">ARC CLOSED</text>
+
+      <rect class="mask" x="948" y="248" width="92" height="12" rx="2"/>
+      <text class="alab" x="994" y="257" text-anchor="middle">NEW DESTINATION</text>
+
+      <!-- ── start marker ── -->
+      <circle cx="24" cy="116" r="6" fill="#111111"/>
+      <text class="lgk" x="24" y="140" text-anchor="middle">ASK</text>
+
+      <!-- ── states: the spine ── -->
+      <g>
+        <rect class="nd" x="56" y="80" width="152" height="72" rx="8"/>
+        <rect class="tag" x="64" y="88" width="34" height="11" rx="2"/><text class="ttx" x="81" y="96" text-anchor="middle">STATE</text>
+        <text class="ntl" x="132" y="122" text-anchor="middle">idea</text>
+        <text class="nsb" x="132" y="136" text-anchor="middle">sized SMALL or BIG</text>
+        <text class="nsb2" x="132" y="147" text-anchor="middle">stub only, no scope</text>
+      </g>
+
+      <g>
+        <rect class="nd" x="304" y="80" width="152" height="72" rx="8"/>
+        <rect class="tag" x="312" y="88" width="34" height="11" rx="2"/><text class="ttx" x="329" y="96" text-anchor="middle">STATE</text>
+        <text class="ntl" x="380" y="122" text-anchor="middle">survived</text>
+        <text class="nsb" x="380" y="136" text-anchor="middle">verdict on file</text>
+        <text class="nsb2" x="380" y="147" text-anchor="middle">DIES · PARKED route back</text>
+      </g>
+
+      <g>
+        <rect class="nd f" x="552" y="80" width="176" height="72" rx="8"/>
+        <rect class="tag f" x="560" y="88" width="34" height="11" rx="2"/><text class="ttx f" x="577" y="96" text-anchor="middle">STATE</text>
+        <text class="ntl" x="640" y="122" text-anchor="middle">planned</text>
+        <text class="nsb" x="640" y="136" text-anchor="middle">scope · roadmap · log row</text>
+        <text class="nsb2" x="640" y="147" text-anchor="middle">the one arrow plan writes</text>
+      </g>
+
+      <g>
+        <rect class="nd" x="816" y="80" width="152" height="72" rx="8"/>
+        <rect class="tag" x="824" y="88" width="34" height="11" rx="2"/><text class="ttx" x="841" y="96" text-anchor="middle">STATE</text>
+        <text class="ntl" x="892" y="122" text-anchor="middle">executing</text>
+        <text class="nsb" x="892" y="136" text-anchor="middle">sprint is on the steps</text>
+        <text class="nsb2" x="892" y="147" text-anchor="middle">amendment stays here</text>
+      </g>
+
+      <!-- ── states: closed arc and the malformed case ── -->
+      <g>
+        <rect class="nd un" x="248" y="216" width="176" height="72" rx="8"/>
+        <rect class="tag" x="256" y="224" width="34" height="11" rx="2"/><text class="ttx" x="273" y="232" text-anchor="middle">STATE</text>
+        <text class="ntl" x="336" y="258" text-anchor="middle">unknown</text>
+        <text class="nsb" x="336" y="272" text-anchor="middle">malformed frontmatter</text>
+        <text class="nsb2" x="336" y="283" text-anchor="middle">never infer the nearest</text>
+      </g>
+
+      <g>
+        <rect class="nd st" x="520" y="216" width="152" height="72" rx="8"/>
+        <rect class="tag" x="528" y="224" width="34" height="11" rx="2"/><text class="ttx" x="545" y="232" text-anchor="middle">STATE</text>
+        <text class="ntl" x="596" y="258" text-anchor="middle">banked</text>
+        <text class="nsb" x="596" y="272" text-anchor="middle">closed file unchanged</text>
+      </g>
+
+      <g>
+        <rect class="nd st" x="760" y="216" width="152" height="72" rx="8"/>
+        <rect class="tag" x="768" y="224" width="34" height="11" rx="2"/><text class="ttx" x="785" y="232" text-anchor="middle">STATE</text>
+        <text class="ntl" x="836" y="258" text-anchor="middle">reviewed</text>
+        <text class="nsb" x="836" y="272" text-anchor="middle">outcome recorded</text>
+      </g>
+
+      <!-- end marker after banked -->
+      <circle cx="484" cy="252" r="8" fill="none" stroke="#111111" stroke-width="1"/>
+      <circle cx="484" cy="252" r="5" fill="#111111"/>
+
+      <!-- ── route rail ── -->
+      <g>
+        <rect class="rt" x="56" y="332" width="176" height="48" rx="6"/>
+        <g transform="translate(66,346)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4-3 7.5-7 9c-4-1.5-7-5-7-9V6z"/></svg></g>
+        <text class="ctl" x="86" y="353">route: the gauntlet</text>
+        <text class="csb" x="86" y="368">stub kept · nothing more written</text>
+      </g>
+
+      <g>
+        <rect class="rt" x="288" y="332" width="176" height="48" rx="6"/>
+        <g transform="translate(298,346)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4a4 4 0 0 0-5.3 5.3L4 14v6h6l4.7-4.7A4 4 0 0 0 20 10"/></svg></g>
+        <text class="ctl" x="318" y="353">route: stop for repair</text>
+        <text class="csb" x="318" y="368">no state is inferred, ever</text>
+      </g>
+
+      <g>
+        <rect class="rt" x="520" y="332" width="224" height="48" rx="6"/>
+        <g transform="translate(530,346)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2"/><path d="M12 11v6"/><path d="M9 14h6"/></svg></g>
+        <text class="ctl" x="550" y="353">route: a new linked idea</text>
+        <text class="csb" x="550" y="368">predecessor untouched · earns its own gates</text>
+      </g>
+
+      <!-- ── legend ── -->
+      <line x1="776" y1="330" x2="776" y2="386" stroke="#D9D9DE" stroke-width="1"/>
+      <text class="lgk" x="800" y="344">LEGEND</text>
+      <line x1="864" y1="341" x2="892" y2="341" stroke="#F93332" stroke-width="1.5"/>
+      <text class="lg" x="900" y="344">the arrow plan writes</text>
+      <line x1="864" y1="361" x2="892" y2="361" stroke="#F93332" stroke-width="1.4" stroke-dasharray="5,4"/>
+      <text class="lg" x="900" y="364">legal only with the waiver</text>
+      <line x1="864" y1="381" x2="892" y2="381" stroke="#6B6B6B" stroke-width="1"/>
+      <text class="lg" x="900" y="384">refuse, or another skill's write</text>
+    </svg>
+  </div>
+
+  <!-- ── refuse-and-route ledger ── -->
+  <aside class="side">
+    <div class="hrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h9"/><path d="M4 17h6"/><path d="M15 14l6 6"/><path d="M21 14l-6 6"/><path d="M17 4l4 3l-4 3"/></svg>
+      <p class="eyebrow">Refuse, then route</p>
+    </div>
+    <h2>Every state that cannot enter planning</h2>
+    <p class="lede">The gate check reads the stages in order, stopping at the first one missing. <mark>Interviewed, never scolded</mark>: name it, ask the first missing question.</p>
+    <div class="rows">
+      <div class="r"><span class="k">Vision missing</span><p>The founder is planning against nothing. Route to vision and stop: no initiative created or sized, no queue entry changed, no log row.</p></div>
+      <div class="r"><span class="k">"Just build it", "go"</span><p>Refuse the build, start the scope. Create at most an <code>idea</code> stub; the missing stage is <code>planned</code>.</p></div>
+      <div class="r"><span class="k">idea · BIG bet</span><p>"This is weeks of your life, it gets interrogated before it gets planned." The gauntlet alone flips <code>survived</code>.</p></div>
+      <div class="r"><span class="k">survived · DIES or PARKED</span><p>Routes back to the named evidence gap without a state change. Only SURVIVES with no Parked recommendation proceeds.</p></div>
+      <div class="r"><span class="k">planned</span><p>Replanning, not a new transition. Preserve the state, checkpoint the changed scope, update the roadmap <mark>without erasing history</mark>.</p></div>
+      <div class="r"><span class="k">executing</span><p>A changed destination creates a separate <code>idea</code> linking this one; unchecked steps move to Roadmap &rarr; Stopped with the reason.</p></div>
+      <div class="r"><span class="k">reviewed · banked</span><p>The arc is closed. New work gets a new linked <code>idea</code>; the closed file stays unchanged.</p></div>
+      <div class="r"><span class="k">unknown · malformed</span><p>Stop for repair. <mark>Never infer the nearest legal state</mark>.</p></div>
+    </div>
+  </aside>
+</section>
+
+<!-- ══════════ CARDS ══════════ -->
+<section class="cards">
+  <div class="card focal">
+    <div class="hrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      <p class="eyebrow">Step 4 · plan the HOW</p>
+    </div>
+    <h3>Preservation is part of the transition</h3>
+    <p>Snapshot every prior-stage section before editing. Patch Scope, Roadmap, Needs your call and Parked recommendations in place. <b>Compare the preserved sections byte for byte before the state flip; <mark>any loss aborts the transition</mark>.</b></p>
+    <ul>
+      <li>Scope links to the Gauntlet verdict anchor, it never restates it.</li>
+      <li><code>log.md</code> points to the event and never stores the board.</li>
+    </ul>
+    <div class="chips"><code>Gauntlet verdict</code><code>advisor board</code><code>objections</code><code>append-only Log</code></div>
+  </div>
+
+  <div class="card">
+    <div class="hrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v18l3-2l3 2l3-2l3 2V3l-3 2l-3-2l-3 2z"/><path d="M9 9h6"/><path d="M9 13h4"/></svg>
+      <p class="eyebrow">Receipts · state invariant</p>
+    </div>
+    <h3>Two legs, or the initiative stays parked</h3>
+    <p>Every initiative advancing beyond <code>idea</code> carries both checked references in frontmatter. <mark>Missing fields keep it PARKED</mark> and below <code>planned</code>, independent of wording or size.</p>
+    <ul>
+      <li><code>internal_receipt</code> — business evidence outside initiative and content output.</li>
+      <li><code>external_receipt</code> — dated checked research in <code>wiki/research/</code>.</li>
+      <li>A missing leg moves the item to Parked recommendations, never to Needs your call.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="hrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 14l2 2l4-4"/></svg>
+      <p class="eyebrow">Step 3 · scope the WHAT</p>
+    </div>
+    <h3>The checkpoint, on one screen</h3>
+    <p>Written before the Scope and Roadmap sections or any state change. <mark>Every line must be judgeable without homework.</mark></p>
+    <ul>
+      <li><b>What we're doing</b> — 2-3 lines in their words.</li>
+      <li><b>Key tradeoffs</b> — the calls made and why.</li>
+      <li><b>Out of scope</b> — what this deliberately is not.</li>
+      <li><b>Needs your call</b> — only they can rule on it.</li>
+    </ul>
+    <div class="chips"><code>a revision is <em>never</em> a confirmation</code></div>
+  </div>
+
+  <div class="card">
+    <div class="hrow">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 14l2 2l4-4"/></svg>
+      <p class="eyebrow">Step 5 · mandatory filing gate</p>
+    </div>
+    <h3>The flip is one linked transaction</h3>
+    <p>Run <code>scripts/graph-audit</code> on every touched durable file, fix every violation, rerun it. <mark>The plan, the state transition, the log row and the queue completion stay incomplete until it exits zero.</mark></p>
+    <div class="chips"><code>index.md</code><code>hub/initiatives.md</code><code>baton.md</code><code>queue.md</code><code><em>##</em> [date] plan | title</code></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span>/co-founder:plan · initiative lifecycle · state machine</span>
+  <span>one file per initiative · one arrow per skill</span>
+</footer>
+
+</body>
+</html>

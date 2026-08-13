@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>offer · the stack a price stands on</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F4F4F5;--paper2:#EFEFF2;--card:#FFFFFF;--ink:#111111;--muted:#6B6B6B;--soft:#A0A0A8;
+  --rule:#D9D9DE;--rule2:#C4C4CA;--accent:#F93332;--tint:rgba(249,51,50,.10);--link:#4A4A52;
+  --sans:'Inter',system-ui,sans-serif;--disp:'Space Grotesk',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace;
+}
+html,body{width:1600px;height:900px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+  padding:22px 32px 20px;display:flex;flex-direction:column;gap:13px}
+
+mark{background:linear-gradient(101deg,rgba(249,51,50,.20) 0%,rgba(249,51,50,.13) 60%,rgba(249,51,50,.19) 100%);
+  color:inherit;padding:.02em .18em;border-radius:2px;display:inline-block;transform:rotate(-1deg)}
+
+.eyebrow{font:500 8px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ---- header ---- */
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:30px;height:126px}
+.head h1{font:500 30px/1.12 var(--disp);letter-spacing:-.022em;margin:5px 0 6px;max-width:44ch}
+.head .sub{font:400 12.5px/1.45 var(--sans);color:var(--muted)}
+
+/* term ledger (header right) */
+.ledger{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:8px 12px 9px;width:508px;flex-shrink:0}
+.ledger table{width:100%;border-collapse:collapse;margin-top:6px}
+.ledger td{padding:1.5px 0;vertical-align:middle}
+.ledger td.p{font:500 9.5px var(--mono);color:var(--ink)}
+.ledger td.s{font:400 10.5px var(--sans);color:var(--muted);padding-left:10px}
+.ledger td.v{text-align:right}
+.tag{font:500 8.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--rule);
+  background:var(--paper2);border-radius:4px;padding:2px 6px;color:var(--muted)}
+.tag.in{border-color:rgba(17,17,17,.35);color:var(--ink)}
+.tag.out{border-color:rgba(249,51,50,.45);background:var(--tint);color:var(--accent)}
+
+/* ---- mid ---- */
+.mid{display:flex;gap:16px;flex:1;min-height:0}
+.hero{flex:1;background:var(--card);border:1px solid var(--rule);border-radius:8px;
+  padding:11px 16px 8px;display:flex;flex-direction:column;min-width:0}
+.hero-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hero-head .t{display:flex;align-items:center;gap:7px}
+.hero-head h2{font:600 14px var(--disp);letter-spacing:-.01em}
+svg.stack{width:100%;max-width:952px;margin:2px auto 0;display:block}
+
+.side{width:432px;display:flex;flex-direction:column;gap:14px;flex-shrink:0}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px 14px 13px;
+  display:flex;flex-direction:column}
+.panel h3{font:600 13.5px var(--disp);letter-spacing:-.01em}
+.ph{display:flex;align-items:center;gap:7px;padding-bottom:8px;margin-bottom:9px;border-bottom:1px solid var(--rule)}
+.panel p{font:400 11.5px/1.46 var(--sans);color:var(--muted)}
+.panel p + p{margin-top:7px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.chip{font:500 9px var(--mono);background:var(--paper2);border:1px solid var(--rule);border-radius:4px;
+  padding:2.5px 6px;color:var(--ink)}
+.chip.red{border-color:rgba(249,51,50,.45);background:var(--tint);color:var(--accent)}
+
+/* ---- bottom ---- */
+.bot{display:grid;grid-template-columns:1.08fr 1fr .96fr;gap:16px;height:204px}
+.bot .panel{height:100%;overflow:hidden}
+.bot .panel p{font-size:11px;line-height:1.42}
+.kv{display:flex;gap:7px;margin-top:7px;font:400 11px/1.42 var(--sans);color:var(--muted)}
+.kv .k{font:500 9px var(--mono);color:var(--ink);background:var(--paper2);border:1px solid var(--rule);
+  border-radius:4px;padding:1.5px 5px;flex-shrink:0;height:16px;line-height:12px}
+.states{list-style:none;margin-top:2px}
+.states li{display:flex;gap:8px;align-items:baseline;font:400 10.5px/1.4 var(--sans);color:var(--muted);margin-bottom:4px}
+.states li span.s{font:500 9px var(--mono);color:var(--ink);width:64px;flex-shrink:0}
+.states li.on span.s{color:var(--accent)}
+.foot{margin-top:auto;padding-top:8px;border-top:1px solid var(--rule);font:400 9px var(--mono);
+  letter-spacing:.06em;color:var(--soft)}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="head">
+  <div>
+    <p class="eyebrow">/co-founder:offer · layer stack · foundation → surface</p>
+    <h1>A priced term stands on a <mark>founder-stated parameter</mark>, or it stays out of the offer.</h1>
+    <p class="sub">Pricing is where founders bleed silently: too low out of fear, too clever out of theory, or changed weekly out of doubt. The stack reads bottom to top — their real numbers, the tested mechanics, the terms, then the words a customer reads.</p>
+  </div>
+  <div class="ledger">
+    <p class="eyebrow">Parameter inventory · admitted, parked, or excluded</p>
+    <table>
+      <tr><td class="p">delivery input</td><td class="s">Recalled from the vault and cited by file.</td><td class="v"><span class="tag in">admitted</span></td></tr>
+      <tr><td class="p">capacity</td><td class="s">Recomputed from recorded inputs.</td><td class="v"><span class="tag in">admitted</span></td></tr>
+      <tr><td class="p">cap</td><td class="s">Founder-stated: unverified.</td><td class="v"><span class="tag">parked</span></td></tr>
+      <tr><td class="p">spot count</td><td class="s">No value given, one question asked.</td><td class="v"><span class="tag out">excluded</span></td></tr>
+      <tr><td class="p">guarantee window</td><td class="s">No value given, no heuristic invents one.</td><td class="v"><span class="tag out">excluded</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ MID: hero stack + side panels ══ -->
+<div class="mid">
+
+  <div class="hero">
+    <div class="hero-head">
+      <div class="t">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 12l8 4 8-4"/><path d="M4 17l8 4 8-4"/></svg>
+        <h2>Five layers, one seal, nothing floating.</h2>
+      </div>
+      <p class="eyebrow">5 layers · 1 consent seal · 2 receipt legs</p>
+    </div>
+
+    <svg class="stack" viewBox="0 0 972 468" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="offer-v2-title offer-v2-desc">
+      <title id="offer-v2-title">The offer stack from grounded vault facts to customer-facing close copy</title>
+      <desc id="offer-v2-desc">Layer stack showing grounded vault facts at the base, two-leg receipts, operator heuristics, priced terms as the focal layer, and customer-facing close copy on top, with the founder's consent receipt sealing the boundary between terms and close copy.</desc>
+      <defs>
+        <pattern id="dots-v2" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="0.8" fill="rgba(17,17,17,.09)"/></pattern>
+      </defs>
+
+      <rect width="972" height="468" fill="#F4F4F5"/>
+      <rect width="972" height="468" fill="url(#dots-v2)" opacity=".55"/>
+
+      <!-- direction spine (left margin, outside the stack) -->
+      <text x="36" y="44" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".16em">SURFACE</text>
+      <polygon points="100,64 108,64 104,56" fill="#6B6B6B"/>
+      <line x1="104" y1="64" x2="104" y2="416" stroke="#C4C4CA" stroke-width="1"/>
+      <text x="28" y="436" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".16em">FOUNDATION</text>
+
+      <!-- layer fills, ground (paper-2) to surface (white) -->
+      <rect x="132" y="344" width="808" height="72" fill="#EFEFF2"/>
+      <rect x="132" y="272" width="808" height="72" fill="#EFEFF2"/>
+      <rect x="132" y="200" width="808" height="72" fill="#F4F4F5"/>
+      <rect x="132" y="128" width="808" height="72" fill="rgba(249,51,50,.08)"/>
+      <rect x="132" y="56" width="808" height="72" fill="#FFFFFF"/>
+
+      <!-- L5 · close copy -->
+      <text x="148" y="86" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".14em">L5</text>
+      <g transform="translate(180,72) scale(0.72)" fill="none" stroke="#6B6B6B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8"/><path d="M8 12.5h5"/>
+      </g>
+      <text x="212" y="86" fill="#111111" font-size="16" font-weight="600" font-family="'Inter',sans-serif">Customer-facing close copy</text>
+      <text x="212" y="108" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif">The anchor, the sequence, and the guarantee window, in the words a buyer actually reads.</text>
+      <text x="928" y="86" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="10" text-anchor="end" letter-spacing=".06em">linked-state transaction</text>
+
+      <!-- L4 · priced terms (focal) -->
+      <text x="148" y="158" fill="#F93332" font-family="'Geist Mono',monospace" font-size="8" font-weight="600" letter-spacing=".14em">L4</text>
+      <g transform="translate(180,144) scale(0.72)" fill="none" stroke="#F93332" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4v16"/><path d="M16 8.5a3.5 3.5 0 0 0-3.5-2.5h-1a3 3 0 0 0 0 6h1a3 3 0 0 1 0 6h-1A3.5 3.5 0 0 1 8 15.5"/>
+      </g>
+      <text x="212" y="158" fill="#111111" font-size="16" font-weight="600" font-family="'Inter',sans-serif">Priced terms</text>
+      <text x="212" y="180" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif">The ladder, the price, the cap logic. Every parameter clears the gate or the term is excluded.</text>
+      <text x="928" y="158" fill="#F93332" font-family="'Geist Mono',monospace" font-size="10" text-anchor="end" letter-spacing=".06em">offer_state: draft</text>
+
+      <!-- L3 · heuristics -->
+      <text x="148" y="230" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".14em">L3</text>
+      <g transform="translate(180,216) scale(0.72)" fill="none" stroke="#6B6B6B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 7h9"/><path d="M17 7h3"/><path d="M4 16h4"/><path d="M12 16h8"/><circle cx="15" cy="7" r="2"/><circle cx="10" cy="16" r="2"/>
+      </g>
+      <text x="212" y="230" fill="#111111" font-size="16" font-weight="600" font-family="'Inter',sans-serif">Operator heuristics</text>
+      <text x="212" y="252" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif">Ladders, caps, grandfathering, anchors, close sequence, guarantees, urgency legality, launch timing.</text>
+      <text x="928" y="230" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="10" text-anchor="end" letter-spacing=".06em">each one with its trap</text>
+
+      <!-- L2 · receipts -->
+      <text x="148" y="302" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".14em">L2</text>
+      <g transform="translate(180,288) scale(0.72)" fill="none" stroke="#6B6B6B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 3h9l4 4v14l-3-2-3 2-3-2-3 2V3z"/><path d="M9 9h6"/><path d="M9 13h4"/>
+      </g>
+      <text x="212" y="302" fill="#111111" font-size="16" font-weight="600" font-family="'Inter',sans-serif">Two-leg receipts</text>
+      <text x="212" y="324" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif">One fact about their business plus one checked external comparable, on every element, or it parks.</text>
+      <text x="928" y="302" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="10" text-anchor="end" letter-spacing=".06em">recall · research</text>
+
+      <!-- L1 · vault facts -->
+      <text x="148" y="374" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".14em">L1</text>
+      <g transform="translate(180,360) scale(0.72)" fill="none" stroke="#6B6B6B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6.5c0-1.4 3.6-2.5 8-2.5s8 1.1 8 2.5-3.6 2.5-8 2.5-8-1.1-8-2.5z"/><path d="M4 6.5v11c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-11"/><path d="M4 12c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5"/>
+      </g>
+      <text x="212" y="374" fill="#111111" font-size="16" font-weight="600" font-family="'Inter',sans-serif">Grounded vault facts</text>
+      <text x="212" y="396" fill="#6B6B6B" font-size="12" font-family="'Inter',sans-serif">Stage, margins, what customers have actually paid, pricing lessons, the vision. Cited by file.</text>
+      <text x="928" y="374" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="10" text-anchor="end" letter-spacing=".06em">index.md · wiki/ · log.md</text>
+
+      <!-- hairline dividers between layers -->
+      <g stroke="#D9D9DE" stroke-width="1">
+        <line x1="132" y1="128" x2="940" y2="128"/>
+        <line x1="132" y1="200" x2="940" y2="200"/>
+        <line x1="132" y1="272" x2="940" y2="272"/>
+        <line x1="132" y1="344" x2="940" y2="344"/>
+      </g>
+
+      <!-- focal outline on L4 -->
+      <rect x="132" y="128" width="808" height="72" fill="none" stroke="#F93332" stroke-width="1"/>
+
+      <!-- outer silhouette -->
+      <rect x="132" y="56" width="808" height="360" fill="none" stroke="#C4C4CA" stroke-width="1"/>
+
+      <!-- the consent seal, sitting on the L4 / L5 boundary -->
+      <rect x="736" y="112" width="204" height="32" rx="6" fill="#F4F4F5"/>
+      <rect x="736" y="112" width="204" height="32" rx="6" fill="rgba(249,51,50,.10)" stroke="#F93332" stroke-width="1"/>
+      <g transform="translate(746,120) scale(0.66)" fill="none" stroke="#F93332" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="10" r="7"/><path d="M9 10l2 2 4-4"/><path d="M8 16.5V22l4-2 4 2v-5.5"/>
+      </g>
+      <text x="772" y="132" fill="#F93332" font-family="'Geist Mono',monospace" font-size="9" font-weight="500" letter-spacing=".10em">T1 CONSENT RECEIPT · SEAL</text>
+
+      <!-- bottom caption -->
+      <line x1="132" y1="432" x2="940" y2="432" stroke="#D9D9DE" stroke-width="0.8"/>
+      <text x="132" y="452" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing=".16em">TOP LAYER LAW</text>
+      <text x="248" y="452" fill="#6B6B6B" font-size="11" font-family="'Inter',sans-serif">A known-wrong or parked cap cannot remain in active close copy. Absent the founder's yes, the price stays parked.</text>
+    </svg>
+  </div>
+
+  <!-- SIDE PANELS -->
+  <div class="side">
+    <div class="panel" style="flex:1">
+      <div class="ph">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16"/><path d="M8 8h12l-3 4 3 4H8z"/></svg>
+        <h3>The parameter gate decides what exists.</h3>
+      </div>
+      <p>Inventory every parameter the design would need: delivery input, capacity, cap, spot count, guarantee window, buyer behavior, and launch audience. Run each through the shared parameter gate before applying a heuristic.</p>
+      <p>A missing value gets one question or a parked label, and is <mark>excluded from current terms</mark> and from the customer-facing close. A heuristic supplies a question, never an invented input.</p>
+      <div class="chips">
+        <span class="chip">delivery input</span><span class="chip">capacity</span><span class="chip">cap</span>
+        <span class="chip">spot count</span><span class="chip">guarantee window</span><span class="chip">buyer behavior</span>
+        <span class="chip">launch audience</span>
+      </div>
+    </div>
+
+    <div class="panel" style="flex:1">
+      <div class="ph">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 9h14"/><path d="M5 9l-2 5a3 3 0 0 0 4 0z"/><path d="M19 9l2 5a3 3 0 0 1-4 0z"/></svg>
+        <h3>Both legs, or the element parks.</h3>
+      </div>
+      <p>Every element of the final recommendation carries <mark>both legs</mark>: at least one fact about their business — a past payment, a margin, a churn number, an audience count — and at least one checked external comparable from research.</p>
+      <p>A leg missing moves that element to Parked recommendations and names recall or research as the next action. "Needs your call" is only for a judgment fork after the evidence is present.</p>
+      <div class="kv"><span class="k">rule</span><span>The heuristics choose the questions. The receipts justify the answers.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BOTTOM ══ -->
+<div class="bot">
+
+  <div class="panel">
+    <div class="ph">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 4v5c0 4-3.4 6.4-8 7-4.6-.6-8-3-8-7V8z"/><path d="M12 9v4"/><path d="M12 16v.01"/></svg>
+      <h3>Below the stack, sizing stops big moves.</h3>
+    </div>
+    <p>Public price changes, repricing existing customers, and anything that materially moves revenue are <mark>BIG</mark>, and go to the gauntlet before any design happens. A small reversible test sizes small only when its bounded audience, cost, and rollback are recorded.</p>
+    <p>A BIG label has <mark>no experiment-shaped bypass</mark>. Discovering mid-design that the move needed interrogation is discovering it too late.</p>
+    <div class="chips">
+      <span class="chip">idea → gauntlet</span><span class="chip">survived → verdict</span><span class="chip">planned → amend</span>
+      <span class="chip">executing → amend</span><span class="chip red">reviewed · banked → reopens:</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ph">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/><path d="M8.5 13h7M8.5 17h4"/></svg>
+      <h3>One file carries the current terms.</h3>
+    </div>
+    <p>The canonical home is always <span class="chip" style="padding:1px 5px">wiki/business/offer.md</span>: Audience, Promise, Ladder and price, Terms, Receipts, Parked recommendations, History. Superseded terms keep their dates there; <mark>one file carries current truth</mark>.</p>
+    <ul class="states" style="margin-top:7px">
+      <li class="on"><span class="s">draft</span>While any recommendation is parked.</li>
+      <li><span class="s">approved</span>After founder confirmation, every receipt present.</li>
+      <li><span class="s">active</span>Only after the founder confirms it is live.</li>
+      <li><span class="s">retired</span>When a successor takes over.</li>
+    </ul>
+    <div class="kv" style="margin-top:auto;padding-top:7px;border-top:1px solid var(--rule)"><span class="k">T1</span><span>Every term row is a <mark>consent surface</mark>: <span class="chip" style="padding:1px 4px">raw/inbox/session-receipt-&lt;date&gt;.md</span></span></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#F93332" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a4 4 0 0 0 5.7.4l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.5 1.5"/><path d="M14 11a4 4 0 0 0-5.7-.4l-2.6 2.6a4 4 0 0 0 5.7 5.7l1.5-1.5"/></svg>
+      <h3>The layers move together or not at all.</h3>
+    </div>
+    <p>Before close, run the linked-state transaction across the offer's current constraints, its customer-facing close, the index summary, linked initiative decisions, and metrics. A known-wrong cap <mark>cannot remain in active close copy</mark>.</p>
+    <div class="kv"><span class="k">gate</span><span>Run scripts/graph-audit on every touched durable file, fix, rerun until it exits zero.</span></div>
+    <div class="kv"><span class="k">log</span><span>Append exactly one row: ## [date] offer | what was designed.</span></div>
+    <div class="kv" style="margin-bottom:2px"><span class="k">close</span><span>The offer in three lines, the strongest receipt, the one next move.</span></div>
+    <p class="foot">/co-founder:offer · source: skills/offer/SKILL.md</p>
+  </div>
+</div>
+
+</body>
+</html>

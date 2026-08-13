@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>co-founder-setup · sequence</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper:       #F4F4F5;
+    --paper-2:     #EFEFF2;
+    --card:        #FFFFFF;
+    --ink:         #111111;
+    --muted:       #6B6B6B;
+    --soft:        #A0A0A8;
+    --rule:        #D9D9DE;
+    --rule-solid:  #C4C4CA;
+    --accent:      #F93332;
+    --accent-tint: rgba(249,51,50,0.10);
+    --font-title:  'Space Grotesk', system-ui, sans-serif;
+    --font-sans:   'Inter', system-ui, sans-serif;
+    --font-mono:   'Geist Mono', ui-monospace, Menlo, monospace;
+  }
+
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    padding: 28px 40px 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  mark {
+    background: linear-gradient(104deg,
+      rgba(249,51,50,0) 0.4%,
+      rgba(249,51,50,0.18) 2.4%,
+      rgba(249,51,50,0.22) 96%,
+      rgba(249,51,50,0) 99.2%);
+    color: inherit;
+    padding: 0.06em 0.22em;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* ---------- header ---------- */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  h1 {
+    font-family: var(--font-title);
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.16;
+    margin-top: 10px;
+  }
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  header { margin-bottom: 16px; }
+
+  /* ---------- main split ---------- */
+  main { display: flex; gap: 24px; height: 700px; align-items: flex-start; }
+
+  .rail {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 690px;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 11px 13px 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .panel-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 9px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .panel-head h2 {
+    font-family: var(--font-title);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    flex: 1;
+  }
+  .panel-head .tag {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: var(--soft);
+    text-transform: uppercase;
+  }
+  .panel p {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #3A3A3E;
+  }
+  .panel p + p { margin-top: 6px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    line-height: 1;
+    padding: 4px 6px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: #2A2A2E;
+    white-space: nowrap;
+  }
+  .chip b { color: var(--accent); font-weight: 500; }
+  code {
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    padding: 2px 5px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: #2A2A2E;
+    white-space: nowrap;
+  }
+  code b { color: var(--accent); font-weight: 500; }
+
+  .eq {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    padding: 7px 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: #2A2A2E;
+    margin: 2px 0 8px;
+    text-align: center;
+  }
+  .eq b { color: var(--accent); font-weight: 500; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 16px;
+    height: 690px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  svg.seq { display: block; }
+
+  /* ---------- footer ---------- */
+  footer {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: var(--soft);
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">/co-founder · skill 01 · co-founder-setup · sequence view</p>
+    <h1>Setup mines the facts. Every decision stays <mark>the founder's.</mark></h1>
+    <p class="subtitle">Eight questions, one per turn, each shipped with a working hypothesis to react to — and the charter, the vault, and the voice file are written only after <mark>one explicit yes</mark>.</p>
+  </header>
+
+  <main>
+
+    <!-- ================= LEFT RAIL ================= -->
+    <div class="rail">
+
+      <div class="panel">
+        <div class="panel-head">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3.5h11v7h-7l-4 3z"/><path d="M5.5 6h5M5.5 8.4h3"/></svg>
+          <h2>The eight, one per turn.</h2>
+          <span class="tag">step 2</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>01</b> what it sells</span>
+          <span class="chip"><b>02</b> stage</span>
+          <span class="chip"><b>03</b> quarter goal</span>
+          <span class="chip"><b>04</b> pricing</span>
+          <span class="chip"><b>05</b> non-negotiables</span>
+          <span class="chip"><b>06</b> format</span>
+          <span class="chip"><b>07</b> voice</span>
+          <span class="chip"><b>08</b> vault home</span>
+        </div>
+        <p>Every question carries a <mark>working hypothesis</mark>, so the founder reacts instead of composing from scratch. Question 4 is skippable without shame; question 7 takes 2-3 real writing samples.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4.2"/><path d="M10.2 10.2l3 3M7 5.2v3.6"/></svg>
+          <h2>Facts are mined, decisions are not.</h2>
+          <span class="tag">gate</span>
+        </div>
+        <p>Facts the skill can find itself, it finds itself; only decisions reach the founder. A direct answer is recorded as <code>Founder-stated: <b>unverified</b></code> unless another checked source verifies it.</p>
+        <p>A skipped question is <mark>recorded as skipped</mark>, never guessed at, and a plausible default never becomes founder context.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="11" rx="2"/><path d="M5 6h6M5 9.5h2.4M9.6 9.5h1.4M10.3 8.8v1.4"/></svg>
+          <h2>The arithmetic gate.</h2>
+          <span class="tag">step 2</span>
+        </div>
+        <div class="eq">2 × €800/client/month = <b>€1,600/month</b></div>
+        <p>Every derived value is recomputed from the stated inputs before confirmation. A stated total of €1,800 conflicts, so setup shows the mismatch as <mark>one equation</mark> and asks <mark>which input should change</mark>. Nothing is rounded or silently repaired.</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.2a1.7 1.7 0 011.7-1.7h2.1l1.3 1.7h4.7a1.7 1.7 0 011.7 1.7v6a1.7 1.7 0 01-1.7 1.7H4.2a1.7 1.7 0 01-1.7-1.7z"/><path d="M6 9.4l1.5 1.5L10.3 8"/></svg>
+          <h2>What the yes releases.</h2>
+          <span class="tag">steps 4-6</span>
+        </div>
+        <div class="chips">
+          <span class="chip">AGENTS<b>.md</b></span>
+          <span class="chip">CLAUDE<b>.md</b></span>
+          <span class="chip">index<b>.md</b></span>
+          <span class="chip">log<b>.md</b></span>
+          <span class="chip">wiki/business/voice<b>.md</b></span>
+          <span class="chip">scripts/graph-audit</span>
+        </div>
+        <p>The charter fills the template <mark>under 150 lines</mark> in the founder's own words, and the vault ships seven fixed hub notes. <code>.co-founder-version</code> holds <code>1.0.0</code> only once <code>graph-audit</code> <mark>exits zero</mark>.</p>
+      </div>
+
+    </div>
+
+    <!-- ================= HERO: SEQUENCE ================= -->
+    <div class="hero">
+      <svg class="seq" width="1056" height="656" viewBox="0 0 1056 656" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="seq-title">
+        <title id="seq-title">The setup interview as a dialogue between the founder, the setup skill, and the vault.</title>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#6B6B6B"/>
+          </marker>
+          <marker id="arrow-ink" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#4A4A52"/>
+          </marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#F93332"/>
+          </marker>
+        </defs>
+
+        <rect width="1056" height="656" fill="#FFFFFF"/>
+
+        <!-- ===== lifelines (FOUNDER 168 · SETUP 528 · VAULT 892) ===== -->
+        <line x1="168" y1="64" x2="168" y2="596" stroke="#C4C4CA" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="528" y1="64" x2="528" y2="596" stroke="#C4C4CA" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="892" y1="64" x2="892" y2="596" stroke="#C4C4CA" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- ===== LOOP fragment frame (founder + setup only) ===== -->
+        <rect x="104" y="84" width="576" height="172" rx="4" fill="rgba(17,17,17,0.02)" stroke="rgba(17,17,17,0.22)" stroke-width="1"/>
+        <rect x="104" y="84" width="48" height="16" rx="2" fill="#EFEFF2" stroke="rgba(17,17,17,0.22)" stroke-width="1"/>
+        <text x="128" y="96" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.12em">LOOP</text>
+        <text x="160" y="96" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">[for each of the 8 questions · one per turn]</text>
+
+        <!-- ===== activation bars ===== -->
+        <rect x="524" y="128" width="8" height="464" fill="rgba(17,17,17,0.06)" stroke="#6B6B6B" stroke-width="0.8"/>
+        <rect x="164" y="140" width="8" height="48" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="0.8"/>
+        <rect x="164" y="364" width="8" height="48" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="0.8"/>
+        <rect x="888" y="440" width="8" height="116" fill="rgba(17,17,17,0.06)" stroke="#6B6B6B" stroke-width="0.8"/>
+
+        <!-- ===== messages (time flows down) ===== -->
+        <!-- M1 setup -> founder : ask -->
+        <line x1="524" y1="140" x2="176" y2="140" stroke="#6B6B6B" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- M2 founder -> setup : answer (return, dashed) -->
+        <line x1="172" y1="180" x2="520" y2="180" stroke="#6B6B6B" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <!-- M3 setup self : mine the fact -->
+        <path d="M 532 208 L 580 208 L 580 240 L 532 240" fill="none" stroke="#6B6B6B" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- M4 setup self : recompute totals -->
+        <path d="M 532 296 L 580 296 L 580 328 L 532 328" fill="none" stroke="#4A4A52" stroke-width="1.2" marker-end="url(#arrow-ink)"/>
+        <!-- M5 setup -> founder : full profile -->
+        <line x1="524" y1="364" x2="176" y2="364" stroke="#6B6B6B" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <!-- M6 founder -> setup : the yes (headline, accent) -->
+        <line x1="172" y1="404" x2="520" y2="404" stroke="#F93332" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+        <!-- M7/M8/M9 setup -> vault -->
+        <line x1="532" y1="444" x2="884" y2="444" stroke="#4A4A52" stroke-width="1.2" marker-end="url(#arrow-ink)"/>
+        <line x1="532" y1="480" x2="884" y2="480" stroke="#4A4A52" stroke-width="1.2" marker-end="url(#arrow-ink)"/>
+        <line x1="532" y1="516" x2="884" y2="516" stroke="#4A4A52" stroke-width="1.2" marker-end="url(#arrow-ink)"/>
+        <!-- M10 vault -> setup : exit zero (return, dashed) -->
+        <line x1="888" y1="552" x2="536" y2="552" stroke="#6B6B6B" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <!-- M11 setup -> founder : hand off -->
+        <line x1="524" y1="588" x2="176" y2="588" stroke="#4A4A52" stroke-width="1.2" marker-end="url(#arrow-ink)"/>
+
+        <!-- ===== message labels (masked, 8px above the stroke) ===== -->
+        <rect x="292" y="120" width="112" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="348" y="130" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">Q + HYPOTHESIS</text>
+        <rect x="292" y="160" width="112" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="348" y="170" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ANSWER OR SKIP</text>
+
+        <rect x="588" y="216" width="88" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="588" y="226" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">MINE THE FACT</text>
+        <text x="588" y="242" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">stored unverified</text>
+
+        <rect x="588" y="304" width="100" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="588" y="314" fill="#4A4A52" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.08em">RECOMPUTE TOTALS</text>
+        <text x="588" y="330" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">derived from inputs</text>
+
+        <rect x="300" y="344" width="96" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="348" y="354" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">FULL PROFILE</text>
+        <text x="348" y="380" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.04em">identity, laws, metrics, one screen</text>
+
+        <rect x="288" y="384" width="120" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="348" y="394" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">ONE EXPLICIT YES</text>
+
+        <rect x="656" y="424" width="120" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="708" y="434" fill="#4A4A52" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">WRITE THE CHARTER</text>
+
+        <rect x="656" y="460" width="120" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="708" y="470" fill="#4A4A52" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SCAFFOLD + VOICE</text>
+
+        <rect x="656" y="496" width="120" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="708" y="506" fill="#4A4A52" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">RUN GRAPH-AUDIT</text>
+
+        <rect x="656" y="532" width="120" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="708" y="542" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXIT ZERO · 1.0.0</text>
+
+        <rect x="292" y="568" width="112" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="348" y="578" fill="#4A4A52" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">THREE ARTIFACTS</text>
+
+        <!-- ===== side notes on the right margin ===== -->
+        <text x="704" y="152" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">a skipped question is</text>
+        <text x="704" y="164" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">recorded, never guessed</text>
+
+        <!-- phase divider: everything below is a write -->
+        <line x1="104" y1="424" x2="520" y2="424" stroke="#D9D9DE" stroke-width="1" stroke-dasharray="2,4"/>
+        <line x1="536" y1="424" x2="996" y2="424" stroke="#D9D9DE" stroke-width="1" stroke-dasharray="2,4"/>
+        <rect x="784" y="404" width="212" height="12" rx="2" fill="#FFFFFF"/>
+        <text x="996" y="414" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="end" letter-spacing="0.08em">NOTHING IS WRITTEN ABOVE THIS LINE</text>
+
+        <!-- callout A: confirm back -->
+        <rect x="200" y="268" width="288" height="68" rx="6" fill="#F4F4F5" stroke="#D9D9DE" stroke-width="1"/>
+        <text x="212" y="286" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">STEP 3 · CONFIRM BACK</text>
+        <text x="212" y="304" fill="#3A3A3E" font-size="10" font-family="'Inter', sans-serif">Any correction is integrated, then the whole</text>
+        <text x="212" y="318" fill="#3A3A3E" font-size="10" font-family="'Inter', sans-serif">profile is re-presented and the yes asked again.</text>
+        <text x="212" y="330" fill="#F93332" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.06em">A REVISION IS NEVER A CONFIRMATION.</text>
+
+        <!-- callout B: the log -->
+        <rect x="200" y="456" width="288" height="100" rx="6" fill="#F4F4F5" stroke="#D9D9DE" stroke-width="1"/>
+        <text x="212" y="474" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">STEPS 5-6 · WHAT THE LEDGER SAYS</text>
+        <text x="212" y="492" fill="#3A3A3E" font-size="10" font-family="'Inter', sans-serif">A fresh run leaves exactly two rows in log.md,</text>
+        <text x="212" y="506" fill="#3A3A3E" font-size="10" font-family="'Inter', sans-serif">in this order, and no invented verb:</text>
+        <rect x="212" y="514" width="264" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+        <text x="220" y="525" fill="#2A2A2E" font-size="8" font-family="'Geist Mono', monospace">## [date] setup | vault created</text>
+        <rect x="212" y="534" width="264" height="16" rx="4" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="1"/>
+        <text x="220" y="545" fill="#2A2A2E" font-size="8" font-family="'Geist Mono', monospace">## [date] vision | stub for &lt;quarter goal&gt;</text>
+
+        <text x="176" y="608" fill="#A0A0A8" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.04em">next command: /co-founder:vision · then plan, then sprint</text>
+
+        <!-- ===== actor boxes (drawn last) ===== -->
+        <!-- FOUNDER (focal) -->
+        <rect x="64" y="8" width="208" height="56" rx="6" fill="#FFFFFF"/>
+        <rect x="64" y="8" width="208" height="56" rx="6" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+        <rect x="72" y="16" width="28" height="12" rx="2" fill="none" stroke="rgba(249,51,50,0.50)" stroke-width="0.8"/>
+        <text x="86" y="25" fill="#F93332" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">FDR</text>
+        <g transform="translate(236,14)" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="6" r="3.2"/><path d="M2 15.2c0-3.3 2.7-5.2 6-5.2s6 1.9 6 5.2"/>
+        </g>
+        <text x="168" y="44" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">Founder</text>
+        <text x="168" y="58" fill="#6B6B6B" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">non-technical · decides</text>
+
+        <!-- SETUP -->
+        <rect x="424" y="8" width="208" height="56" rx="6" fill="#FFFFFF"/>
+        <rect x="424" y="8" width="208" height="56" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1"/>
+        <rect x="432" y="16" width="28" height="12" rx="2" fill="none" stroke="rgba(17,17,17,0.40)" stroke-width="0.8"/>
+        <text x="446" y="25" fill="#111111" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">SKL</text>
+        <g transform="translate(596,14)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.6 3.2h12.8v8.4H7.2L3.6 14.4v-2.8H1.6z"/><path d="M4.8 5.8h6.4M4.8 8.6h4"/>
+        </g>
+        <text x="528" y="44" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">co-founder-setup</text>
+        <text x="528" y="58" fill="#6B6B6B" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">interviews · mines · writes</text>
+
+        <!-- VAULT (store) -->
+        <rect x="788" y="8" width="208" height="56" rx="6" fill="#FFFFFF"/>
+        <rect x="788" y="8" width="208" height="56" rx="6" fill="rgba(17,17,17,0.05)" stroke="#6B6B6B" stroke-width="1"/>
+        <rect x="796" y="16" width="28" height="12" rx="2" fill="none" stroke="rgba(107,107,107,0.50)" stroke-width="0.8"/>
+        <text x="810" y="25" fill="#6B6B6B" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">VLT</text>
+        <g transform="translate(960,14)" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1.6 4.4a1.6 1.6 0 011.6-1.6h2.4l1.2 1.6h5.6a1.6 1.6 0 011.6 1.6v6a1.6 1.6 0 01-1.6 1.6H3.2a1.6 1.6 0 01-1.6-1.6z"/>
+        </g>
+        <text x="892" y="44" fill="#111111" font-size="12" font-weight="600" font-family="'Inter', sans-serif" text-anchor="middle">The vault</text>
+        <text x="892" y="58" fill="#6B6B6B" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">plain markdown on disk</text>
+
+        <!-- ===== legend ===== -->
+        <line x1="64" y1="616" x2="996" y2="616" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="64" y="640" fill="#6B6B6B" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+
+        <rect x="152" y="632" width="14" height="10" rx="2" fill="rgba(249,51,50,0.10)" stroke="#F93332" stroke-width="1"/>
+        <text x="176" y="640" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Focal actor</text>
+
+        <rect x="288" y="628" width="4" height="18" fill="rgba(17,17,17,0.06)" stroke="#6B6B6B" stroke-width="0.8"/>
+        <text x="304" y="640" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Holds control</text>
+
+        <line x1="424" y1="638" x2="452" y2="638" stroke="#6B6B6B" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <text x="460" y="640" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Question asked</text>
+
+        <line x1="576" y1="638" x2="604" y2="638" stroke="#6B6B6B" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+        <text x="612" y="640" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Answer returned</text>
+
+        <line x1="732" y1="638" x2="760" y2="638" stroke="#4A4A52" stroke-width="1.2" marker-end="url(#arrow-ink)"/>
+        <text x="768" y="640" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">Write to disk</text>
+
+        <line x1="872" y1="638" x2="900" y2="638" stroke="#F93332" stroke-width="1.5" marker-end="url(#arrow-accent)"/>
+        <text x="908" y="640" fill="#6B6B6B" font-size="9" font-family="'Inter', sans-serif">The confirmation</text>
+      </svg>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>co-founder-setup · one interview, three artifacts · sequence view</span>
+    <span>never end on plumbing · end on what they own now</span>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>research · the refinery</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --paper:#F4F4F5;--paper2:#EFEFF2;--card:#FFFFFF;--ink:#111111;--muted:#6B6B6B;--soft:#A0A0A8;
+  --rule:#D9D9DE;--rule2:#C4C4CA;--accent:#F93332;--tint:rgba(249,51,50,0.10);
+  --sans:'Inter',system-ui,sans-serif;--display:'Space Grotesk',system-ui,sans-serif;--mono:'Geist Mono',ui-monospace,monospace;
+}
+html,body{width:1600px;height:900px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans)}
+.board{width:1600px;height:900px;padding:28px;display:grid;grid-template-columns:356px 1168px;gap:20px}
+mark{background:linear-gradient(104deg,rgba(249,51,50,0) 0.4%,rgba(249,51,50,0.17) 2.2%,rgba(249,51,50,0.20) 96%,rgba(249,51,50,0) 99%);
+  color:inherit;padding:0 .16em;border-radius:2px;display:inline-block;transform:rotate(-1deg)}
+.eyebrow{font:500 9px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* left rail */
+.rail{display:flex;flex-direction:column;gap:12px;height:844px}
+h1{font:500 34px/1.08 var(--display);letter-spacing:-.022em;margin:8px 0 9px}
+.sub{font:400 13px/1.52 var(--sans);color:var(--muted)}
+.rcard{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:11px 13px 12px}
+.rcard.grow{flex:1;min-height:0;display:flex;flex-direction:column}
+.chead{display:flex;align-items:center;gap:7px;padding-bottom:7px;margin-bottom:8px;border-bottom:1px solid var(--rule)}
+.chead h3{font:600 13px/1.25 var(--display);letter-spacing:-.01em}
+.rcard p{font:400 11.5px/1.45 var(--sans);color:var(--muted)}
+.rcard p + p{margin-top:6px}
+.rcard ul{list-style:none}
+.rcard li{font:400 11.5px/1.42 var(--sans);color:var(--muted);padding-left:13px;position:relative;margin-bottom:5px}
+.rcard li::before{content:'—';position:absolute;left:0;color:var(--rule2)}
+.rcard li b{color:var(--ink);font-weight:600}
+.rcard p b{color:var(--ink);font-weight:600}
+.chiprow{display:flex;flex-wrap:wrap;gap:5px}
+.chiprow.top{margin-bottom:8px}
+.chip{font:500 9.5px var(--mono);background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:3px 6px;color:var(--ink)}
+.chip .t{color:var(--accent)}
+.foot{margin-top:auto;font:400 9.5px var(--mono);letter-spacing:.08em;color:var(--soft)}
+
+/* right column */
+.right{display:flex;flex-direction:column;gap:16px;height:844px}
+.hero{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:12px}
+.hero svg{display:block;margin:0 auto}
+.grid{display:grid;grid-template-columns:1.14fr 1fr .96fr;gap:16px;flex:1;min-height:0}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:11px 13px 12px;display:flex;flex-direction:column;min-height:0}
+.card p{font:400 11.5px/1.45 var(--sans);color:var(--muted)}
+.card p + p{margin-top:6px}
+.card b{color:var(--ink);font-weight:600}
+.card .chiprow{margin-top:auto;padding-top:9px}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <!-- ============ LEFT RAIL ============ -->
+  <div class="rail">
+    <div>
+      <p class="eyebrow">Data flow · /co-founder:research</p>
+      <h1>Raw claims in. Only <mark>graded receipts</mark> out.</h1>
+      <p class="sub">Advice built on training data is pattern-matching dressed as knowledge. This skill goes and finds <mark>what is true right now</mark>, checks it, cites it, and files it where the business can use it again.</p>
+    </div>
+
+    <div class="rcard">
+      <div class="chead">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round"><path d="M3 12h4"/><path d="M3 8h7"/><path d="M3 4h10"/></svg>
+        <h3>The tier sets the sweep</h3>
+      </div>
+      <div class="chiprow top">
+        <span class="chip">quick <span class="t">2-3 sources</span></span>
+        <span class="chip">standard <span class="t">5-8 sources</span></span>
+        <span class="chip">deep <span class="t">opt-in</span></span>
+      </div>
+      <p>Quick is a fact to check in minutes. Standard is a decision input from multiple angles. Deep is bet-the-business only, and the founder says yes first because it costs real time and tokens. <mark>Uncertain resolves upward.</mark></p>
+    </div>
+
+    <div class="rcard grow">
+      <div class="chead">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8.5l3 3 8-8"/></svg>
+        <h3>Three grades, no fourth</h3>
+      </div>
+      <ul>
+        <li><b>Verified.</b> <mark>Independent sources</mark> agree.</li>
+        <li><b>Stated.</b> One source claims it, so it travels as a quote and never as truth.</li>
+        <li><b>Contested.</b> Sources disagree, and both sides go into the page.</li>
+      </ul>
+      <p>The deep tier adds an adversarial pass whose only job is to break each load-bearing claim.</p>
+      <p>Findings can be external facts without pretending to know what this business should do.</p>
+      <p><b>Ask before you assert.</b> Never present a quantity, duration, sample size, date, or causal motive in prose before asking the founder for it or citing a receipt for it.</p>
+    </div>
+
+    <div class="rcard">
+      <div class="chead">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round"><path d="M6.5 9.5l3-3"/><path d="M8.5 4.5l1.2-1.2a2.4 2.4 0 013.4 3.4L11.9 7.9"/><path d="M7.5 11.5l-1.2 1.2a2.4 2.4 0 01-3.4-3.4L4.1 8.1"/></svg>
+        <h3>The receipts contract</h3>
+      </div>
+      <p>A benchmark applied to this business, a "should" answer, or any other consequential recommendation needs <mark>one internal receipt and one verified external source</mark>. One leg missing and it ships as a parked line, never as a call.</p>
+      <div class="chiprow" style="margin-top:8px">
+        <span class="chip"><span class="t">PARKED:</span> internal receipt missing</span>
+        <span class="chip"><span class="t">PARKED:</span> external receipt missing</span>
+      </div>
+    </div>
+
+    <p class="foot">/co-founder:research · receipts or it doesn't ship</p>
+  </div>
+
+  <!-- ============ RIGHT COLUMN ============ -->
+  <div class="right">
+
+    <div class="hero">
+      <svg width="1136" height="604" viewBox="0 0 1136 604" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="research-v2-title research-v2-desc">
+        <title id="research-v2-title">The research refinery: sources, transforms, sinks</title>
+        <desc id="research-v2-desc">The founder's question, the vault, and live search engines feed a chain of transforms — sharpen, tier, sweep, and a grading pass — whose graded claims land in a filed research page, while zero-result searches leave as a verified-absence record instead of a finding.</desc>
+        <defs>
+          <marker id="am" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#6B6B6B"/></marker>
+          <marker id="aa" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#F93332"/></marker>
+          <marker id="al" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#4A4A52"/></marker>
+        </defs>
+
+        <!-- header strip -->
+        <text x="8" y="22" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing="0.14em">3 ZONES · 10 NODES</text>
+        <g font-family="'Geist Mono',monospace" text-anchor="middle">
+          <rect x="128" y="4" width="32" height="16" rx="8" fill="rgba(17,17,17,0.10)"/>
+          <text x="144" y="15" fill="#111111" font-size="8" font-weight="600">01</text>
+          <text x="144" y="33" fill="#6B6B6B" font-size="8" font-weight="500" letter-spacing="0.14em">SOURCES</text>
+          <rect x="454" y="4" width="32" height="16" rx="8" fill="rgba(249,51,50,0.20)"/>
+          <text x="470" y="15" fill="#F93332" font-size="8" font-weight="600">02</text>
+          <text x="470" y="33" fill="#F93332" font-size="8" font-weight="500" letter-spacing="0.14em">TRANSFORMS</text>
+          <rect x="916" y="4" width="32" height="16" rx="8" fill="rgba(17,17,17,0.10)"/>
+          <text x="932" y="15" fill="#111111" font-size="8" font-weight="600">03</text>
+          <text x="932" y="33" fill="#6B6B6B" font-size="8" font-weight="500" letter-spacing="0.14em">SINKS</text>
+        </g>
+        <line x1="0" y1="40" x2="1136" y2="40" stroke="rgba(17,17,17,0.12)" stroke-width="0.8"/>
+
+        <!-- zone containers -->
+        <rect x="8" y="48" width="272" height="456" rx="8" fill="rgba(17,17,17,0.022)" stroke="rgba(17,17,17,0.10)" stroke-width="0.8"/>
+        <rect x="320" y="48" width="300" height="456" rx="8" fill="rgba(249,51,50,0.035)" stroke="rgba(249,51,50,0.22)" stroke-width="0.8"/>
+        <rect x="736" y="48" width="392" height="456" rx="8" fill="rgba(17,17,17,0.022)" stroke="rgba(17,17,17,0.10)" stroke-width="0.8"/>
+
+        <!-- ===== connectors (drawn before nodes) ===== -->
+        <g fill="none" stroke="#6B6B6B" stroke-width="1">
+          <path d="M260 126 H284 Q292 126 292 118 V104 Q292 96 300 96 H336" marker-end="url(#am)"/>
+          <path d="M260 278 H300 Q308 278 308 270 V136 Q308 128 316 128 H336" marker-end="url(#am)"/>
+          <path d="M260 430 H284 Q292 430 292 422 V342 Q292 334 300 334 H336" marker-end="url(#am)"/>
+          <path d="M470 156 V172" marker-end="url(#am)"/>
+          <path d="M470 268 V284" marker-end="url(#am)"/>
+          <path d="M470 380 V396" marker-end="url(#am)"/>
+          <path d="M600 334 H660 Q668 334 668 326 V144 Q668 136 676 136 H752" marker-end="url(#am)"/>
+        </g>
+        <path d="M932 384 V400" fill="none" stroke="#4A4A52" stroke-width="1" marker-end="url(#al)"/>
+        <path d="M600 446 H700 Q708 446 708 438 V314 Q708 306 716 306 H752" fill="none" stroke="#F93332" stroke-width="1.5" marker-end="url(#aa)"/>
+        <rect x="622" y="424" width="68" height="13" rx="2" fill="#FFFFFF"/>
+        <text x="656" y="434" fill="#F93332" font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em" text-anchor="middle">GRADED ONLY</text>
+
+        <!-- ===== zone 01: sources ===== -->
+        <!-- A1 -->
+        <rect x="28" y="64" width="232" height="124" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="40" y="76" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="55" y="85" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">FDR</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M232 76h14v10h-8l-4 4v-4h-2z"/></g>
+        <text x="40" y="106" fill="#111111" font-size="13" font-weight="600">The founder's question</text>
+        <text x="40" y="125" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">one line, decision-shaped</text>
+        <text x="40" y="142" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">restated, then confirmed</text>
+        <text x="40" y="160" fill="#6B6B6B" font-size="10.5">"Research newsletters" is not one.</text>
+        <rect x="222" y="168" width="26" height="11" rx="3" fill="#6B6B6B"/>
+        <text x="235" y="176.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">ASK</text>
+
+        <!-- A2 -->
+        <rect x="28" y="216" width="232" height="124" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="40" y="228" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="55" y="237" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">VLT</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1"><ellipse cx="239" cy="231" rx="7" ry="2.6"/><path d="M232 231v8c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6v-8"/></g>
+        <text x="40" y="258" fill="#111111" font-size="13" font-weight="600">The vault</text>
+        <text x="40" y="277" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">charter path map · prior dossiers</text>
+        <text x="40" y="294" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">the parameter gate reads it first</text>
+        <text x="40" y="312" fill="#6B6B6B" font-size="10.5">Then the founder fills the premise.</text>
+        <rect x="222" y="320" width="26" height="11" rx="3" fill="#A0A0A8"/>
+        <text x="235" y="328.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">CTX</text>
+
+        <!-- A3 -->
+        <rect x="28" y="368" width="232" height="124" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="40" y="380" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="55" y="389" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">ENG</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1" stroke-linecap="round"><circle cx="237" cy="382" r="5"/><path d="M241 386l5 5"/></g>
+        <text x="40" y="410" fill="#111111" font-size="13" font-weight="600">Live search engines</text>
+        <text x="40" y="429" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">scrape · social pulse · native fetch</text>
+        <text x="40" y="446" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">three phrasings per question</text>
+        <text x="40" y="464" fill="#6B6B6B" font-size="10.5">Engines vary. The process never does.</text>
+        <rect x="222" y="472" width="26" height="11" rx="3" fill="#4A4A52"/>
+        <text x="235" y="480.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">HIT</text>
+
+        <!-- ===== zone 02: transforms ===== -->
+        <!-- B1 -->
+        <rect x="340" y="64" width="260" height="92" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="352" y="76" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="367" y="85" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">01</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1"><circle cx="572" cy="82" r="5.5"/><path d="M572 74v-3M572 93v-3M564 82h-3M583 82h-3"/></g>
+        <text x="352" y="98" fill="#111111" font-size="13" font-weight="600">Sharpen the question</text>
+        <text x="352" y="116" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">restate what is being decided</text>
+        <text x="352" y="132" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">a double-duty question gets split</text>
+        <rect x="562" y="138" width="26" height="11" rx="3" fill="#6B6B6B"/>
+        <text x="575" y="146.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">ASK</text>
+        <rect x="352" y="138" width="26" height="11" rx="3" fill="#A0A0A8"/>
+        <text x="365" y="146.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">CTX</text>
+
+        <!-- B2 -->
+        <rect x="340" y="176" width="260" height="92" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="352" y="188" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="367" y="197" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">02</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1" stroke-linecap="round"><path d="M566 198h12M566 193h8M566 188h4"/></g>
+        <text x="352" y="210" fill="#111111" font-size="13" font-weight="600">Pick the tier</text>
+        <text x="352" y="228" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">quick · standard · deep</text>
+        <text x="352" y="244" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">state it; deep needs the yes first</text>
+
+        <!-- B3 -->
+        <rect x="340" y="288" width="260" height="92" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="352" y="300" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="367" y="309" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">03</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1" stroke-linecap="round"><path d="M566 310l12-8M566 310h13M566 310l12 8"/></g>
+        <text x="352" y="322" fill="#111111" font-size="13" font-weight="600">Sweep every angle</text>
+        <text x="352" y="340" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">primary sources over roundups</text>
+        <text x="352" y="356" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">every claim captured with its source</text>
+        <rect x="352" y="362" width="26" height="11" rx="3" fill="#6B6B6B"/>
+        <text x="365" y="370.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">ASK</text>
+        <rect x="562" y="362" width="26" height="11" rx="3" fill="#4A4A52"/>
+        <text x="575" y="370.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">HIT</text>
+
+        <!-- B4 focal -->
+        <rect x="340" y="400" width="260" height="92" rx="6" fill="rgba(249,51,50,0.08)" stroke="#F93332" stroke-width="1.4"/>
+        <rect x="352" y="412" width="30" height="12" rx="3" fill="rgba(249,51,50,0.22)"/>
+        <text x="367" y="421" fill="#F93332" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">04</text>
+        <g fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M566 418l3 3 7-7"/><path d="M578 412v12h-14"/></g>
+        <text x="352" y="434" fill="#111111" font-size="13" font-weight="600">Grade every claim</text>
+        <text x="352" y="452" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">verified · stated · contested</text>
+        <text x="352" y="468" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="9">read verify-checklist.md first</text>
+        <rect x="352" y="474" width="26" height="11" rx="3" fill="#4A4A52"/>
+        <text x="365" y="482.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">HIT</text>
+        <rect x="562" y="474" width="26" height="11" rx="3" fill="#F93332"/>
+        <text x="575" y="482.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">GRD</text>
+
+        <!-- ===== zone 03: sinks ===== -->
+        <!-- C1 -->
+        <rect x="756" y="64" width="352" height="144" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="768" y="76" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="783" y="85" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">ABS</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1"><circle cx="1080" cy="82" r="6"/><path d="M1076 78l8 8"/></g>
+        <text x="768" y="106" fill="#111111" font-size="13" font-weight="600">Verified-absence record</text>
+        <text x="768" y="124" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">exact query · engine · date · results inspected</text>
+        <text x="768" y="143" fill="#6B6B6B" font-size="10.5">A finite search supports "none found in this search",</text>
+        <text x="768" y="159" fill="#6B6B6B" font-size="10.5">never "none exists". It bounds the gap and can hold up</text>
+        <text x="768" y="175" fill="#6B6B6B" font-size="10.5">a parked line, and it never ships as a finding.</text>
+        <rect x="1070" y="188" width="26" height="11" rx="3" fill="#111111"/>
+        <text x="1083" y="196.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">DOC</text>
+        <rect x="768" y="188" width="26" height="11" rx="3" fill="#4A4A52"/>
+        <text x="781" y="196.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">HIT</text>
+
+        <!-- C2 -->
+        <rect x="756" y="228" width="352" height="156" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="768" y="240" width="30" height="12" rx="3" fill="rgba(249,51,50,0.22)"/>
+        <text x="783" y="249" fill="#F93332" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">PGE</text>
+        <g fill="none" stroke="#F93332" stroke-width="1.1" stroke-linejoin="round"><path d="M1074 240h8l4 4v12h-12z"/><path d="M1077 248h6M1077 252h6"/></g>
+        <text x="768" y="268" fill="#111111" font-size="13" font-weight="600">The research page</text>
+        <text x="768" y="286" fill="#6B6B6B" font-family="'Geist Mono',monospace" font-size="9">wiki/research/&lt;slug&gt;.md · status from overall confidence</text>
+        <text x="768" y="304" fill="#6B6B6B" font-size="10.5">The question, the synthesis, and every claim with its</text>
+        <text x="768" y="320" fill="#6B6B6B" font-size="10.5">grade and citation, plus the parked recommendations and</text>
+        <text x="768" y="336" fill="#6B6B6B" font-size="10.5">the search record of queries, engines, dates, and counts.</text>
+        <rect x="768" y="344" width="122" height="15" rx="3" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="776" y="355" fill="#111111" font-family="'Geist Mono',monospace" font-size="8.5">type: research</text>
+        <rect x="898" y="344" width="86" height="15" rx="3" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="906" y="355" fill="#111111" font-family="'Geist Mono',monospace" font-size="8.5">sources:</text>
+        <rect x="992" y="344" width="104" height="15" rx="3" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="1000" y="355" fill="#111111" font-family="'Geist Mono',monospace" font-size="8.5">Needs your call</text>
+        <rect x="768" y="364" width="26" height="11" rx="3" fill="#F93332"/>
+        <text x="781" y="372.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">GRD</text>
+        <rect x="1070" y="364" width="26" height="11" rx="3" fill="#111111"/>
+        <text x="1083" y="372.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">DOC</text>
+
+        <!-- C3 -->
+        <rect x="756" y="404" width="352" height="88" rx="6" fill="#FFFFFF" stroke="rgba(17,17,17,0.25)"/>
+        <rect x="768" y="416" width="30" height="12" rx="3" fill="rgba(17,17,17,0.10)"/>
+        <text x="783" y="425" fill="#111111" font-family="'Geist Mono',monospace" font-size="6.5" font-weight="600" text-anchor="middle">IDX</text>
+        <g fill="none" stroke="#6B6B6B" stroke-width="1.1" stroke-linecap="round"><path d="M1072 417h14M1072 422h14M1072 427h9"/></g>
+        <text x="768" y="446" fill="#111111" font-size="13" font-weight="600">Index, hub, and log rows</text>
+        <text x="768" y="464" fill="#6B6B6B" font-size="10.5">Filing updates the index, links the hub, and appends the run.</text>
+        <rect x="768" y="472" width="62" height="15" rx="3" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="776" y="483" fill="#111111" font-family="'Geist Mono',monospace" font-size="8.5">index.md</text>
+        <rect x="838" y="472" width="106" height="15" rx="3" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="846" y="483" fill="#111111" font-family="'Geist Mono',monospace" font-size="8.5">hub/<tspan fill="#F93332">research</tspan>.md</text>
+        <rect x="952" y="472" width="52" height="15" rx="3" fill="#EFEFF2" stroke="#D9D9DE" stroke-width="0.8"/>
+        <text x="960" y="483" fill="#111111" font-family="'Geist Mono',monospace" font-size="8.5">log.md</text>
+        <rect x="1070" y="474" width="26" height="11" rx="3" fill="#111111"/>
+        <text x="1083" y="482.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">DOC</text>
+
+        <!-- ===== legend ===== -->
+        <line x1="0" y1="516" x2="1136" y2="516" stroke="rgba(17,17,17,0.12)" stroke-width="0.8"/>
+        <g font-family="'Geist Mono',monospace" font-size="8" font-weight="500" letter-spacing="0.12em" fill="#A0A0A8" text-anchor="end">
+          <text x="88" y="540">ZONES</text>
+          <text x="88" y="566">PAYLOAD</text>
+          <text x="88" y="592">FLOW</text>
+        </g>
+        <!-- zones row -->
+        <rect x="104" y="530" width="26" height="12" rx="6" fill="rgba(17,17,17,0.10)"/>
+        <text x="117" y="539" fill="#111111" font-family="'Geist Mono',monospace" font-size="7" font-weight="600" text-anchor="middle">01</text>
+        <text x="138" y="540" fill="#6B6B6B" font-size="10.5">The question, the vault, and the live web.</text>
+        <rect x="404" y="530" width="26" height="12" rx="6" fill="rgba(249,51,50,0.20)"/>
+        <text x="417" y="539" fill="#F93332" font-family="'Geist Mono',monospace" font-size="7" font-weight="600" text-anchor="middle">02</text>
+        <text x="438" y="540" fill="#6B6B6B" font-size="10.5">Four passes; the grading pass is the gate.</text>
+        <rect x="712" y="530" width="26" height="12" rx="6" fill="rgba(17,17,17,0.10)"/>
+        <text x="725" y="539" fill="#111111" font-family="'Geist Mono',monospace" font-size="7" font-weight="600" text-anchor="middle">03</text>
+        <text x="746" y="540" fill="#6B6B6B" font-size="10.5">Durable files the next question starts from.</text>
+        <!-- payload row -->
+        <rect x="104" y="558" width="26" height="11" rx="3" fill="#6B6B6B"/>
+        <text x="117" y="566.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">ASK</text>
+        <text x="136" y="566" fill="#6B6B6B" font-size="10.5">the agreed question</text>
+        <rect x="248" y="558" width="26" height="11" rx="3" fill="#A0A0A8"/>
+        <text x="261" y="566.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">CTX</text>
+        <text x="280" y="566" fill="#6B6B6B" font-size="10.5">vault context</text>
+        <rect x="368" y="558" width="26" height="11" rx="3" fill="#4A4A52"/>
+        <text x="381" y="566.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">HIT</text>
+        <text x="400" y="566" fill="#6B6B6B" font-size="10.5">candidate claim with its source</text>
+        <rect x="576" y="558" width="26" height="11" rx="3" fill="#F93332"/>
+        <text x="589" y="566.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">GRD</text>
+        <text x="608" y="566" fill="#6B6B6B" font-size="10.5">graded and quoted claim</text>
+        <rect x="768" y="558" width="26" height="11" rx="3" fill="#111111"/>
+        <text x="781" y="566.5" fill="#FFFFFF" font-family="'Geist Mono',monospace" font-size="6" font-weight="700" text-anchor="middle">DOC</text>
+        <text x="800" y="566" fill="#6B6B6B" font-size="10.5">durable file</text>
+        <text x="900" y="566" fill="#A0A0A8" font-family="'Geist Mono',monospace" font-size="8.5">left chip = input · right chip = output</text>
+        <!-- flow row -->
+        <line x1="104" y1="588" x2="132" y2="588" stroke="#6B6B6B" stroke-width="1" marker-end="url(#am)"/>
+        <text x="142" y="592" fill="#6B6B6B" font-size="10.5">Standard hand-off into the next pass.</text>
+        <line x1="404" y1="588" x2="432" y2="588" stroke="#F93332" stroke-width="1.5" marker-end="url(#aa)"/>
+        <text x="442" y="592" fill="#6B6B6B" font-size="10.5">The only exit a claim has: graded, quoted, cited.</text>
+        <line x1="768" y1="588" x2="796" y2="588" stroke="#4A4A52" stroke-width="1" marker-end="url(#al)"/>
+        <text x="806" y="592" fill="#6B6B6B" font-size="10.5">Filing writes the index, hub, and log.</text>
+      </svg>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="chead">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#F93332" stroke-width="1.2" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><path d="M8 5v4M8 11.4v.2"/></svg>
+          <h3>Capture beats recall</h3>
+        </div>
+        <p>The sweep runs multiple phrasings per question — the practitioner's wording, the vendor's, the skeptic's — because one phrasing finds one bubble. Every candidate claim is captured with its source as it arrives, since <mark>an uncited claim does not exist</mark>.</p>
+        <p>Negative findings carry the exact query, engine, date, and count of results inspected.</p>
+      </div>
+      <div class="card">
+        <div class="chead">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linejoin="round"><path d="M4 7V5a4 4 0 018 0v2"/><rect x="2.6" y="7" width="10.8" height="6.4" rx="1.6"/></svg>
+          <h3>The admission gate</h3>
+        </div>
+        <p>Before anything is filed, the skill <mark>reopens every cited page</mark> and confirms the passage supports the written claim, keeping the short quote beside the citation.</p>
+        <p>A source that vanished, or that turns out not to hold the evidence, is removed: the claim drops to <b>stated</b> with its honest source, or it is dropped.</p>
+      </div>
+      <div class="card">
+        <div class="chead">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#6B6B6B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5l3 3-3 3"/><path d="M8 11h5"/></svg>
+          <h3>The filing gate</h3>
+        </div>
+        <p>The audit script runs on every touched durable file, including the complete page. Violations are fixed and it reruns <mark>until it exits zero</mark>.</p>
+        <p>Chat gets the answer in 3-6 lines, the strongest receipt, and the link. Next month's question starts from the file, never from a re-run.</p>
+        <div class="chiprow">
+          <span class="chip">scripts/<span class="t">graph-audit</span></span>
+          <span class="chip">verify-checklist.md</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
