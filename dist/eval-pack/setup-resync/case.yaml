@@ -1,0 +1,59 @@
+# portable smoke case derived from evals/setup-resync — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: setup-resync-preserves
+description: Re-sync migrates a legacy vault without overwriting founder content.
+tags:
+- setup
+- resync
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: I updated co-founder. Re-sync this existing business folder to 1.0.0. Preserve
+    my custom law, voice file, learning, and history. I approve the migration patch
+    described by the installed setup contract. After migrating, run the re-sync check
+    a second time and verify it proposes no further schema changes.
+graders:
+- type: regex
+  name: preserves-custom-law
+  target:
+    source: file
+    path: AGENTS.md
+  pattern: Never discount below 400 USD
+  match: contains
+  weight: 1
+- type: regex
+  name: preserves-learning-marker
+  target:
+    source: file
+    path: wiki/learnings/keep-this.md
+  pattern: PRESERVE-7F3A
+  match: contains
+  weight: 1
+- type: regex
+  name: preserves-voice-marker
+  target:
+    source: file
+    path: wiki/business/voice.md
+  pattern: VOICE-9C2D
+  match: contains
+  weight: 1
+- type: regex
+  name: writes-version
+  target:
+    source: file
+    path: ".co-founder-version"
+  pattern: "^1\\.1\\.0$"
+  flags: m
+  match: contains
+  weight: 1
+- type: regex
+  name: migration-logged-once
+  target:
+    source: file
+    path: log.md
+  pattern: resync \| migrated 1\.0\.0 to 1\.1\.0
+  match: count:1
+  weight: 1
+expected_outcome: The legacy system migrates once, all custom markers survive, and
+  no parallel vault appears.

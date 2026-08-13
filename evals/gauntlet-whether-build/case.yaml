@@ -1,0 +1,47 @@
+schema_version: "1.1"
+name: gauntlet-whether-build
+description: A WHETHER-to-build question belongs to the gauntlet, not plan.
+tags: [gauntlet, trigger-conflict]
+runs: 1
+execution:
+  prompt: >-
+    Should we build a premium async course for independent designers, or is that a bad bet? This
+    is a standalone folder. Founder-confirmed fact: four workshop buyers asked for recordings.
+    Check one current primary external source before the verdict.
+  max_turns: 12
+  timeout_seconds: 600
+  allowed_tools: [Read, Glob, Grep, Skill, WebFetch]
+graders:
+  - type: tool_used
+    name: invokes-gauntlet
+    tool: Skill
+    input_match: "co-founder:gauntlet"
+    min: 1
+    weight: 1
+  - type: tool_used
+    name: does-not-invoke-plan
+    tool: Skill
+    input_match: "co-founder:plan"
+    min: 0
+    max: 0
+    weight: 1
+  - type: llm
+    name: asks-one-grounded-question
+    criteria: >-
+      The response asks one pointed question with a working recommended answer, quotes the
+      founder-confirmed transcript fact, and does not start planning.
+    focus: trace
+    weight: 1
+  - type: tool_used
+    name: checks-external-receipt
+    tool: WebFetch
+    min: 1
+    weight: 1
+  - type: llm
+    name: labels-standalone-consequence
+    criteria: >-
+      Any go/no-go outcome is prefixed STANDALONE and states that it expires with the
+      conversation, writes no state, cannot authorize plan, and must be repeated after setup.
+    focus: trace
+    weight: 1
+expected_outcome: The gauntlet owns the whether decision and any verdict is explicitly standalone and non-durable.

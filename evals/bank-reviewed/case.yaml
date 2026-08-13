@@ -1,0 +1,34 @@
+schema_version: "1.1"
+name: bank-reviewed
+description: Bank stores a reviewed initiative in durable memory and performs the final legal transition.
+tags: [bank, lifecycle]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    Bank the lesson from the reviewed workshop initiative. It cost 6 hours and produced four paid
+    buyers. The lesson is that a live pilot validates demand before recording a course.
+  max_turns: 16
+  timeout_seconds: 600
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-bank
+    tool: Skill
+    input_match: "co-founder:bank"
+    min: 1
+    weight: 1
+  - type: regex
+    name: initiative-banked
+    target: {source: file, path: wiki/initiatives/pricing-workshop.md}
+    pattern: "state: banked"
+    match: contains
+    weight: 1
+  - type: regex
+    name: learning-has-cost-result
+    target: files
+    pattern: "type: learning[\\s\\S]*cost:[\\s\\S]*result:"
+    match: contains
+    weight: 1
+expected_outcome: The learning is filed and linked, then reviewed advances to banked.

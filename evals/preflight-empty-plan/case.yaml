@@ -1,0 +1,25 @@
+schema_version: "1.1"
+name: preflight-empty-plan-routes-setup
+description: Planning in an empty folder routes to setup without partial creation.
+tags: [plan, empty-folder, preflight]
+runs: 1
+execution:
+  prompt: I want to launch a paid workshop. What is the plan?
+  max_turns: 8
+  timeout_seconds: 300
+  allowed_tools: [Read, Glob, Grep, Skill]
+graders:
+  - type: tool_used
+    name: invokes-plan
+    tool: Skill
+    input_match: "co-founder:plan"
+    min: 1
+    weight: 1
+  - type: llm
+    name: routes-setup-without-writing
+    criteria: >-
+      The response identifies the missing founder-system signature, routes to setup, asks for no
+      planning details yet, and does not create an initiative or partial vault.
+    focus: trace
+    weight: 1
+expected_outcome: Plan stops at universal preflight and names setup as the one next action.

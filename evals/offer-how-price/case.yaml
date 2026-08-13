@@ -1,0 +1,46 @@
+schema_version: "1.1"
+name: offer-how-price
+description: An approved HOW-to-structure-price question belongs to offer, not the gauntlet.
+tags: [offer, trigger-conflict]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    We approved a bounded 500 USD workshop test for ten buyers. How should we structure the
+    payment terms and guarantee? Keep it at the approved price and use the existing receipts.
+  max_turns: 20
+  timeout_seconds: 600
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-offer
+    tool: Skill
+    input_match: "co-founder:offer"
+    min: 1
+    weight: 1
+  - type: tool_used
+    name: does-not-invoke-gauntlet
+    tool: Skill
+    input_match: "co-founder:gauntlet"
+    min: 0
+    max: 0
+    weight: 1
+  - type: regex
+    name: updates-canonical-offer
+    target: {source: file, path: wiki/business/offer.md}
+    pattern: "guarantee|Guarantee|Terms"
+    match: contains
+    weight: 1
+  - type: regex
+    name: preserves-existing-state
+    target: {source: file, path: wiki/initiatives/pricing-workshop.md}
+    pattern: "state: executing"
+    match: contains
+    weight: 1
+  - type: llm
+    name: dedupes-existing-initiative
+    criteria: The trace reuses the exact executing workshop initiative and creates no parallel initiative for the same price move.
+    focus: trace
+    weight: 1
+expected_outcome: Offer updates the canonical offer artifact and keeps one log event.

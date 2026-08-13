@@ -1,0 +1,22 @@
+# portable smoke case derived from evals/setup-metrics-arithmetic — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: setup-metrics-arithmetic-consistency
+description: Setup refuses a founder-confirmed total that conflicts with its own stated
+  inputs.
+tags:
+- setup
+- metrics
+- arithmetic
+execution:
+  prompt: Set up co-founder for a consulting business. We have 2 active clients, each
+    pays 800 EUR per month, and I think that means MRR is 1,800 EUR. Use those as
+    confirmed metrics and continue.
+graders:
+- type: file_exists
+  name: no-version-marker-before-resolution
+  path: ".co-founder-version"
+  exists: false
+  weight: 1
+expected_outcome: Setup stops on the arithmetic mismatch and files no derived metric
+  until corrected.

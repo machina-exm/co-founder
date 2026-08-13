@@ -1,0 +1,102 @@
+schema_version: 1
+release_version: 1.0.0
+
+hermes_name_overrides:
+  plan: plan-initiative
+
+substitutions:
+  skill_dir_conventions:
+    source: '${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md'
+    tierB: references/CONVENTIONS-core.md
+    tierC: '`references/CONVENTIONS-core.md` (in this skill''s own folder — from the terminal it is `${HERMES_SKILL_DIR}/references/CONVENTIONS-core.md`)'
+  skill_dir_self:
+    source: '${CLAUDE_SKILL_DIR}/references/graph-audit'
+    tierB: references/graph-audit
+    tierC: '`references/graph-audit` (from the terminal: `${HERMES_SKILL_DIR}/references/graph-audit`)'
+  route_setup:
+    source: /co-founder:co-founder-setup
+    tierB: the co-founder-setup skill (run it before anything else)
+    tierC: /co-founder-setup
+  route_vision:
+    source: /co-founder:vision
+    tierB: the vision skill — run it now
+    tierC: /vision
+
+hermes_skill_body_substitutions:
+  vault_graph_audit:
+    source: '`scripts/graph-audit`'
+    replacement: "the vault's `graph-audit` script"
+
+hermes_skill_body_rewrites:
+  recall:
+    - source: 'When recall writes a queue item, run `scripts/graph-audit queue.md`.'
+      replacement: "When recall writes a queue item, run the vault's `graph-audit` script on `queue.md`."
+
+expected_counts:
+  skill_dir:
+    total: 16
+    files: 15
+  routes:
+    skill_bodies: 14
+    charter_template: 1
+    total: 15
+
+conventions_split:
+  core_sections:
+    - The readiness state machine
+    - Frontmatter
+    - Paths
+    - Universal preflight
+    - The durable claim admission gate
+    - The parameter gate
+    - The shared dedupe rule
+    - Durable queue item queue
+  reference_sections:
+    The receipts contract:
+      - research
+      - vision
+    Inbox ledger:
+      - co-founder-setup
+
+reference_citations:
+  tierB:
+    research:
+      source: 'the shared receipts contract:'
+      replacement: 'the shared receipts contract in `references/CONVENTIONS-receipts-contract.md`:'
+    vision:
+      source: 'the shared receipts contract.'
+      replacement: 'the shared receipts contract in `references/CONVENTIONS-receipts-contract.md`.'
+    co-founder-setup:
+      source: |-
+        Also seed `queue.md`,
+        `inbox-ledger.md`,
+      replacement: |-
+        Also read `references/CONVENTIONS-inbox-ledger.md`, then seed `queue.md`,
+        `inbox-ledger.md`,
+
+charter_shim:
+  tierB:
+    - path: co-founder-setup/SKILL.md
+      source: '- `AGENTS.md` or `CLAUDE.md` already present: you will extend, not overwrite.'
+      replacement: '- `AGENTS.md` already present: extend it, not overwrite. A lone `CLAUDE.md` is preserved while `AGENTS.md` becomes the single source of truth.'
+    - path: co-founder-setup/SKILL.md
+      source: |-
+        - Neither: you will create `AGENTS.md` as the source of truth and link `CLAUDE.md` to it. On Windows, where links need admin rights, create a two-line `CLAUDE.md` containing `@AGENTS.md` instead.
+      replacement: |-
+        - Neither: create `AGENTS.md` as the single source of truth for all harnesses. Also write `CLAUDE.md` for Claude Code compatibility: link it to `AGENTS.md`, or on Windows, where links need admin rights, create a two-line file containing `@AGENTS.md` instead.
+    - path: co-founder-setup/SKILL.md
+      source: Then create the link per step 1's finding.
+      replacement: Then also write the Claude Code compatibility shim per step 1's finding.
+    - path: co-founder-setup/SKILL.md
+      source: 'Done when: `AGENTS.md` exists, `CLAUDE.md` resolves to it, and every section carries their content, with zero unfilled placeholders.'
+      replacement: 'Done when: `AGENTS.md` exists as the single source of truth, its `CLAUDE.md` compatibility shim resolves to it, and every section carries their content, with zero unfilled placeholders.'
+    - path: co-founder-setup/references/charter-template.md
+      source: 'This file is AGENTS.md; CLAUDE.md links to it.'
+      replacement: 'This file is AGENTS.md, the single source of truth for all harnesses; CLAUDE.md is its Claude Code compatibility shim.'
+    - path: co-founder-setup/references/vault-scaffold.md
+      source: '├── CLAUDE.md            # link to AGENTS.md'
+      replacement: '├── CLAUDE.md            # Claude Code compatibility shim to AGENTS.md'
+
+forbidden_strings:
+  - '${CLAUDE_SKILL_DIR}'
+  - '/co-founder:'

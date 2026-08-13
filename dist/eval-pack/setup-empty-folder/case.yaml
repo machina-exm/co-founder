@@ -1,0 +1,28 @@
+# portable smoke case derived from evals/setup-empty-folder — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: setup-empty-folder
+description: Fresh founder setup starts from an empty Local folder without guessing.
+tags:
+- setup
+- empty-folder
+execution:
+  prompt: I just installed co-founder in this empty business folder. Set me up. The
+    business is Northstar Studio, a pricing workshop for independent designers; pre-revenue;
+    quarter goal is ten paid buyers; no fake urgency; writing format is newsletter;
+    voice is direct, warm, and concrete; vault stays here. Treat these as my answers.
+    I explicitly confirm this exact profile and authorize the scaffold writes; summarize
+    it once, then proceed.
+graders:
+- type: file_exists
+  name: creates-version-marker
+  path: ".co-founder-version"
+  exists: true
+  weight: 1
+- type: file_exists
+  name: creates-charter
+  path: AGENTS.md
+  exists: true
+  weight: 1
+expected_outcome: A complete 1.1 founder system exists and the founder is routed to
+  vision.

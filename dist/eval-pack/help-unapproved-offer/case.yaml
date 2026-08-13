@@ -1,0 +1,18 @@
+# portable smoke case derived from evals/help-unapproved-offer — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: help-unapproved-offer
+description: Help resolves a parked price prerequisite before the gauntlet and offer.
+tags:
+- help
+- router
+- offer
+- gauntlet
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: I want to charge 1,500 USD. Set it up. Which co-founder skill should I use
+    next?
+graders: []
+expected_outcome: Help returns the complete measurement to gauntlet to offer chain
+  without dropping the prompt.

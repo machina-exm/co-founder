@@ -1,0 +1,14 @@
+# portable smoke case derived from evals/preflight-empty-plan — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: preflight-empty-plan-routes-setup
+description: Planning in an empty folder routes to setup without partial creation.
+tags:
+- plan
+- empty-folder
+- preflight
+execution:
+  prompt: I want to launch a paid workshop. What is the plan?
+graders: []
+expected_outcome: Plan stops at universal preflight and names setup as the one next
+  action.

@@ -1,0 +1,25 @@
+schema_version: "1.1"
+name: help-single-route
+description: Help reads the charter and gives one semantic route.
+tags: [help, router]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: I already decided to run the workshop; which co-founder skill helps me figure out how to build it?
+  max_turns: 6
+  timeout_seconds: 240
+  allowed_tools: [Read, Glob, Grep, Skill]
+graders:
+  - type: tool_used
+    name: invokes-help
+    tool: Skill
+    input_match: "co-founder:help"
+    min: 1
+    weight: 1
+  - type: llm
+    name: routes-only-plan
+    criteria: The response reads the trigger map, names plan as the one route, explains why in one sentence, and gives an exact phrase.
+    focus: trace
+    weight: 1
+expected_outcome: Help routes the decided HOW question to plan without touring the collection.

@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "open3"
+require "tmpdir"
+require_relative "../tests/fixtures/validator_vault"
+
+ROOT = File.expand_path("..", __dir__)
+GRAPH_AUDIT = File.join(ROOT, "skills", "co-founder-setup", "references", "graph-audit")
+
+def run(command, vault)
+  Open3.capture3(command, "--root", vault)
+end
+
+Dir.mktmpdir("validator-demo-") do |tmp|
+  vault = File.join(tmp, "vault")
+  ValidatorVaultFixture.build(vault, broken: true)
+
+  _graph_out, graph_err, graph_status = run(GRAPH_AUDIT, vault)
+  abort "validator-demo: planted graph violation was not rejected" if graph_status.success?
+
+  puts "validator-demo: PLANTED GRAPH VIOLATIONS REJECTED"
+  graph_err.lines.grep(/initiative_state|pending Q-|updated .* stale|anchor is absent/).each { |line| puts line.strip }
+
+  ValidatorVaultFixture.build(vault, broken: false)
+  graph_out, graph_err, graph_status = run(GRAPH_AUDIT, vault)
+  abort graph_err unless graph_status.success?
+
+  puts "validator-demo: CORRECTED FIXTURE PASSED"
+  puts graph_out.strip
+end

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research"
+policy:
+  allow_implicit_invocation: true

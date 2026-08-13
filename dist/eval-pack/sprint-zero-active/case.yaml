@@ -1,0 +1,14 @@
+# portable smoke case derived from evals/sprint-zero-active — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: sprint-zero-active
+description: Sprint has a truthful route when no initiative is active.
+tags:
+- sprint
+- first-use
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: Start the day. Where are we and what should I do next?
+graders: []
+expected_outcome: Sprint reports nothing active and routes the quarter goal to plan.

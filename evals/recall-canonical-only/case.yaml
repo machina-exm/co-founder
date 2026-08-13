@@ -1,0 +1,27 @@
+schema_version: "1.1"
+name: recall-canonical-only
+description: Recall uses canonical offer facts and excludes conflicting content drafts.
+tags: [recall, lifecycle]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: What price is our workshop, and what evidence supports it? Check the vault.
+  max_turns: 10
+  timeout_seconds: 300
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-recall
+    tool: Skill
+    input_match: "co-founder:recall"
+    min: 1
+    weight: 1
+  - type: llm
+    name: cites-canonical-not-draft
+    criteria: >-
+      The answer cites offer.md and the supporting research, reports 500 USD, and does not treat
+      the 900 USD content draft as current business truth.
+    focus: trace
+    weight: 1
+expected_outcome: Recall answers from canonical offer evidence and treats draft content only as a draft.

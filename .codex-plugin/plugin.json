@@ -1,0 +1,31 @@
+{
+  "name": "co-founder",
+  "version": "1.0.0",
+  "description": "A co-founder, not a yes-man. Skills that gate half-baked work, ground every recommendation in receipts, and bank your business's memory week after week.",
+  "author": {
+    "name": "Machina",
+    "url": "https://github.com/machina-exm"
+  },
+  "homepage": "https://github.com/machina-exm/co-founder#readme",
+  "repository": "https://github.com/machina-exm/co-founder",
+  "license": "MIT",
+  "keywords": [
+    "business",
+    "co-founder",
+    "solopreneur",
+    "strategy",
+    "knowledge-vault"
+  ],
+  "skills": "./.agents/skills/",
+  "interface": {
+    "displayName": "/co-founder",
+    "shortDescription": "A co-founder, not a yes-man. Skills that gate half-baked work, ground every recommendation in receipts, and bank your business's memory week after week.",
+    "longDescription": "A co-founder, not a yes-man. Skills that gate half-baked work, ground every recommendation in receipts, and bank your business's memory week after week.",
+    "developerName": "Machina",
+    "category": "Productivity",
+    "capabilities": [
+
+    ],
+    "defaultPrompt": "Help me run my business with co-founder."
+  }
+}

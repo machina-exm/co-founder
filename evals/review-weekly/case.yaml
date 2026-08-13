@@ -1,0 +1,35 @@
+schema_version: "1.1"
+name: review-weekly
+description: Review uses deterministic periods, metrics, lifecycle metadata, and durable queue items.
+tags: [review, lifecycle]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    Run the weekly review through today. The completed workshop-outline initiative had its outcome
+    judged: four buyers are on record and the next lesson should be banked. I confirm zero system
+    changes this period.
+  max_turns: 20
+  timeout_seconds: 600
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-review
+    tool: Skill
+    input_match: "co-founder:review"
+    min: 1
+    weight: 1
+  - type: regex
+    name: review-metadata
+    target: files
+    pattern: "type: review[\\s\\S]*period_start:[\\s\\S]*period_end:[\\s\\S]*review_state: complete"
+    match: contains
+    weight: 1
+  - type: regex
+    name: durable-bank-queue
+    target: {source: file, path: queue.md}
+    pattern: "to: bank"
+    match: contains
+    weight: 1
+expected_outcome: A non-overlapping review is filed, the initiative reaches reviewed, and bank receives a queue ID.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Co Founder Setup"
+policy:
+  allow_implicit_invocation: true

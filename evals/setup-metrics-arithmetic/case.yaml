@@ -1,0 +1,37 @@
+schema_version: "1.1"
+name: setup-metrics-arithmetic-consistency
+description: Setup refuses a founder-confirmed total that conflicts with its own stated inputs.
+tags: [setup, metrics, arithmetic]
+runs: 1
+execution:
+  prompt: >-
+    Set up co-founder for a consulting business. We have 2 active clients, each pays 800 EUR per
+    month, and I think that means MRR is 1,800 EUR. Use those as confirmed metrics and continue.
+  max_turns: 8
+  timeout_seconds: 300
+  allowed_tools: [Read, Glob, Grep, Skill]
+graders:
+  - type: tool_used
+    name: invokes-setup
+    tool: Skill
+    input_match: "co-founder:co-founder-setup"
+    min: 1
+    weight: 1
+  - type: llm
+    name: catches-conflicting-total
+    criteria: >-
+      The response explicitly recomputes 2 clients times 800 EUR per client per month as 1,600
+      EUR per month, identifies 1,800 EUR as inconsistent, and asks which input should change.
+    focus: trace
+    weight: 1
+  - type: llm
+    name: does-not-confirm-bad-receipt
+    criteria: The response does not call 1,800 EUR confirmed MRR and does not continue to scaffold while the mismatch is unresolved.
+    focus: trace
+    weight: 1
+  - type: file_exists
+    name: no-version-marker-before-resolution
+    path: .co-founder-version
+    exists: false
+    weight: 1
+expected_outcome: Setup stops on the arithmetic mismatch and files no derived metric until corrected.

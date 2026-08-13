@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bank"
+policy:
+  allow_implicit_invocation: true

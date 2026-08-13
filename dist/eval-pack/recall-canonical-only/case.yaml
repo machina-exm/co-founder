@@ -1,0 +1,15 @@
+# portable smoke case derived from evals/recall-canonical-only — run graders with scripts/grade_portable.rb
+---
+schema_version: '1.1'
+name: recall-canonical-only
+description: Recall uses canonical offer facts and excludes conflicting content drafts.
+tags:
+- recall
+- lifecycle
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: What price is our workshop, and what evidence supports it? Check the vault.
+graders: []
+expected_outcome: Recall answers from canonical offer evidence and treats draft content
+  only as a draft.

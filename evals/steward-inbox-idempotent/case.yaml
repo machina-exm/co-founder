@@ -1,0 +1,31 @@
+schema_version: "1.1"
+name: steward-inbox-idempotent
+description: Steward recognizes an already processed content fingerprint and writes nothing twice.
+tags: [steward, idempotency]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: Process raw/inbox/customer-note.txt and file it in the vault.
+  max_turns: 10
+  timeout_seconds: 300
+  allowed_tools: [Read, Glob, Grep, Skill, Bash]
+graders:
+  - type: tool_used
+    name: invokes-steward
+    tool: Skill
+    input_match: "co-founder:steward"
+    min: 1
+    weight: 1
+  - type: llm
+    name: reports-already-processed
+    criteria: The trace computes/checks the fingerprint, reports the recorded output, and performs no ingest or duplicate filing.
+    focus: trace
+    weight: 1
+  - type: regex
+    name: one-ingest-row
+    target: {source: file, path: log.md}
+    pattern: "ingest \\| customer-note\\.txt"
+    match: count:1
+    weight: 1
+expected_outcome: The second processing request is a no-op with the existing output cited.

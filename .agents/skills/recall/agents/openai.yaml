@@ -1,0 +1,4 @@
+interface:
+  display_name: "Recall"
+policy:
+  allow_implicit_invocation: true

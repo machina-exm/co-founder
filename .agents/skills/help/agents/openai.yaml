@@ -1,0 +1,4 @@
+interface:
+  display_name: "Help"
+policy:
+  allow_implicit_invocation: true

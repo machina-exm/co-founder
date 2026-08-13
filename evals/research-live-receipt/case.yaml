@@ -1,0 +1,33 @@
+schema_version: "1.1"
+name: research-live-receipt
+description: Research gathers current external evidence and applies the missing-leg contract.
+tags: [research, receipts]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    Research the current refund-policy terms published by Stripe so we can decide what our
+    workshop checkout should promise. Use Stripe's official documentation, cite it, and apply it
+    to the approved offer only if both receipt legs are present.
+  max_turns: 20
+  timeout_seconds: 900
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit, WebFetch]
+graders:
+  - type: tool_used
+    name: invokes-research
+    tool: Skill
+    input_match: "co-founder:research"
+    min: 1
+    weight: 1
+  - type: tool_used
+    name: uses-web
+    tool: WebFetch
+    min: 1
+    weight: 1
+  - type: llm
+    name: files-cited-dossier
+    criteria: The response uses current official evidence, grades claims, files a research dossier, and does not ship one-legged advice.
+    focus: trace
+    weight: 1
+expected_outcome: A cited external dossier is filed and any applied recommendation obeys the double-receipt gate.

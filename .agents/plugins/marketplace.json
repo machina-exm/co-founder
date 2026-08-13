@@ -1,0 +1,20 @@
+{
+  "name": "co-founder",
+  "interface": {
+    "displayName": "The official marketplace for the /co-founder skill collection."
+  },
+  "plugins": [
+    {
+      "name": "co-founder",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

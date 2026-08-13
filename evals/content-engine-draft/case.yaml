@@ -1,0 +1,33 @@
+schema_version: "1.1"
+name: content-engine-draft
+description: Content engine writes a voice-calibrated draft with explicit lifecycle metadata.
+tags: [content-engine, lifecycle]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    Write one newsletter announcing the approved 500 USD workshop. Its one job is to invite
+    independent designers to reply for details. Keep every claim tied to the canonical offer.
+  max_turns: 18
+  timeout_seconds: 600
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-content-engine
+    tool: Skill
+    input_match: "co-founder:content-engine"
+    min: 1
+    weight: 1
+  - type: regex
+    name: draft-lifecycle
+    target: files
+    pattern: "type: content[\\s\\S]*content_state: draft[\\s\\S]*channel:"
+    match: contains
+    weight: 1
+  - type: llm
+    name: voice-and-receipts-check
+    criteria: The trace names the voice, claim, and glossary checks and files the piece under wiki/business/content.
+    focus: trace
+    weight: 1
+expected_outcome: A content draft is filed with lifecycle metadata and canonical claim receipts.

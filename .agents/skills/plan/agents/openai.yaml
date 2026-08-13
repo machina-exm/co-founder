@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan"
+policy:
+  allow_implicit_invocation: true

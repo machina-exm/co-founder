@@ -1,0 +1,38 @@
+{
+  "name": "co-founder",
+  "version": "1.0.0",
+  "description": "A co-founder, not a yes-man. Skills that gate half-baked work, ground every recommendation in receipts, and bank your business's memory week after week.",
+  "skills": [
+    "./.agents/skills/bank/",
+    "./.agents/skills/co-founder-setup/",
+    "./.agents/skills/content-engine/",
+    "./.agents/skills/gauntlet/",
+    "./.agents/skills/help/",
+    "./.agents/skills/offer/",
+    "./.agents/skills/plan/",
+    "./.agents/skills/recall/",
+    "./.agents/skills/research/",
+    "./.agents/skills/review/",
+    "./.agents/skills/sprint/",
+    "./.agents/skills/steward/",
+    "./.agents/skills/vision/"
+  ],
+  "commands": [
+    "./.kimi-plugin/commands/bank.md",
+    "./.kimi-plugin/commands/co-founder-setup.md",
+    "./.kimi-plugin/commands/content-engine.md",
+    "./.kimi-plugin/commands/gauntlet.md",
+    "./.kimi-plugin/commands/help.md",
+    "./.kimi-plugin/commands/offer.md",
+    "./.kimi-plugin/commands/plan.md",
+    "./.kimi-plugin/commands/recall.md",
+    "./.kimi-plugin/commands/research.md",
+    "./.kimi-plugin/commands/review.md",
+    "./.kimi-plugin/commands/sprint.md",
+    "./.kimi-plugin/commands/steward.md",
+    "./.kimi-plugin/commands/vision.md"
+  ],
+  "interface": {
+    "displayName": "/co-founder"
+  }
+}

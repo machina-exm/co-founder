@@ -1,0 +1,32 @@
+schema_version: "1.1"
+name: gauntlet-whether-price
+description: A WHETHER-to-change-price question belongs to the gauntlet, not offer.
+tags: [gauntlet, offer, trigger-conflict]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: Should we raise the workshop price from 500 to 900 USD, or is that a bad move?
+  max_turns: 8
+  timeout_seconds: 300
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-gauntlet
+    tool: Skill
+    input_match: "co-founder:gauntlet"
+    min: 1
+    weight: 1
+  - type: tool_used
+    name: does-not-invoke-offer
+    tool: Skill
+    input_match: "co-founder:offer"
+    min: 0
+    max: 0
+    weight: 1
+  - type: llm
+    name: treats-price-change-as-big
+    criteria: The trace treats the public price decision as a gated bet and begins interrogation rather than designing terms.
+    focus: trace
+    weight: 1
+expected_outcome: The gauntlet owns the price whether question and offer does not run.

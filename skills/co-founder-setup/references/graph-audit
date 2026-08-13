@@ -1,0 +1,446 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "date"
+require "pathname"
+require "yaml"
+
+STATES = %w[idea survived planned executing reviewed banked].freeze
+ACTIVE_STATES = %w[planned executing].freeze
+RECEIPT_STATES = (STATES - ["idea"]).freeze
+HUB_BUCKETS = {
+  "idea" => "idea",
+  "ideas" => "idea",
+  "survived" => "survived",
+  "planned" => "planned",
+  "executing" => "executing",
+  "reviewed" => "reviewed",
+  "banked" => "banked"
+}.freeze
+
+root = Dir.pwd
+touched = []
+args = ARGV.dup
+until args.empty?
+  arg = args.shift
+  if arg == "--root"
+    abort "graph-audit: --root needs a path" if args.empty?
+    root = File.expand_path(args.shift)
+  elsif arg == "--help" || arg == "-h"
+    puts "Usage: scripts/graph-audit [--root VAULT] [TOUCHED_FILE ...]"
+    exit 0
+  else
+    touched << arg
+  end
+end
+
+root = File.expand_path(root)
+unless Dir.exist?(root)
+  warn "graph-audit: vault root does not exist: #{root}"
+  exit 2
+end
+
+errors = []
+
+def relative(root, path)
+  Pathname.new(File.expand_path(path)).relative_path_from(Pathname.new(root)).to_s
+rescue ArgumentError
+  path
+end
+
+def parse_frontmatter(path)
+  text = File.read(path)
+  lines = text.lines
+  return [nil, text] unless lines.first&.strip == "---"
+
+  closing = lines[1..]&.index { |line| line.strip == "---" }
+  return [nil, text] unless closing
+
+  closing += 1
+  yaml = lines[1...closing].join
+  data = YAML.safe_load(yaml, permitted_classes: [Date], permitted_symbols: [], aliases: false)
+  [data.is_a?(Hash) ? data : nil, lines[(closing + 1)..].to_a.join]
+rescue Psych::Exception
+  [nil, text]
+end
+
+def markdown_links(path, body, root)
+  body.scan(/\[[^\]]+\]\(([^)#]+\.md)(?:#[^)]*)?\)/).flatten.map do |target|
+    absolute = File.expand_path(target, File.dirname(path))
+    relative(root, absolute)
+  end
+end
+
+def roadmap(body)
+  in_steps = false
+  steps = []
+  body.each_line do |line|
+    if line.match?(/^###\s+Next steps\s*$/i)
+      in_steps = true
+      next
+    end
+    if in_steps && line.match?(/^\#{2,3}\s+/)
+      in_steps = false
+    end
+    next unless in_steps
+    match = line.match(/^\s*- \[([ xX])\]\s+(.+?)\s*$/)
+    steps << [match[1].downcase == "x", match[2]] if match
+  end
+  steps
+end
+
+def normalized_event_title(value)
+  value.to_s.gsub(/\[(?:recomputed|founder-stated|unverified|receipt:[^\]]+)\]/i, "").strip.downcase
+end
+
+def receipt_error(root, value, kind: nil)
+  path, anchor = value.to_s.split("#", 2)
+  return "must use <path>#<quote-anchor>" if path.to_s.strip.empty? || anchor.to_s.strip.empty?
+
+  target = File.expand_path(path.strip, root)
+  return "target is missing: #{path.strip}" unless target.start_with?(root + File::SEPARATOR) && File.file?(target)
+  rel = relative(root, target)
+
+  case kind
+  when :internal
+    if rel.start_with?("wiki/initiatives/") || rel.start_with?("wiki/business/content/")
+      return "cannot point to initiative or content output"
+    end
+  when :external
+    return "must point to dated wiki/research evidence" unless rel.start_with?("wiki/research/")
+
+    data, = parse_frontmatter(target)
+    unless data && data["type"].to_s == "research" && data["updated"].to_s.match?(/^\d{4}-\d{2}-\d{2}$/)
+      return "must point to dated wiki/research evidence"
+    end
+  when :founder
+    return "must point to immutable raw/inbox evidence" unless rel.start_with?("raw/inbox/")
+  end
+
+  return "anchor is absent from #{path.strip}: #{anchor.strip.inspect}" unless File.read(target).include?(anchor.strip)
+
+  nil
+end
+
+log_path = File.join(root, "log.md")
+log_rows = []
+if File.file?(log_path)
+  File.foreach(log_path) do |line|
+    match = line.match(/^## \[(\d{4}-\d{2}-\d{2})\]\s+([a-z-]+)\s*\|\s*(.+?)\s*$/)
+    log_rows << { date: match[1], verb: match[2], title: match[3] } if match
+  end
+else
+  errors << "log.md: missing root event log"
+end
+
+frontmatter = {}
+bodies = {}
+Dir.glob(File.join(root, "{wiki,hub}/**/*.md")).sort.concat([File.join(root, "baton.md")]).each do |path|
+  next unless File.file?(path)
+  rel = relative(root, path)
+  data, body = parse_frontmatter(path)
+  frontmatter[rel] = data if data
+  bodies[rel] = body
+end
+
+# Quote-on-cite: every inline [receipt: <path>#<anchor>] carried in a durable body must point at a
+# real file and carry a quote-anchor that is a verbatim substring of that file.
+INLINE_RECEIPT = /\[receipt:\s*([^#\]\n]+)#([^\]\n]+)\]/i.freeze
+bodies.each do |rel, body|
+  body.to_s.each_line.with_index do |line, offset|
+    line.scan(INLINE_RECEIPT) do |target, anchor|
+      value = "#{target.strip}##{anchor.strip}"
+      if (problem = receipt_error(root, value))
+        errors << "#{rel}:#{offset + 1}: receipt #{problem}"
+      end
+    end
+  end
+end
+
+initiatives = {}
+Dir.glob(File.join(root, "wiki", "initiatives", "*.md")).sort.each do |path|
+  rel = relative(root, path)
+  data = frontmatter[rel]
+  unless data
+    errors << "#{rel}: missing or invalid frontmatter"
+    next
+  end
+  state = data["state"].to_s
+  errors << "#{rel}: invalid initiative state #{state.inspect}" unless STATES.include?(state)
+  steps = roadmap(bodies.fetch(rel, ""))
+  initiatives[rel] = { path: path, data: data, state: state, steps: steps }
+
+  if RECEIPT_STATES.include?(state)
+    { "internal_receipt" => :internal, "external_receipt" => :external }.each do |field, kind|
+      value = data[field]
+      if value.to_s.empty?
+        errors << "#{rel}: #{state} initiative needs #{field}"
+      elsif (problem = receipt_error(root, value, kind: kind))
+        errors << "#{rel}: #{field} #{problem}"
+      end
+    end
+  end
+
+  title = normalized_event_title(data["title"])
+  created = data["created"].to_s
+  allowed = %w[offer gauntlet plan]
+  event = log_rows.any? do |row|
+    row[:date] == created && allowed.include?(row[:verb]) && normalized_event_title(row[:title]) == title
+  end
+  errors << "#{rel}: durable initiative creation has no matching #{created} offer/gauntlet/plan event row" unless event
+end
+
+index_path = File.join(root, "index.md")
+index_lines = File.file?(index_path) ? File.readlines(index_path, chomp: true) : []
+errors << "index.md: missing catalog" unless File.file?(index_path)
+
+initiatives.each do |rel, initiative|
+  matches = index_lines.select do |line|
+    line.scan(/\[[^\]]+\]\(([^)#]+\.md)(?:#[^)]*)?\)/).flatten.any? do |target|
+      relative(root, File.expand_path(target, File.dirname(index_path))) == rel
+    end
+  end
+  if matches.length != 1
+    errors << "index.md: #{rel} must have exactly one projection (found #{matches.length})"
+  else
+    line = matches.first
+    expected_state = initiative[:state]
+    done = initiative[:steps].count(&:first)
+    total = initiative[:steps].length
+    errors << "index.md: #{rel} state projection disagrees with #{expected_state}" unless line.match?(/\[state:\s*#{Regexp.escape(expected_state)}\]/i)
+    errors << "index.md: #{rel} roadmap projection disagrees with #{done}\/#{total}" unless line.match?(/\[roadmap:\s*#{done}\/#{total}\]/i)
+  end
+end
+
+hub_path = File.join(root, "hub", "initiatives.md")
+hub_projections = Hash.new { |hash, key| hash[key] = [] }
+if File.file?(hub_path)
+  current_bucket = nil
+  File.foreach(hub_path) do |line|
+    if (heading = line.match(/^##\s+(.+?)\s*$/))
+      current_bucket = HUB_BUCKETS[heading[1].strip.downcase]
+    end
+    line.scan(/\[[^\]]+\]\(([^)#]+\.md)(?:#[^)]*)?\)/).flatten.each do |target|
+      rel = relative(root, File.expand_path(target, File.dirname(hub_path)))
+      hub_projections[rel] << current_bucket if initiatives.key?(rel)
+    end
+  end
+else
+  errors << "hub/initiatives.md: missing initiative map"
+end
+
+initiatives.each do |rel, initiative|
+  buckets = hub_projections[rel]
+  if buckets.length != 1
+    errors << "hub/initiatives.md: #{rel} must appear in exactly one lifecycle bucket (found #{buckets.length})"
+  elsif buckets.first != initiative[:state]
+    errors << "hub/initiatives.md: #{rel} is under #{buckets.first.inspect}, expected #{initiative[:state]}"
+  end
+end
+
+baton_path = File.join(root, "baton.md")
+baton_data, baton_body = File.file?(baton_path) ? parse_frontmatter(baton_path) : [nil, ""]
+active = initiatives.select { |_rel, item| ACTIVE_STATES.include?(item[:state]) }
+if !active.empty? && !baton_data
+  errors << "baton.md: active work requires machine-readable frontmatter"
+elsif baton_data
+  active_path = baton_data["active_initiative"]
+  active_path = nil if active_path.to_s.empty? || active_path.to_s == "null"
+  if active.empty?
+    errors << "baton.md: active initiative is stale; no initiative is planned or executing" if active_path
+  elsif !active_path || !active.key?(active_path)
+    errors << "baton.md: active_initiative does not point to current planned/executing work"
+  else
+    item = active.fetch(active_path)
+    done = item[:steps].count(&:first)
+    total = item[:steps].length
+    next_step = item[:steps].find { |step| !step.first }&.last
+    errors << "baton.md: initiative_state disagrees with #{item[:state]}" unless baton_data["initiative_state"].to_s == item[:state]
+    errors << "baton.md: roadmap_done disagrees with #{done}" unless baton_data["roadmap_done"].to_i == done
+    errors << "baton.md: roadmap_total disagrees with #{total}" unless baton_data["roadmap_total"].to_i == total
+    if next_step && baton_data["next_step"].to_s.strip != next_step.strip
+      errors << "baton.md: next_step disagrees with first unchecked roadmap step"
+    end
+  end
+end
+
+content_files = {}
+business_hub_path = File.join(root, "hub", "business.md")
+business_hub_lines = File.file?(business_hub_path) ? File.readlines(business_hub_path, chomp: true) : []
+Dir.glob(File.join(root, "wiki", "business", "content", "*.md")).sort.each do |path|
+  rel = relative(root, path)
+  data = frontmatter[rel]
+  unless data
+    errors << "#{rel}: missing or invalid frontmatter"
+    next
+  end
+  state = data["content_state"].to_s
+  published_at = data["published_at"]
+  errors << "#{rel}: invalid content_state #{state.inspect}" unless %w[draft approved published].include?(state)
+  errors << "#{rel}: published content needs published_at" if state == "published" && published_at.nil?
+  errors << "#{rel}: non-published content must keep published_at null" if state != "published" && !published_at.nil?
+  if %w[approved published].include?(state)
+    value = data["approval_receipt"]
+    if value.to_s.empty?
+      errors << "#{rel}: #{state} content needs approval_receipt"
+    elsif (problem = receipt_error(root, value, kind: :founder))
+      errors << "#{rel}: approval_receipt #{problem}"
+    end
+  end
+  if state == "published"
+    value = data["publication_receipt"]
+    if value.to_s.empty?
+      errors << "#{rel}: published content needs publication_receipt"
+    elsif (problem = receipt_error(root, value, kind: :founder))
+      errors << "#{rel}: publication_receipt #{problem}"
+    end
+    errors << "#{rel}: published content contains [unverified] copy" if bodies.fetch(rel, "").match?(/\[unverified\]/i)
+  end
+  content_files[rel] = { data: data, state: state, published_at: published_at }
+
+  title = normalized_event_title(data["title"])
+  created = data["created"].to_s
+  event = log_rows.any? do |row|
+    row[:date] == created && row[:verb] == "content" && normalized_event_title(row[:title]) == title
+  end
+  errors << "#{rel}: durable content creation has no matching #{created} content event row" unless event
+
+  matches = index_lines.select { |line| line.include?("(#{rel})") }
+  if matches.length != 1
+    errors << "index.md: #{rel} must have exactly one content projection (found #{matches.length})"
+  else
+    line = matches.first
+    errors << "index.md: #{rel} content_state projection disagrees with #{state}" unless line.match?(/\[content_state:\s*#{Regexp.escape(state)}\]/i)
+  end
+
+  hub_matches = business_hub_lines.select do |line|
+    line.scan(/\[[^\]]+\]\(([^)#]+\.md)(?:#[^)]*)?\)/).flatten.any? do |target|
+      relative(root, File.expand_path(target, File.dirname(business_hub_path))) == rel
+    end
+  end
+  if hub_matches.length != 1
+    errors << "hub/business.md: #{rel} must have exactly one content projection (found #{hub_matches.length})"
+  elsif !hub_matches.first.match?(/\[content_state:\s*#{Regexp.escape(state)}\]/i)
+    errors << "hub/business.md: #{rel} content_state projection disagrees with #{state}"
+  end
+end
+
+if baton_data && baton_data["content"].is_a?(Hash)
+  baton_data["content"].each do |rel, projection|
+    canonical = content_files[rel]
+    if !canonical
+      errors << "baton.md: content projection points to missing file #{rel}"
+      next
+    end
+    projection ||= {}
+    errors << "baton.md: #{rel} content_state is stale" unless projection["content_state"].to_s == canonical[:state]
+    projected_date = projection["published_at"]
+    errors << "baton.md: #{rel} published_at is stale" unless projected_date.to_s == canonical[:published_at].to_s
+  end
+  baton_body.scan(%r{wiki/business/content/[A-Za-z0-9._/-]+\.md}).uniq.each do |rel|
+    errors << "baton.md: #{rel} is mentioned without a content projection" unless baton_data["content"].key?(rel)
+  end
+end
+
+content_by_initiative = Hash.new { |hash, key| hash[key] = [] }
+content_files.each do |rel, content|
+  initiative = content[:data]["initiative"] || content[:data]["serving_initiative"]
+  content_by_initiative[initiative] << [rel, content] if initiative
+end
+initiatives.each do |rel, initiative|
+  linked = content_by_initiative[rel]
+  next if linked.empty?
+  initiative[:steps].select(&:first).each do |_checked, text|
+    if text.match?(/approv/i) && text.match?(/post|content|newsletter|draft|piece/i) && linked.all? { |_path, content| content[:state] == "draft" }
+      errors << "#{rel}: checked approval step is unmet; linked content remains draft"
+    end
+    if text.match?(/publish/i) && linked.all? { |_path, content| content[:state] != "published" }
+      errors << "#{rel}: checked publication step is unmet; linked content is not published"
+    end
+  end
+end
+
+offer_path = File.join(root, "wiki", "business", "offer.md")
+if File.file?(offer_path)
+  rel = relative(root, offer_path)
+  data, body = parse_frontmatter(offer_path)
+  if data
+    state = data["offer_state"].to_s
+    substantive = body.lines.map(&:strip).reject(&:empty?).reject do |line|
+      line.start_with?("#") || ["None yet.", "None."].include?(line)
+    end.any?
+    if state != "draft" || substantive
+      updated = data["updated"].to_s
+      unless log_rows.any? { |row| row[:verb] == "offer" && row[:date] == updated }
+        errors << "#{rel}: durable offer state has no matching #{updated} offer event row"
+      end
+    end
+  end
+end
+
+vision_path = File.join(root, "wiki", "business", "vision.md")
+if File.file?(vision_path)
+  rel = relative(root, vision_path)
+  data, body = parse_frontmatter(vision_path)
+  if data
+    strategy_state = data["strategy_state"].to_s
+    unless %w[parked cleared].include?(strategy_state)
+      errors << "#{rel}: strategy_state must be parked or cleared"
+    end
+    if strategy_state == "parked"
+      errors << "#{rel}: parked strategy must carry a PARKED recommendation" unless body.include?("PARKED:")
+    elsif strategy_state == "cleared"
+      { "internal_receipt" => :internal, "external_receipt" => :external }.each do |field, kind|
+        value = data[field]
+        if value.to_s.empty?
+          errors << "#{rel}: cleared strategy needs #{field}"
+        elsif (problem = receipt_error(root, value, kind: kind))
+          errors << "#{rel}: #{field} #{problem}"
+        end
+      end
+    end
+  end
+end
+
+latest_lint = log_rows.select { |row| row[:verb] == "lint" }.map { |row| row[:date] }.max
+queue_path = File.join(root, "queue.md")
+if latest_lint && File.file?(queue_path)
+  entries = File.read(queue_path).split(/^###\s+(?=Q-\d{8}-\d+)/)
+  entries.drop(1).each do |entry|
+    id = entry.lines.first.to_s.strip
+    status = entry[/^- status:\s*(\w+)/, 1]
+    created = entry[/^- created:\s*(\d{4}-\d{2}-\d{2})/, 1]
+    if status == "pending" && (!created || created <= latest_lint)
+      errors << "queue.md: pending #{id} survived health pass #{latest_lint}"
+    end
+  end
+end
+
+frontmatter.each do |rel, data|
+  updated = data["updated"]&.to_s
+  next unless updated&.match?(/^\d{4}-\d{2}-\d{2}$/)
+  body_dates = bodies.fetch(rel, "").scan(/^\s*-\s*\[(\d{4}-\d{2}-\d{2})\]\s+[a-z-]+:/).flatten
+  later = body_dates.select { |date| date > updated }.max
+  errors << "#{rel}: updated #{updated} is stale; body records #{later}" if later
+
+  path = File.join(root, rel)
+  markdown_links(path, bodies.fetch(rel, ""), root).each do |target|
+    target_updated = frontmatter.dig(target, "updated")&.to_s
+    next unless target_updated&.match?(/^\d{4}-\d{2}-\d{2}$/)
+    if target_updated > updated && (rel.start_with?("hub/") || rel == "baton.md")
+      errors << "#{rel}: updated #{updated} is stale behind linked #{target} (#{target_updated})"
+    end
+  end
+
+  modified = File.mtime(File.join(root, rel)).to_date.to_s
+  errors << "#{rel}: updated #{updated} predates file modification #{modified}" if modified > updated
+end
+
+if errors.empty?
+  puts "graph-audit: #{initiatives.length} initiatives, #{content_files.length} content files, #{log_rows.length} events consistent"
+  exit 0
+end
+
+errors.uniq.each { |error| warn "graph-audit: #{error}" }
+warn "graph-audit: FAIL (#{errors.uniq.length} violations)"
+exit 1

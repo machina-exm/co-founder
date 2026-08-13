@@ -1,0 +1,47 @@
+schema_version: "1.1"
+name: full-loop-fresh-founder
+description: A fresh founder can traverse setup through recall with durable artifacts and legal states.
+tags: [end-to-end, full-loop, empty-folder]
+runs: 1
+execution:
+  prompt: >-
+    Run the complete co-founder loop in this empty folder using these founder-confirmed inputs:
+    Northstar Studio sells a live pricing workshop to independent designers; pre-revenue; quarter
+    goal ten paid buyers; no fake urgency; newsletter; direct warm concrete voice; vault here.
+    Diagnosis: buyers cannot connect price to scope. Direction: one repeatable method. Sacrifice:
+    no broad course. The bet is one live 90-minute workshop, 500 USD, ten-buyer cap, no recording.
+    External comparable: fetch and cite a current official primary source before any consequential
+    recommendation. I explicitly confirm each supplied scope and authorize the reversible draft
+    artifacts. Execute one session-sized step: draft the outline. Review that completed pilot
+    preparation with zero system changes. Bank this lesson: a live pilot should precede a course,
+    cost 6 hours, result four committed buyers. Finish by recalling the current offer and lesson
+    with exact file citations. Respect every gate and write all durable queue items.
+  max_turns: 100
+  timeout_seconds: 1800
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit, Bash, WebFetch]
+graders:
+  - type: llm
+    name: complete-legal-loop
+    criteria: >-
+      The trace runs setup, vision, gauntlet, plan, sprint, review, bank, and recall in legal
+      order; it never moves a state backward; every stage leaves its required durable artifact.
+    focus: trace
+    weight: 2
+  - type: regex
+    name: final-banked-state
+    target: files
+    pattern: "state: banked"
+    match: contains
+    weight: 1
+  - type: regex
+    name: durable-vault-contract
+    target: files
+    pattern: "(queue|Inbox ledger|offer_state|review_state|content_state)"
+    match: contains
+    weight: 1
+  - type: llm
+    name: final-recall-cites-files
+    criteria: The final answer cites the canonical offer and learning paths and reports any missing evidence honestly.
+    focus: last_message
+    weight: 1
+expected_outcome: The fresh folder ends as a coherent 1.1 founder system with a banked initiative and cited recall.

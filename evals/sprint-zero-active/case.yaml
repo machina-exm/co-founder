@@ -1,0 +1,27 @@
+schema_version: "1.1"
+name: sprint-zero-active
+description: Sprint has a truthful route when no initiative is active.
+tags: [sprint, first-use]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: Start the day. Where are we and what should I do next?
+  max_turns: 8
+  timeout_seconds: 300
+  allowed_tools: [Read, Glob, Grep, Skill]
+graders:
+  - type: tool_used
+    name: invokes-sprint
+    tool: Skill
+    input_match: "co-founder:sprint"
+    min: 1
+    weight: 1
+  - type: llm
+    name: routes-zero-active
+    criteria: >-
+      The response proves no initiative is active, says so plainly, reads the vision quarter
+      goal, and proposes plan as exactly one focus without fabricating execution state.
+    focus: trace
+    weight: 1
+expected_outcome: Sprint reports nothing active and routes the quarter goal to plan.

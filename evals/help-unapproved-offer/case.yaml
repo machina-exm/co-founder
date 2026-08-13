@@ -1,0 +1,29 @@
+schema_version: "1.1"
+name: help-unapproved-offer
+description: Help resolves a parked price prerequisite before the gauntlet and offer.
+tags: [help, router, offer, gauntlet]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    I want to charge 1,500 USD. Set it up. Which co-founder skill should I use next?
+  max_turns: 8
+  timeout_seconds: 240
+  allowed_tools: [Read, Glob, Grep, Skill]
+graders:
+  - type: tool_used
+    name: invokes-help
+    tool: Skill
+    input_match: "co-founder:help"
+    min: 1
+    weight: 1
+  - type: llm
+    name: full-hop-through-prerequisite
+    criteria: >-
+      The response reads the exact PARKED internal-receipt gap, starts with the named delivery
+      measurement, then routes to the gauntlet, and reaches offer only after a SURVIVES verdict. It does
+      not start an unrelated audit.
+    focus: trace
+    weight: 1
+expected_outcome: Help returns the complete measurement to gauntlet to offer chain without dropping the prompt.

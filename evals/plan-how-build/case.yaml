@@ -1,0 +1,35 @@
+schema_version: "1.1"
+name: plan-how-build
+description: A decided HOW question belongs to plan, not the gauntlet.
+tags: [plan, trigger-conflict]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  prompt: >-
+    We already decided to run the workshop and its latest gauntlet verdict survives. How should we
+    scope and build it? Scope is one live 90-minute workshop; no recorded course; I confirm.
+  max_turns: 20
+  timeout_seconds: 600
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+graders:
+  - type: tool_used
+    name: invokes-plan
+    tool: Skill
+    input_match: "co-founder:plan"
+    min: 1
+    weight: 1
+  - type: tool_used
+    name: does-not-invoke-gauntlet
+    tool: Skill
+    input_match: "co-founder:gauntlet"
+    min: 0
+    max: 0
+    weight: 1
+  - type: regex
+    name: reaches-planned
+    target: {source: file, path: wiki/initiatives/pricing-workshop.md}
+    pattern: "state: planned"
+    match: contains
+    weight: 1
+expected_outcome: Plan scopes the initiative that already survived the gauntlet and legally advances it to planned.
