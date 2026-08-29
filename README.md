@@ -15,18 +15,29 @@ for Claude Code that runs your business with you, and pushes back like a real co
 
 ## Install
 
-You need a paid Claude plan, Claude Code 2.1.206 or newer, and Git. Paste this one line into a
-system terminal (not into a running Claude session):
+You need a paid Claude plan, Claude Code 2.1.206 or newer, and Git. Paste this line into a system
+terminal (not into a running Claude session):
 
 ```sh
-mkdir -p my-business && cd my-business && claude plugin marketplace add machina-exm/co-founder && claude plugin install co-founder@co-founder --scope user && claude
+claude plugin marketplace add machina-exm/co-founder
 ```
 
-It creates your business folder, installs the plugin, and opens a fresh session — the moment newly
-installed skill triggers register. In that new session,
-run `/co-founder:co-founder-setup`. Setup interviews you, writes your personalized business charter, and
-scaffolds your vault in the current folder. Most founders spend 15-20 minutes on its eight
-one-at-a-time questions and final confirmation.
+That adds the marketplace this plugin ships from. It installs nothing yet.
+
+### After adding the marketplace
+
+Create your business folder, install the plugin, and open a fresh session:
+
+```sh
+mkdir -p my-business && cd my-business
+claude plugin install co-founder@co-founder --scope user
+claude
+```
+
+The fresh session matters: newly installed skill triggers register the moment it starts. In that
+session, run `/co-founder:co-founder-setup`. Setup interviews you, writes your personalized business
+charter, and scaffolds your vault in the current folder. Most founders spend 15-20 minutes on its
+eight one-at-a-time questions and final confirmation.
 
 Claude Desktop is optional. To use it after the CLI install, open **Code → Local**, select the same
 business folder, and start a fresh session there. Review the repository before granting folder and
