@@ -21,5 +21,6 @@ Cases derive from `dist/eval-pack/` (portable graders via `scripts/grade_portabl
 | Codex CLI | 0.146-era | marketplace add + install + case 2 PASS |
 | Hermes | v0.19.1 | local install + case 2 PASS (see hermes.md for scanner constraint) |
 | OpenCode | v1.18.11 | npx subpath install, 13/13 discovered |
-| Grok Build | 0.2.118 | zero-setup Claude-plugin discovery, case 2 PASS in TUI |
+| Grok Build | 1.0.3 | zero-setup Claude-plugin discovery re-verified 2026-08-29 (`grok inspect` = 13 skills). Marketplace install by name is broken in 1.0.3 — see grok.md |
+| Grok Bot | hosted, 2026-08-29 | prompt-driven install of `.agents/skills`, byte-identity confirmed, case 2 PASS — see grok-bot.md |
 | Kimi Code | 0.31.1 | project skills + case 2 PASS; TUI plugin install has a manual trust dialog |

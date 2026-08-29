@@ -163,7 +163,8 @@ agent, the collection also runs there. Same skills, same gates, same vault.
 | Agent | Install | Note |
 |---|---|---|
 | Codex CLI | `codex plugin marketplace add machina-exm/co-founder`, then open `/plugins` and install co-founder. New session after install. | Works on free ChatGPT plans. Skills invoke as `$skill-name`. |
-| Grok Build | Nothing extra. If the Claude Code plugin is installed on your machine, Grok finds it automatically. | Verify with `grok inspect` — it should list the 13 skills under `plugin: co-founder`. |
+| Grok Build | Nothing extra. If the Claude Code plugin is installed on your machine, Grok finds it automatically. | Verify with `grok inspect` — it should list the 13 skills under `plugin: co-founder`. `help` and `plan` appear as `/co-founder:help` and `/co-founder:plan`, because Grok has builtins by those names. |
+| Grok Bot | No marketplace route. Ask your Bot to install it: "Clone https://github.com/machina-exm/co-founder and copy all 13 skill folders from `.agents/skills/` into your skills directory, byte for byte — do not summarize any SKILL.md." | Then ask it to show you the first 12 lines of `gauntlet/SKILL.md`. If the text is paraphrased rather than copied, the skills will not gate anything — tell it to copy the files again. |
 | Kimi Code CLI | In the Kimi TUI: `/plugins install https://github.com/machina-exm/co-founder`, confirm trust, then `/reload`. | Requires a paid Kimi membership. Commands appear as `/co-founder:<skill>`. |
 | OpenCode and 70+ others | `npx skills add machina-exm/co-founder/.agents/skills` inside your business folder. | Use exactly this path form. Then ask the agent "what skills do you have?" to confirm all 13 loaded. |
 | Hermes Agent | One-paste local install — see [the Hermes repo](https://github.com/machina-exm/co-founder-hermes). | Power-user runtime: you bring your own model keys. |
