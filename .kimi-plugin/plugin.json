@@ -1,6 +1,6 @@
 {
   "name": "co-founder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A co-founder, not a yes-man. Skills that gate half-baked work, ground every recommendation in receipts, and bank your business's memory week after week.",
   "skills": [
     "./.agents/skills/bank/",

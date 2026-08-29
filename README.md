@@ -2,7 +2,7 @@
 
 A co-founder, not a yes-man.
 
-Most AI tools do whatever you ask. That is the problem. /co-founder is a collection of 12 skills
+Most AI tools do whatever you ask. That is the problem. /co-founder is a collection of 13 skills
 for Claude Code that runs your business with you, and pushes back like a real co-founder would:
 
 - It refuses to build on half-baked ideas. Vision first, then the gauntlet, then the plan, then
@@ -34,8 +34,8 @@ claude plugin install co-founder@co-founder --scope user
 claude
 ```
 
-The fresh session matters: newly installed skill triggers register the moment it starts. In that
-session, run `/co-founder:co-founder-setup`. Setup interviews you, writes your personalized business
+The last command opens a fresh session, which matters: newly installed skill triggers register the
+moment it starts. In that session, run `/co-founder:co-founder-setup`. Setup interviews you, writes your personalized business
 charter, and scaffolds your vault in the current folder. Most founders spend 15-20 minutes on its
 eight one-at-a-time questions and final confirmation.
 
@@ -63,14 +63,23 @@ rm -rf "$scratch"
 
 ## Update
 
-Marketplace plugins do not automatically update by default. Exit any running Claude session, then
-paste this one line in the business folder:
+Marketplace plugins do not update on their own. Exit any running Claude session, then refresh the
+marketplace:
 
 ```sh
-claude plugin marketplace update co-founder && claude plugin update co-founder@co-founder --scope user && claude
+claude plugin marketplace update co-founder
 ```
 
-Confirm the listed version, start the fresh session, then run `/co-founder:co-founder-setup`. Setup enters
+### After refreshing the marketplace
+
+From your business folder, update the plugin and open a fresh session:
+
+```sh
+claude plugin update co-founder@co-founder --scope user
+claude
+```
+
+Confirm the listed version, then run `/co-founder:co-founder-setup` in the new session. Setup enters
 re-sync mode: it updates the charter and scaffold contracts while preserving founder-written
 content.
 
@@ -106,6 +115,7 @@ Release history, compatibility, and migration notes live in [CHANGELOG.md](CHANG
 | `recall` | Checks what your business already knows before any big call |
 | `offer` | Design, price, and close your offer, with operator-grade heuristics |
 | `content-engine` | Writing/X/newsletter content, in your voice, from your facts |
+| `help` | Names the one skill that fits your current situation, when you are not sure |
 
 ### The boards
 
