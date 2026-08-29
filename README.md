@@ -43,24 +43,6 @@ Claude Desktop is optional. To use it after the CLI install, open **Code → Loc
 business folder, and start a fresh session there. Review the repository before granting folder and
 plugin trust.
 
-### Verify a local checkout
-
-From the `co-founder` repository root, these exact commands prove the local marketplace and installed
-cache in an isolated home. Marketplace add intentionally has no `--scope` flag; local sources are
-not registered reliably with that flag in supported CLI builds.
-
-```sh
-scratch=$(mktemp -d)
-HOME="$scratch/home" claude plugin marketplace add "$PWD"
-HOME="$scratch/home" claude plugin install co-founder@co-founder --scope user
-HOME="$scratch/home" claude plugin list --json | ruby -rjson -e '
-  plugin = JSON.parse($stdin.read).find { |entry| entry["id"] == "co-founder@co-founder" }
-  puts "installed: #{plugin["id"]} #{plugin["version"]} enabled=#{plugin["enabled"]}"
-'
-HOME="$scratch/home" claude plugin details co-founder@co-founder | sed -n '1,/  Agents/p'
-rm -rf "$scratch"
-```
-
 ## Update
 
 Marketplace plugins do not update on their own. Exit any running Claude session, then refresh the
@@ -172,38 +154,15 @@ agent, the collection also runs there. Same skills, same gates, same vault.
 
 | Agent | Install | Note |
 |---|---|---|
-| Codex CLI | `codex plugin marketplace add machina-exm/co-founder`, then open `/plugins` and install co-founder. New session after install. | Works on free ChatGPT plans. Skills invoke as `$skill-name`. |
-| Grok Build | Nothing extra. If the Claude Code plugin is installed on your machine, Grok finds it automatically. | Verify with `grok inspect` — it should list the 13 skills under `plugin: co-founder`. `help` and `plan` appear as `/co-founder:help` and `/co-founder:plan`, because Grok has builtins by those names. |
-| Grok Bot | No marketplace route. Ask your Bot to install it: "Clone https://github.com/machina-exm/co-founder and copy all 13 skill folders from `.agents/skills/` into your skills directory, byte for byte — do not summarize any SKILL.md." | Then ask it to show you the first 12 lines of `gauntlet/SKILL.md`. If the text is paraphrased rather than copied, the skills will not gate anything — tell it to copy the files again. |
-| Kimi Code CLI | In the Kimi TUI: `/plugins install https://github.com/machina-exm/co-founder`, confirm trust, then `/reload`. | Requires a paid Kimi membership. Commands appear as `/co-founder:<skill>`. |
-| OpenCode and 70+ others | `npx skills add machina-exm/co-founder/.agents/skills` inside your business folder. | Use exactly this path form. Then ask the agent "what skills do you have?" to confirm all 13 loaded. |
-| Hermes Agent | Two routes — see [Installing on Hermes](#installing-on-hermes) below. | Power-user runtime: you bring your own model keys. |
+| Codex CLI | `codex plugin marketplace add machina-exm/co-founder` | Then open `/plugins`, install co-founder, and start a new session. Skills invoke as `$skill-name`. Works on free ChatGPT plans. |
+| Grok Build | Nothing. It finds the Claude Code plugin on your machine. | Check with `grok inspect`. `help` and `plan` show as `/co-founder:help` and `/co-founder:plan`, because Grok has builtins by those names. |
+| Grok Bot | Say: *Install the co-founder skills from https://github.com/machina-exm/co-founder — copy the 13 folders in `.agents/skills/` into your skills directory, file for file.* | Then ask it to show you the first 12 lines of `gauntlet/SKILL.md`. If that text is reworded rather than copied, tell it to copy the files again. |
+| Kimi Code CLI | `/plugins install https://github.com/machina-exm/co-founder` | Type it in the Kimi TUI, confirm trust, then `/reload`. Needs a paid Kimi membership. Commands appear as `/co-founder:<skill>`. |
+| OpenCode and 70+ others | `npx skills add machina-exm/co-founder/.agents/skills` | Run it inside your business folder, exactly as written. Then ask the agent "what skills do you have?" |
+| Hermes Agent | Say: *Install the co-founder skills from https://github.com/machina-exm/co-founder — copy everything in `dist/hermes/` into `~/.hermes/skills/business/`.* | Power-user runtime: you bring your own model keys. `plan` is named `plan-initiative` there, because Hermes has a builtin called `plan`. |
 
 After any install, the first move is the same everywhere: open your business folder and say
 "set up co-founder". If a skill does not appear, the most common cause is a name clash with a
 skill you already have installed globally.
-
-### Installing on Hermes
-
-Hermes takes either route. Both give you the same 13 skills.
-
-**Fastest.** Copies the skills into your Hermes folder in about two seconds:
-
-```bash
-git clone --depth 1 https://github.com/machina-exm/co-founder /tmp/cf-hermes && mkdir -p ~/.hermes/skills/business && cp -R /tmp/cf-hermes/dist/hermes/* ~/.hermes/skills/business/ && rm -rf /tmp/cf-hermes && hermes skills list | grep business
-```
-
-To update, run it again. It replaces the skills in place.
-
-**Managed.** Installs each skill through Hermes itself, so `hermes skills check` and
-`hermes skills update` keep them current afterwards. Every skill gets its own security scan, so
-this takes about nine minutes — start it and walk away:
-
-```bash
-for s in bank co-founder-setup content-engine gauntlet help offer plan-initiative recall research review sprint steward vision; do hermes skills install https://raw.githubusercontent.com/machina-exm/co-founder/main/dist/hermes/$s/SKILL.md --yes; done
-```
-
-Either way you should end up with 13 skills. One name differs on Hermes: `plan` is called
-`plan-initiative`, because Hermes already has a builtin named `plan`.
 
 Maintainer porting notes and per-agent smoke checklists live in `docs/porting/`.

@@ -11,6 +11,39 @@ All notable changes to `/co-founder` are recorded here. Releases follow Semantic
 Every release entry carries five founder-facing blocks: Impact, Compatibility, Update,
 Migration, and Delivery. The Delivery record is structured for member-release posts.
 
+## 1.0.4 — 2026-08-29
+
+Every install is one line now. No skill behavior changed.
+
+### Impact
+
+- Each agent's install is a single line you can read before you run it: either one short command,
+  or one sentence you say to the agent. The long chained shell commands are gone.
+- Hermes and Grok Bot install by asking the agent, in the same shape: name the repository, name
+  where the files go.
+- The maintainer's local-checkout verification moved out of the README into `docs/porting/`, where
+  the rest of the maintainer material already lives.
+
+### Compatibility
+
+- Unchanged. Vault marker stays at `1.0.0`.
+- On Hermes, `plan` is still named `plan-initiative`, because Hermes has a builtin called `plan`.
+
+### Update
+
+Nothing to do. If you already installed, your skills are current at this version's content.
+
+### Migration
+
+- None.
+
+### Delivery
+
+- The Hermes shell routes, including the managed `hermes skills install` loop and its roughly
+  nine-minute scan cost, are kept in `docs/porting/hermes.md` for maintainers.
+- Note for the next Hermes-affecting change: the prompt-based Hermes install is published but has
+  not been run end to end, and the 5-case behavior smoke is still pinned to v0.19.1.
+
 ## 1.0.3 — 2026-08-29
 
 Hermes gets a second install route, and a correction. No skill behavior changed.

@@ -24,3 +24,21 @@ Cases derive from `dist/eval-pack/` (portable graders via `scripts/grade_portabl
 | Grok Build | 1.0.3 | zero-setup Claude-plugin discovery re-verified 2026-08-29 (`grok inspect` = 13 skills). Marketplace install by name is broken in 1.0.3 — see grok.md |
 | Grok Bot | hosted, 2026-08-29 | prompt-driven install of `.agents/skills`, byte-identity confirmed, case 2 PASS — see grok-bot.md |
 | Kimi Code | 0.31.1 | project skills + case 2 PASS; TUI plugin install has a manual trust dialog |
+
+## Verify a local checkout
+
+From the `co-founder` repository root, these exact commands prove the local marketplace and installed
+cache in an isolated home. Marketplace add intentionally has no `--scope` flag; local sources are
+not registered reliably with that flag in supported CLI builds.
+
+```sh
+scratch=$(mktemp -d)
+HOME="$scratch/home" claude plugin marketplace add "$PWD"
+HOME="$scratch/home" claude plugin install co-founder@co-founder --scope user
+HOME="$scratch/home" claude plugin list --json | ruby -rjson -e '
+  plugin = JSON.parse($stdin.read).find { |entry| entry["id"] == "co-founder@co-founder" }
+  puts "installed: #{plugin["id"]} #{plugin["version"]} enabled=#{plugin["enabled"]}"
+'
+HOME="$scratch/home" claude plugin details co-founder@co-founder | sed -n '1,/  Agents/p'
+rm -rf "$scratch"
+```

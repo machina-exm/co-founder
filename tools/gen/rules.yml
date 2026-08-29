@@ -1,5 +1,5 @@
 schema_version: 1
-release_version: 1.0.3
+release_version: 1.0.4
 
 hermes_name_overrides:
   plan: plan-initiative

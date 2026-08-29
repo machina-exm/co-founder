@@ -11,7 +11,7 @@ ruby scripts/validate_round2_contracts.rb
 ruby tests/graph_audit_test.rb
 scripts/validator-demo
 
-expected_version=1.0.3
+expected_version=1.0.4
 version=$(ruby -rjson -e 'print JSON.parse(File.read(".claude-plugin/plugin.json"))["version"]')
 test "$version" = "$expected_version"
 grep -Fqx "## $expected_version — 2026-08-29" CHANGELOG.md
