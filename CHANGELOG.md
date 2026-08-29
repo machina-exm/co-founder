@@ -11,6 +11,46 @@ All notable changes to `/co-founder` are recorded here. Releases follow Semantic
 Every release entry carries five founder-facing blocks: Impact, Compatibility, Update,
 Migration, and Delivery. The Delivery record is structured for member-release posts.
 
+## 1.0.2 — 2026-08-29
+
+Hermes now installs from this repository. No skill behavior changed.
+
+### Impact
+
+- The Hermes install no longer goes through a separate mirror repository. One command clones this
+  repo and copies `dist/hermes/` into your Hermes skills folder. The old link pointed at a private
+  repository, so that install path did not work for anyone but the maintainer.
+- One repository to trust and read instead of two.
+
+### Compatibility
+
+- Unchanged. Vault marker stays at `1.0.0`.
+- Hermes skills are unchanged: still 13, still with `plan` named `plan-initiative` because Hermes
+  has a builtin by that name.
+
+### Update
+
+Re-run the install command from the README. It replaces the skills with the current version:
+
+```bash
+git clone --depth 1 https://github.com/machina-exm/co-founder /tmp/cf-hermes && mkdir -p ~/.hermes/skills/business && cp -R /tmp/cf-hermes/dist/hermes/* ~/.hermes/skills/business/ && rm -rf /tmp/cf-hermes && hermes skills list | grep business
+```
+
+### Migration
+
+- None for your vault. If you installed Hermes skills from the old mirror, the command above
+  overwrites them in place with identical content.
+
+### Delivery
+
+- `machina-exm/co-founder-hermes` archived. Its payload was byte-identical to `dist/hermes/`, so
+  it duplicated content and added a second tree to keep in sync.
+- `scripts/release_hermes.sh` deleted; `scripts/release_all.sh` drops the satellite sync, its
+  clean-tree guard, and the manual satellite push step.
+- Still true: `hermes skills install` stays unsupported. The Nous hub scanner blocks any skill that
+  touches AGENTS.md, and writing your charter is what these skills do. Local install is the
+  supported path, not a workaround.
+
 ## 1.0.1 — 2026-08-29
 
 Docs and packaging only. No skill behavior changed.

@@ -10,7 +10,6 @@ if [[ $# -gt 1 ]]; then
 fi
 
 message=${1:-release sync}
-satellite="${HOME}/work/co-founder-hermes"
 
 section() {
   echo
@@ -67,22 +66,6 @@ if ! claude plugin validate --strict . >"$validation_output" 2>&1; then
 fi
 cat "$validation_output"
 
-section "COMMIT HERMES SATELLITE"
-if release_output=$(bash scripts/release_hermes.sh "$message" 2>&1); then
-  printf '%s\n' "$release_output"
-else
-  release_status=$?
-  printf '%s\n' "$release_output"
-  if [[ "$release_output" == *"nothing to commit, working tree clean"* ]] &&
-    [[ -d "$satellite/.git" ]] &&
-    git -C "$satellite" diff --quiet &&
-    git -C "$satellite" diff --cached --quiet; then
-    echo "Hermes satellite already current; existing commit retained."
-  else
-    exit "$release_status"
-  fi
-fi
-
 section "RELEASE SUMMARY"
 ruby -rjson -e '
   manifests = {
@@ -107,6 +90,4 @@ printf 'Codex files: %s\n' "$codex_files"
 printf 'Kimi files: %s\n' "$kimi_files"
 printf 'Hermes files: %s\n' "$(find dist/hermes -type f | wc -l | tr -d ' ')"
 printf 'Eval-pack files: %s\n' "$(find dist/eval-pack -type f | wc -l | tr -d ' ')"
-printf 'Satellite commit: %s\n' "$(git -C "$satellite" rev-parse HEAD)"
-echo "Manual step: push satellite ($satellite)"
 echo "Manual step: git tag the main release"
