@@ -11,6 +11,43 @@ All notable changes to `/co-founder` are recorded here. Releases follow Semantic
 Every release entry carries five founder-facing blocks: Impact, Compatibility, Update,
 Migration, and Delivery. The Delivery record is structured for member-release posts.
 
+## 1.0.3 — 2026-08-29
+
+Hermes gets a second install route, and a correction. No skill behavior changed.
+
+### Impact
+
+- Hermes can now install /co-founder the way it installs anything else, straight from a URL. The
+  skills register as managed, so `hermes skills check` and `hermes skills update` keep them current.
+- The fast local install is still there and still the default. It takes about two seconds; the
+  managed route takes about nine minutes, because Hermes security-scans each skill separately.
+- Correction: earlier notes said Hermes could not install these skills remotely, because its
+  scanner blocks anything touching `AGENTS.md` with no override. That was true of Hermes v0.19.1
+  and is not true of v0.20.6. All 13 skills now scan as ALLOWED. If you avoided Hermes for that
+  reason, the reason is gone.
+
+### Compatibility
+
+- Unchanged. Vault marker stays at `1.0.0`.
+- On Hermes, `plan` is named `plan-initiative`, because Hermes has a builtin named `plan`.
+
+### Update
+
+Re-run whichever install you used. Both are in the README under Installing on Hermes.
+
+### Migration
+
+- None. If you already installed by copying files, you can keep that install or switch to the
+  managed route; the skills are identical either way.
+
+### Delivery
+
+- Verified on Hermes v0.20.6: 13 of 13 remote installs returned
+  `Decision: ALLOWED — Allowed (community source, safe verdict)` under scanner `skills-guard-v2`,
+  rule `agent_config_ref`, LOW findings only, with bundled references byte-identical to the repo.
+- The `hermes skills tap` route stays unsupported: taps serve from the repository's `skills/`
+  directory, which holds the Claude tier rather than the Hermes tier.
+
 ## 1.0.2 — 2026-08-29
 
 Hermes now installs from this repository. No skill behavior changed.

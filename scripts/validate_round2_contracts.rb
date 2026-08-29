@@ -112,7 +112,7 @@ puts "round2: contract-edge adversary passed"
 marketplace = JSON.parse(body(".claude-plugin/marketplace.json"))
 plugin = JSON.parse(body(".claude-plugin/plugin.json"))
 abort "marketplace name must match repository" unless marketplace["name"] == "co-founder"
-abort "validator-gated release must be 1.0.2" unless plugin["version"] == "1.0.2"
+abort "validator-gated release must be 1.0.3" unless plugin["version"] == "1.0.3"
 require_text(
   "README.md",
   "claude plugin marketplace add machina-exm/co-founder",
